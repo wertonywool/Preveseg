@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Play, Loader2, ArrowLeft, ShoppingCart, Check, Info, ListChecks, Package, Share2, X, AlertCircle, ShieldCheck, Truck, Clock } from 'lucide-react';
+import { MessageCircle, Play, Loader2, ArrowLeft, ShoppingCart, Check, Info, ListChecks, Package, Share2, X, AlertCircle, ShieldCheck, Truck, Zap } from 'lucide-react';
 import { useProductDetail, Variant } from '../../hooks/useProductDetail';
 import './ProductDetail.css';
 
@@ -186,25 +186,30 @@ const ProductDetail = () => {
     ? Math.round((1 - currentOfferPrice / currentNormalPrice) * 100)
     : 0;
 
+  const categoryName = Array.isArray(product.categoria) ? product.categoria[0] : (product.categoria || 'Seguridad Industrial');
+
   return (
     <div className="productDetailPage page-transition">
-      {/* MODAL PARA VER IMAGEN COMPLETA */}
+      {/* FULLSCREEN IMAGE MODAL */}
       {isModalOpen && (
         <div className="imageModal" onClick={() => setIsModalOpen(false)}>
-          <div className="modalClose"><X size={28} /></div>
+          <div className="modalClose"><X size={24} /></div>
           <img src={modalImage} alt="Vista completa" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
 
-      {/* TOP NAVIGATION BAR */}
+      {/* TOP COMPACT BAR */}
       <div className="detailTopNav">
         <button onClick={() => navigate(-1)} className="topNavBtn backBtn" aria-label="Volver">
-          <ArrowLeft size={18} />
-          <span>Volver al Catálogo</span>
+          <ArrowLeft size={16} />
+          <span>Catálogo</span>
         </button>
+        <div className="topNavCategory">
+          <span className="categoryDot"></span>
+          <span>{categoryName}</span>
+        </div>
         <button onClick={handleShare} className="topNavBtn shareBtn" aria-label="Compartir">
-          <Share2 size={18} />
-          <span>Compartir</span>
+          <Share2 size={16} />
         </button>
       </div>
 
@@ -235,7 +240,7 @@ const ProductDetail = () => {
                 {!showYoutube ? (
                   <>
                     <img src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} alt="Vista previa" className="mainImg" />
-                    <div className="playBtnOverlay"><Play size={44} fill="white" /></div>
+                    <div className="playBtnOverlay"><Play size={36} fill="white" /></div>
                   </>
                 ) : (
                   <iframe src={getYoutubeEmbedUrl(product.youtube_url || '')} frameBorder="0" allowFullScreen title="Video producto"></iframe>
@@ -244,7 +249,7 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* MINIATURAS */}
+          {/* MINIATURAS HORIZONTALES */}
           {((product.imagenes && product.imagenes.length > 1) || product.youtube_url) && (
             <div className="thumbGrid scrollbar-hide">
               {product.imagenes?.map((img: string, i: number) => (
@@ -261,7 +266,7 @@ const ProductDetail = () => {
                   className={`thumbBox ${activeMedia.type === 'video' ? 'active' : ''}`} 
                   onClick={() => handleMediaChange({ type: 'video', url: product.youtube_url || '' })}
                 >
-                  <Play size={18} className="vIcon" />
+                  <Play size={16} className="vIcon" />
                   <img src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} alt="Video" />
                 </div>
               )}
@@ -272,48 +277,42 @@ const ProductDetail = () => {
         {/* INFORMACIÓN Y ACCIÓN */}
         <div className="productInfoPanel">
           <header className="infoMain">
-            <div className="infoCatPill">
-              <span className="catDot"></span>
-              <span>{Array.isArray(product.categoria) ? product.categoria[0] : product.categoria}</span>
-            </div>
-
             <h1 className="infoTitle">{product.nombre}</h1>
             
-            {/* PRECIOS */}
+            {/* TARJETA DE PRECIO */}
             <div className="infoPriceCard">
-              <div className="priceMainCol">
-                <span className="priceLabel">Precio Oficial:</span>
-                <div className="priceRow">
+              <div className="priceRow">
+                <div className="priceMainValue">
                   <span className={`infoPrice ${pricePop ? 'pop' : ''}`}>
-                    <small>$</small>{currentOfferPrice?.toLocaleString()}
+                    ${currentOfferPrice?.toLocaleString()}
                   </span>
-                  {discountPercent > 0 && (
-                    <span className="saveBadge">
-                      Ahorras {discountPercent}%
-                    </span>
-                  )}
+                  <span className="priceCurrency">COP</span>
                 </div>
-                {currentNormalPrice > currentOfferPrice && (
-                  <span className="oldVal">Antes: ${currentNormalPrice?.toLocaleString()} COP</span>
+                {discountPercent > 0 && (
+                  <span className="saveBadge">
+                    Ahorras {discountPercent}%
+                  </span>
                 )}
               </div>
+              {currentNormalPrice > currentOfferPrice && (
+                <span className="oldVal">Precio de lista: ${currentNormalPrice?.toLocaleString()} COP</span>
+              )}
             </div>
 
-            {/* TRUST BADGES */}
+            {/* TRUST BADGES COMPACTOS */}
             <div className="trustBadgesGrid">
-              <div className="trustTag"><ShieldCheck size={16} /> Certificación Oficial</div>
-              <div className="trustTag"><Truck size={16} /> Envíos a Todo el País</div>
-              <div className="trustTag"><Clock size={16} /> Despacho Inmediato</div>
+              <div className="trustTag"><ShieldCheck size={14} /> Certificado</div>
+              <div className="trustTag"><Truck size={14} /> Envío Nacional</div>
+              <div className="trustTag"><Zap size={14} /> Despacho Hoy</div>
             </div>
           </header>
 
-          {/* VARIANTES */}
+          {/* VARIANTES (COLOR / TALLA / CAPACIDAD) */}
           {Object.keys(groupedVariants).length > 0 && (
             <div className="infoVariants" ref={variantsRef}>
-              <h3 className="sectionSubtitle">Selecciona Opciones</h3>
               {Object.entries(groupedVariants).map(([tipo, items]: [string, Variant[]]) => (
                 <div key={tipo} className="varRow">
-                  <span className="varLabel">{tipo}: <strong className="varSelectedValue">{selectedVariants[tipo] || 'Elige una opción'}</strong></span>
+                  <span className="varLabel">{tipo}: <strong className="varSelectedValue">{selectedVariants[tipo] || 'Seleccionar'}</strong></span>
                   <div className="varOptions">
                     {tipo.toLowerCase() === 'color' ? (
                       <div className="colorSet">
@@ -322,17 +321,15 @@ const ProductDetail = () => {
                           return (
                             <div 
                               key={i} 
-                              className={`variantOptionWrapper colorWrapper ${isActive ? 'active' : ''}`}
+                              className={`colorOptionChip ${isActive ? 'active' : ''}`}
                               onClick={() => { handleVariantSelect('color', c.valor, c.imagenUrl); pauseAutoplay(); }}
                             >
-                              <button 
-                                className={`colorDot ${isActive ? 'active' : ''}`} 
-                                style={{ backgroundColor: c.color || '#333' }} 
-                                title={c.valor}
-                                onClick={(e) => { e.stopPropagation(); handleVariantSelect('color', c.valor, c.imagenUrl); pauseAutoplay(); }}
+                              <span 
+                                className="colorDot" 
+                                style={{ backgroundColor: c.color || '#333' }}
                               >
-                                {isActive && <Check size={12} color={c.color?.toLowerCase() === '#ffffff' ? '#000' : '#fff'} />}
-                              </button>
+                                {isActive && <Check size={10} color={c.color?.toLowerCase() === '#ffffff' ? '#000' : '#fff'} />}
+                              </span>
                               <span className="variantName">{c.valor}</span>
                             </div>
                           );
@@ -348,8 +345,8 @@ const ProductDetail = () => {
                               className={`chipBtn ${isActive ? 'active' : ''}`}
                               onClick={() => { handleVariantSelect(tipo, c.valor, c.imagenUrl); pauseAutoplay(); }}
                             >
-                              {c.valor}
-                              {isActive && <Check size={13} className="chipCheck" />}
+                              <span>{c.valor}</span>
+                              {isActive && <Check size={12} className="chipCheck" />}
                             </button>
                           );
                         })}
@@ -364,18 +361,18 @@ const ProductDetail = () => {
           {/* ACCIONES DESKTOP */}
           <div className="infoActions hide-mobile">
             <button className="btnBuy" onClick={handleCustomWhatsApp}>
-              <MessageCircle size={22} />
+              <MessageCircle size={20} />
               <span>Cotizar / Comprar por WhatsApp</span>
             </button>
             <button className="btnCart" onClick={handleCustomAddToCart} title="Añadir al Carrito">
-              <ShoppingCart size={22} />
+              <ShoppingCart size={20} />
               <span>Agregar</span>
             </button>
           </div>
 
           {/* DESCRIPCIÓN */}
           <div className="productDescription">
-            <h3 className="sectionSubtitle">Descripción del Equipo</h3>
+            <h3 className="sectionSubtitle">Descripción</h3>
             <p className="infoDesc">{product.descripcion}</p>
           </div>
 
@@ -383,7 +380,7 @@ const ProductDetail = () => {
           <div className="bentoGrid">
             {product.caracteristicas && product.caracteristicas.length > 0 && (
               <div className="bentoCell">
-                <h4 className="bentoTitle"><ListChecks size={18} /> Características Técnicas</h4>
+                <h4 className="bentoTitle"><ListChecks size={16} /> Características</h4>
                 <ul className="bentoList">
                   {product.caracteristicas.map((item, i) => (
                     <li key={i}>{item}</li>
@@ -394,7 +391,7 @@ const ProductDetail = () => {
 
             {product.lo_que_incluye && product.lo_que_incluye.length > 0 && (
               <div className="bentoCell">
-                <h4 className="bentoTitle"><Package size={18} /> ¿Qué incluye?</h4>
+                <h4 className="bentoTitle"><Package size={16} /> Incluye</h4>
                 <div className="bentoTagCloud">
                   {product.lo_que_incluye.map((item, i) => (
                     <span key={i} className="bentoTag">{item}</span>
@@ -405,7 +402,7 @@ const ProductDetail = () => {
 
             {product.detalles && product.detalles.length > 0 && (
               <div className="bentoCell bentoFull">
-                <h4 className="bentoTitle"><Info size={18} /> Ficha Técnica</h4>
+                <h4 className="bentoTitle"><Info size={16} /> Ficha Técnica</h4>
                 <div className="specsTable">
                   {product.detalles.map((det, i) => (
                     <div key={i} className="specRow">
@@ -419,7 +416,7 @@ const ProductDetail = () => {
 
             {recommendedProducts.length > 0 && (
               <div className="bentoCell bentoFull bentoRec">
-                <h4 className="bentoTitle">Equipos Recomendados</h4>
+                <h4 className="bentoTitle">Recomendados</h4>
                 <div className="recSlider scrollbar-hide">
                   {recommendedProducts.map((p) => (
                     <div key={p.id} className="recMini" onClick={() => navigate(`/producto/${p.id}`)}>
@@ -439,18 +436,18 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* BARRA DE ACCIONES FIJA PARA MÓVIL (Con vista de precio y botones táctiles) */}
+      {/* BARRA INFERIOR FIJA MÓVIL (Con visualización de precio y botones táctiles) */}
       <div className="mobileStickyActions">
         <div className="mobilePricePreview">
-          <span className="mPriceLabel">Total:</span>
+          <span className="mPriceLabel">Precio Total</span>
           <span className="mPriceVal">${currentOfferPrice?.toLocaleString()}</span>
         </div>
         <div className="mobileActionBtns">
           <button className="mobileBtnCart" onClick={handleCustomAddToCart} title="Añadir al carrito">
-            <ShoppingCart size={20} />
+            <ShoppingCart size={19} />
           </button>
           <button className="mobileBtnBuy" onClick={handleCustomWhatsApp}>
-            <MessageCircle size={20} />
+            <MessageCircle size={19} />
             <span>Comprar</span>
           </button>
         </div>
@@ -459,7 +456,7 @@ const ProductDetail = () => {
       {/* TOAST NOTIFICATION */}
       {toast.show && (
         <div className="customToast animate-in-up">
-          <AlertCircle size={18} />
+          <AlertCircle size={16} />
           <span>{toast.message}</span>
         </div>
       )}
@@ -468,4 +465,5 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
 

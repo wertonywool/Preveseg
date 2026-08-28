@@ -1,4 +1,4 @@
-﻿export interface DefaultProduct {
+export interface DefaultProduct {
   id: string;
   nombre: string;
   descripcion: string;
@@ -44,8 +44,8 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1578873375969-d7054a3a60a7?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1578873375969-d7054a3a60a7?w=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -68,7 +68,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -89,7 +89,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -114,7 +114,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -135,7 +135,8 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1508873696983-2df5293cb395?w=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -155,7 +156,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -177,7 +178,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -198,7 +199,7 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     destacado: true,
     visible: true,
     imagenes: [
-      'https://images.unsplash.com/photo-1578873375969-d7054a3a60a7?w=800&auto=format&fit=crop&q=80'
+      'https://images.unsplash.com/photo-1578873375969-d7054a3a60a7?w=600&auto=format&fit=crop&q=80'
     ],
     youtube_url: '',
     variantes: [
@@ -210,3 +211,4 @@ export const INITIAL_PRODUCTS: DefaultProduct[] = [
     caracteristicas: ['Certificación ANSI Z87.1+', 'Protección contra radiación UVA/UVB al 99.9%', 'Puente nasal de goma antideslizante', 'Resistencia a esquirlas y salpicaduras químicas']
   }
 ];
+
