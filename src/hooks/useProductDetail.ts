@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
 import { useCart } from '../context/CartContext';
+import { INITIAL_PRODUCTS } from '../data/defaultCatalog';
 
 export interface Variant {
   tipo: string;
@@ -64,47 +65,62 @@ export const useProductDetail = () => {
       if (!id) return setDebugInfo('ID de producto no encontrado');
 
       // Fetch current product
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('productos')
         .select('*')
         .eq('id', id)
         .maybeSingle();
 
-      if (error) throw error;
-      if (!data) {
+      let foundProduct = null;
+
+      if (data) {
+        foundProduct = {
+          ...data,
+          imagenes: normalizeArray(data.imagenes),
+          detalles: normalizeArray(data.detalles),
+          variantes: normalizeArray(data.variantes),
+          categoria: normalizeArray(data.categoria),
+          lo_que_incluye: normalizeArray(data.lo_que_incluye),
+          caracteristicas: normalizeArray(data.caracteristicas),
+          precio_normal: parseFloat(data.precio_normal) || 0,
+          precio_oferta: parseFloat(data.precio_oferta) || 0,
+          nombre: data.nombre || 'Producto sin nombre',
+          descripcion: data.descripcion || 'Sin descripción'
+        };
+      } else {
+        // Search in INITIAL_PRODUCTS
+        const fallback = INITIAL_PRODUCTS.find(p => p.id === id);
+        if (fallback) {
+          foundProduct = {
+            ...fallback,
+            detalles: [],
+            variantes: fallback.variantes || [],
+            categoria: fallback.categoria || [],
+            lo_que_incluye: fallback.lo_que_incluye || [],
+            caracteristicas: fallback.caracteristicas || []
+          };
+        }
+      }
+
+      if (!foundProduct) {
         setDebugInfo('El producto no existe o ha sido eliminado.');
         return;
       }
 
-      const productData: Product = {
-        ...data,
-        imagenes: normalizeArray(data.imagenes),
-        detalles: normalizeArray(data.detalles),
-        variantes: normalizeArray(data.variantes),
-        categoria: normalizeArray(data.categoria),
-        lo_que_incluye: normalizeArray(data.lo_que_incluye),
-        caracteristicas: normalizeArray(data.caracteristicas),
-        precio_normal: parseFloat(data.precio_normal) || 0,
-        precio_oferta: parseFloat(data.precio_oferta) || 0,
-        nombre: data.nombre || 'Producto sin nombre',
-        descripcion: data.descripcion || 'Sin descripción'
-      };
-
+      const productData: Product = foundProduct as Product;
       setProduct(productData);
-      const imgs = productData.imagenes;
+      const imgs = productData.imagenes || [];
       setActiveMedia({ type: 'image', url: imgs.length > 0 ? imgs[0] : '' });
-      
-      // Removed automatic variant selection as per user request to force manual selection
 
-      // Fetch recommended products (random 2 excluding current)
+      // Fetch recommended products
       const { data: allProducts, error: allErr } = await supabase
         .from('productos')
         .select('*')
         .eq('visible', true)
         .neq('id', id)
-        .limit(10); // Fetch a few to randomize
+        .limit(10);
 
-      if (!allErr && allProducts) {
+      if (!allErr && allProducts && allProducts.length > 0) {
         const shuffled = allProducts
           .sort(() => 0.5 - Math.random())
           .slice(0, 2)
@@ -115,6 +131,17 @@ export const useProductDetail = () => {
             precio_oferta: parseFloat(item.precio_oferta) || 0
           }));
         setRecommendedProducts(shuffled as Product[]);
+      } else {
+        const fallbackRecs = INITIAL_PRODUCTS
+          .filter(p => p.id !== id)
+          .slice(0, 2)
+          .map(item => ({
+            ...item,
+            detalles: [],
+            variantes: item.variantes || [],
+            categoria: item.categoria || []
+          }));
+        setRecommendedProducts(fallbackRecs as Product[]);
       }
 
     } catch (err: any) {

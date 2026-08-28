@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../services/supabaseClient';
 import { optimizeImage } from '../services/imageOptimizer';
+import { INITIAL_CATEGORIES } from '../data/defaultCatalog';
 
 export interface Category {
   id: number;
@@ -12,7 +13,7 @@ export interface Category {
 }
 
 export const useCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,12 +29,12 @@ export const useCategories = () => {
         .order('nombre', { ascending: true });
 
       if (error) {
-        console.error('Error fetching categories:', error);
-      } else if (data) {
+        // Fallback to initial categories
+      } else if (data && data.length > 0) {
         setCategories(data);
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
+      // Fallback
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
+import { INITIAL_PRODUCTS } from '../data/defaultCatalog';
 
-interface Product {
+export interface Product {
   id: string;
   nombre: string;
   descripcion: string;
@@ -12,17 +13,20 @@ interface Product {
   imagenes: string[];
   youtube_url: string;
   en_oferta: boolean;
+  destacado?: boolean;
+  visible?: boolean;
   variantes?: any[];
   lo_que_incluye?: string[];
   caracteristicas?: string[];
 }
 
 export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [loading] = useState(false);
   const [activeCategory, setActiveCategory] = useState('todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'default' | 'offer' | 'price-asc' | 'price-desc' | 'featured'>('default');
   
   const location = useLocation();
 
@@ -40,114 +44,135 @@ export const useProducts = () => {
     return [];
   };
 
+  const processProducts = (items: any[]): Product[] => items.map(item => ({
+    ...item,
+    imagenes: normalizeArray(item.imagenes),
+    variantes: normalizeArray(item.variantes),
+    categoria: normalizeArray(item.categoria),
+    lo_que_incluye: normalizeArray(item.lo_que_incluye),
+    caracteristicas: normalizeArray(item.caracteristicas),
+    precio_normal: parseFloat(item.precio_normal) || 0,
+    precio_oferta: parseFloat(item.precio_oferta) || 0
+  }));
+
   useEffect(() => {
     const fetchAndFilter = async () => {
-      const processProducts = (items: any[]) => items.map(item => ({
-        ...item,
-        imagenes: normalizeArray(item.imagenes),
-        variantes: normalizeArray(item.variantes),
-        categoria: normalizeArray(item.categoria),
-        lo_que_incluye: normalizeArray(item.lo_que_incluye),
-        caracteristicas: normalizeArray(item.caracteristicas),
-        precio_normal: parseFloat(item.precio_normal) || 0,
-        precio_oferta: parseFloat(item.precio_oferta) || 0
-      }));
-
-      let allProducts = [];
+      let allProducts = INITIAL_PRODUCTS;
       const cachedProducts = sessionStorage.getItem('products_cache');
       
       if (cachedProducts) {
-        allProducts = processProducts(JSON.parse(cachedProducts));
-        setProducts(allProducts);
-        setLoading(false);
-        fetchProducts(true); // Background refresh
-      } else {
-        allProducts = await fetchProducts();
+        try {
+          const parsed = JSON.parse(cachedProducts);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            allProducts = processProducts(parsed);
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
+
+      setProducts(allProducts);
 
       // Check for category in URL
       const params = new URLSearchParams(location.search);
       const catParam = params.get('categoria');
+      const searchParam = params.get('q') || '';
+      
+      if (searchParam) setSearchTerm(searchParam);
+      
       if (catParam) {
         setActiveCategory(catParam);
-        applyFilters(searchTerm, catParam, allProducts);
+        applyFilters(searchParam || searchTerm, catParam, sortBy, allProducts);
       } else {
-        setFilteredProducts(allProducts);
+        applyFilters(searchParam || searchTerm, 'todos', sortBy, allProducts);
       }
+
+      // Fetch fresh from Supabase in background
+      await fetchRemoteProducts();
     };
 
     fetchAndFilter();
   }, [location.search]);
 
-  const fetchProducts = async (isBackground = false) => {
+  const fetchRemoteProducts = async () => {
     try {
-      if (!isBackground) setLoading(true);
       const { data, error } = await supabase
         .from('productos')
         .select('*')
         .eq('visible', true);
 
-      if (error) throw error;
-      if (data) {
-        const processed = data.map(item => ({
-          ...item,
-          imagenes: normalizeArray(item.imagenes),
-          variantes: normalizeArray(item.variantes),
-          categoria: normalizeArray(item.categoria),
-          lo_que_incluye: normalizeArray(item.lo_que_incluye),
-          caracteristicas: normalizeArray(item.caracteristicas),
-          precio_normal: parseFloat(item.precio_normal) || 0,
-          precio_oferta: parseFloat(item.precio_oferta) || 0
-        }));
-
+      if (!error && data && data.length > 0) {
+        const processed = processProducts(data);
         setProducts(processed);
         sessionStorage.setItem('products_cache', JSON.stringify(processed));
-        return processed;
+        applyFilters(searchTerm, activeCategory, sortBy, processed);
       }
-      return [];
     } catch (error: any) {
-      console.error('Error fetching products:', error.message);
-      return [];
-    } finally {
-      if (!isBackground) setLoading(false);
+      // Graceful fallback to initial products
     }
   };
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    applyFilters(term, activeCategory, products);
-  };
-
-  const filterByCategory = (categoryId: string) => {
-    setActiveCategory(categoryId);
-    applyFilters(searchTerm, categoryId, products);
-  };
-
-  const applyFilters = (term: string, categoryId: string, allProducts: Product[]) => {
-    let filtered = [...allProducts];
+  const applyFilters = (term: string, categoryId: string, sortMode: string, sourceProducts: Product[]) => {
+    let filtered = [...sourceProducts];
     
-    if (categoryId !== 'todos') {
-      filtered = filtered.filter(p => 
-        p.categoria.some(c => c.toLowerCase() === categoryId.toLowerCase())
-      );
+    if (categoryId && categoryId.toLowerCase() !== 'todos') {
+      const target = categoryId.toLowerCase().trim();
+      filtered = filtered.filter(p => {
+        if (!p.categoria || p.categoria.length === 0) return false;
+        return p.categoria.some(c => {
+          const cat = String(c).toLowerCase().trim();
+          return cat === target || cat.includes(target) || target.includes(cat);
+        });
+      });
     }
     
-    if (term) {
+    if (term.trim()) {
+      const q = term.toLowerCase().trim();
       filtered = filtered.filter(p => 
-        (p.nombre?.toLowerCase().includes(term.toLowerCase()) || false) || 
-        (p.descripcion?.toLowerCase().includes(term.toLowerCase()) || false)
+        (p.nombre?.toLowerCase().includes(q) || false) || 
+        (p.descripcion?.toLowerCase().includes(q) || false) ||
+        (p.categoria?.some(c => c.toLowerCase().includes(q)) || false)
       );
+    }
+
+    if (sortMode === 'offer') {
+      filtered = filtered.filter(p => p.en_oferta);
+    } else if (sortMode === 'price-asc') {
+      filtered.sort((a, b) => a.precio_oferta - b.precio_oferta);
+    } else if (sortMode === 'price-desc') {
+      filtered.sort((a, b) => b.precio_oferta - a.precio_oferta);
+    } else if (sortMode === 'featured') {
+      filtered = filtered.filter(p => p.destacado);
     }
     
     setFilteredProducts(filtered);
   };
 
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    applyFilters(term, activeCategory, sortBy, products);
+  };
+
+  const filterByCategory = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    applyFilters(searchTerm, categoryId, sortBy, products);
+  };
+
+  const handleSortChange = (sort: 'default' | 'offer' | 'price-asc' | 'price-desc' | 'featured') => {
+    setSortBy(sort);
+    applyFilters(searchTerm, activeCategory, sort, products);
+  };
+
   return {
     filteredProducts,
+    totalProducts: products.length,
     loading,
     activeCategory,
     searchTerm,
+    sortBy,
     handleSearch,
-    filterByCategory
+    filterByCategory,
+    handleSortChange
   };
 };
+
