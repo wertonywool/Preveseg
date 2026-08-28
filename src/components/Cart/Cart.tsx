@@ -11,7 +11,7 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, updateQuantity, total, itemCount } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart, total, itemCount } = useCart();
   const navigate = useNavigate();
   const WHATSAPP_NUMBER = '573046296285';
 
@@ -27,7 +27,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     });
 
     message += `%0A*Subtotal Estimado: $${total.toLocaleString()}*`;
-    message += `%0A%0A¿Me confirman disponibilidad y tiempos de entrega?`;
+    message += `%0A%0A¿Me confirman disponibilidad y tiempos de despacho?`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
@@ -42,27 +42,32 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
   return (
     <div className="cartOverlay" onClick={onClose}>
       <div className="cartContent" onClick={e => e.stopPropagation()}>
+        {/* HEADER */}
         <div className="cartHeader">
           <div className="cartBrand">
             <div className="cartLogoWrapper">
               <img src={logoImgFile} alt="Preveseg Logo" className="cartLogo" />
             </div>
             <div className="brandText">
-              <h3>PREVESEG</h3>
-              <p>Tu Carrito ({itemCount} {itemCount === 1 ? 'ítem' : 'ítems'})</p>
+              <div className="brandTitleRow">
+                <h3>PREVESEG</h3>
+                <span className="cartCountBadge">{itemCount}</span>
+              </div>
+              <p>Seguridad Industrial & Dotaciones</p>
             </div>
           </div>
           <button className="closeBtn" onClick={onClose} aria-label="Cerrar Carrito"><X size={20} /></button>
         </div>
 
+        {/* ITEMS LIST */}
         <div className="cartItems">
           {cart.length === 0 ? (
             <div className="emptyCart">
-              <div className="emptyIcon"><ShoppingBag size={52} /></div>
+              <div className="emptyIcon"><ShoppingBag size={48} /></div>
               <h3>Tu carrito está vacío</h3>
-              <p>Explora nuestro catálogo de equipos de protección personal y seguridad industrial.</p>
+              <p>Explora nuestro catálogo de equipos de protección personal y seguridad industrial certificados.</p>
               <button className="continueBtn" onClick={handleExplore}>
-                Explorar Catálogo EPP <ArrowRight size={16} />
+                <span>Ver Catálogo de Productos</span> <ArrowRight size={16} />
               </button>
             </div>
           ) : (
@@ -103,10 +108,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                     <button 
                       className="deleteBtn" 
                       onClick={() => removeFromCart(item.id)} 
-                      title="Eliminar ítem"
-                      aria-label="Eliminar ítem"
+                      title="Eliminar producto"
+                      aria-label="Eliminar producto"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={15} />
                     </button>
                   </div>
                 </div>
@@ -115,21 +120,22 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           )}
         </div>
 
+        {/* FOOTER */}
         {cart.length > 0 && (
           <div className="cartFooter">
             <div className="summaryInfo">
               <div className="summaryRow">
-                <span>Subtotal ({itemCount} ítems)</span>
-                <span>${total.toLocaleString()}</span>
+                <span>Subtotal ({itemCount} {itemCount === 1 ? 'equipo' : 'equipos'})</span>
+                <span className="subtotalVal">${total.toLocaleString()}</span>
               </div>
               <div className="summaryRow shipping">
-                <span>Envíos</span>
-                <span className="shippingBadge">A cotizar a nivel nacional</span>
+                <span>Despacho / Envíos</span>
+                <span className="shippingBadge">Nacional / Inmediato</span>
               </div>
               <div className="divider"></div>
               <div className="summaryRow total">
-                <span>Total Estimado</span>
-                <span className="totalValue">${total.toLocaleString()}</span>
+                <span>Total Estimado:</span>
+                <span className="totalValue">${total.toLocaleString()} COP</span>
               </div>
             </div>
             
@@ -137,8 +143,18 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
               <MessageCircle size={20} />
               <span>Realizar Pedido por WhatsApp</span>
             </button>
+
+            <div className="cartFooterActions">
+              <button className="clearCartBtn" onClick={() => clearCart && clearCart()}>
+                Vaciar Carrito
+              </button>
+              <button className="continueShoppingLink" onClick={onClose}>
+                Seguir Comprando
+              </button>
+            </div>
+
             <p className="footerHint">
-              <ShieldCheck size={14} className="inline-icon" /> Atención directa con asesor comercial por WhatsApp.
+              <ShieldCheck size={14} className="inline-icon" /> Preveseg: Asesoría técnica y cotizaciones inmediatas.
             </p>
           </div>
         )}
@@ -148,3 +164,4 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 };
 
 export default Cart;
+
