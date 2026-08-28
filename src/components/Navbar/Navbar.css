@@ -1,0 +1,221 @@
+.navbar {
+  background-color: rgba(6, 9, 19, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.logoIconWrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border: 1px solid rgba(0, 102, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover .logoIconWrapper {
+  transform: scale(1.06);
+  border-color: var(--safety-blue);
+  box-shadow: 0 0 20px rgba(0, 102, 255, 0.45);
+}
+
+.logoImg {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.logoMain {
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.logoSubtitle {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #60a5fa;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inline-icon {
+  color: #ee1b24;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.navLink {
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navLink.active {
+  color: #60a5fa;
+  background: rgba(0, 102, 255, 0.12);
+  border: 1px solid rgba(0, 102, 255, 0.35);
+  box-shadow: 0 0 15px rgba(0, 102, 255, 0.15);
+}
+
+.navSupportLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.navSupportLink:hover {
+  background: #10b981;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobileCatalogBtn {
+  display: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.mobileCatalogBtn.active {
+  background: rgba(0, 102, 255, 0.18);
+  color: #60a5fa;
+  border-color: rgba(0, 102, 255, 0.4);
+}
+
+.cartBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+}
+
+.cartBtn:hover {
+  background: rgba(0, 102, 255, 0.15);
+  color: #60a5fa;
+  border-color: rgba(0, 102, 255, 0.45);
+  box-shadow: 0 0 15px rgba(0, 102, 255, 0.25);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 900;
+  min-width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #060913;
+  box-shadow: 0 2px 8px rgba(238, 27, 36, 0.6);
+  animation: pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.65rem 1rem;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .mobileCatalogBtn {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logoMain {
+    font-size: 1.15rem;
+  }
+}

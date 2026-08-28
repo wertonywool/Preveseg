@@ -1,0 +1,137 @@
+.navbar {
+  background-color: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  letter-spacing: -0.03em;
+}
+
+.logoImg {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.logo span {
+  color: #ffffff;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.navLink {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: var(--tech-blue);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cartBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.cartBtn:hover {
+  background: var(--tech-blue-light);
+  color: var(--tech-blue);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--tech-blue);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0f172a;
+}
+
+.mobileMarketplace {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.mobileMarketplace:hover {
+  background: var(--tech-blue-light);
+  color: var(--tech-blue);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .mobileMarketplace {
+    display: flex;
+  }
+
+  .navLinks {
+    display: none;
+  }
+}
