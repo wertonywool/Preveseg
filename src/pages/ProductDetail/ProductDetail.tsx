@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Play, Loader2, ArrowLeft, ShoppingCart, Check, Info, ListChecks, Package, Share2, X, AlertCircle, ShieldCheck, Truck, Zap } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { MessageCircle, Play, Loader2, ArrowLeft, ShoppingCart, Check, Info, ListChecks, Package, Share2, X, AlertCircle, ShieldCheck, Truck, Zap, Flame, Shield } from 'lucide-react';
 import { useProductDetail, Variant } from '../../hooks/useProductDetail';
 import './ProductDetail.css';
+import logoImg from '../../assets/logo.png';
 
 const ProductDetail = () => {
   const {
@@ -17,23 +19,32 @@ const ProductDetail = () => {
     handleWhatsAppInquiry,
     getYoutubeEmbedUrl,
     groupedVariants,
-    currentOfferPrice,
-    currentNormalPrice,
     recommendedProducts,
     navigate
   } = useProductDetail();
 
-  const [pricePop, setPricePop] = useState(false);
   const [animating, setAnimating] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalImage, setModalImage] = useState('');
-  const [toast, setToast] = useState<{ show: boolean, message: string }>({ show: false, message: '' });
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
+  const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'includes'>('desc');
   
   const [isPaused, setIsPaused] = useState(false);
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const variantsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
 
   const showToast = (msg: string) => {
     setToast({ show: true, message: msg });
@@ -57,7 +68,7 @@ const ProductDetail = () => {
       return;
     }
     handleAddToCart();
-    showToast('¡Producto agregado al carrito!');
+    showToast('¡Equipo añadido al carrito!');
   };
 
   const handleCustomWhatsApp = () => {
@@ -79,7 +90,7 @@ const ProductDetail = () => {
     }, 120000);
   };
 
-  const minSwipeDistance = 50;
+  const minSwipeDistance = 40;
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
@@ -98,11 +109,9 @@ const ProductDetail = () => {
 
     if (isLeftSwipe || isRightSwipe) {
       pauseAutoplay();
-      if (!product || !product.imagenes) return;
+      if (!product || !product.imagenes || product.imagenes.length <= 1) return;
       
       const totalImages = product.imagenes.length;
-      if (totalImages <= 1) return;
-
       const currentIndex = activeMedia.type === 'image' 
         ? product.imagenes.indexOf(activeMedia.url)
         : -1;
@@ -118,7 +127,7 @@ const ProductDetail = () => {
         }
         setShowYoutube(false);
         setAnimating(false);
-      }, 300);
+      }, 250);
     }
   };
 
@@ -134,7 +143,7 @@ const ProductDetail = () => {
           return { type: 'image', url: product.imagenes[nextIndex] };
         });
         setAnimating(false);
-      }, 400);
+      }, 350);
     }, 5000);
     return () => clearInterval(interval);
   }, [product, showYoutube, setActiveMedia, isPaused]);
@@ -146,18 +155,12 @@ const ProductDetail = () => {
       setActiveMedia(media);
       setShowYoutube(false);
       setAnimating(false);
-    }, 300);
+    }, 250);
   };
 
   useEffect(() => {
     if (product?.id) window.scrollTo(0, 0);
   }, [product?.id]);
-
-  useEffect(() => {
-    setPricePop(true);
-    const timer = setTimeout(() => setPricePop(false), 400);
-    return () => clearTimeout(timer);
-  }, [currentOfferPrice]);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -172,52 +175,85 @@ const ProductDetail = () => {
     }
   };
 
-  if (loading) return <div className="loadingContainer"><Loader2 className="animate-spin" size={48} color="#0066ff" /></div>;
+  if (loading) {
+    return (
+      <div className="productDetailPage loadingWrapper">
+        <Loader2 className="animate-spin brandSpinner" size={44} />
+        <p className="loadingText">Cargando producto certificado...</p>
+      </div>
+    );
+  }
 
-  if (!product) return (
-    <div className="errorContainer">
-      <Info size={48} color="#94a3b8" />
-      <h2>Producto no encontrado</h2>
-      <button onClick={() => navigate('/productos')} className="backHomeBtn">Ver catálogo EPP</button>
-    </div>
-  );
-
-  const discountPercent = currentNormalPrice > currentOfferPrice
-    ? Math.round((1 - currentOfferPrice / currentNormalPrice) * 100)
-    : 0;
+  if (!product) {
+    return (
+      <div className="productDetailPage errorWrapper">
+        <Info size={48} color="#ee1b24" />
+        <h2>Equipo no encontrado</h2>
+        <p>El producto solicitado no está disponible o ha sido reubicado.</p>
+        <button onClick={() => navigate('/productos')} className="brandBackBtn">
+          Explorar Catálogo EPP
+        </button>
+      </div>
+    );
+  }
 
   const categoryName = Array.isArray(product.categoria) ? product.categoria[0] : (product.categoria || 'Seguridad Industrial');
 
+  const isKit = Boolean(product.es_kit) || 
+    (Array.isArray(product.categoria) && product.categoria.some(c => c.toLowerCase().includes('kit'))) ||
+    product.nombre.toLowerCase().includes('kit') ||
+    product.nombre.toLowerCase().includes('combo');
+
   return (
     <div className="productDetailPage page-transition">
-      {/* FULLSCREEN IMAGE MODAL */}
-      {isModalOpen && (
+      {/* FULLSCREEN IMAGE MODAL PORTAL (COVERS ENTIRE SCREEN & NAVBAR) */}
+      {isModalOpen && typeof document !== 'undefined' && createPortal(
         <div className="imageModal" onClick={() => setIsModalOpen(false)}>
-          <div className="modalClose"><X size={24} /></div>
-          <img src={modalImage} alt="Vista completa" onClick={(e) => e.stopPropagation()} />
-        </div>
+          <button 
+            type="button" 
+            className="modalClose" 
+            onClick={() => setIsModalOpen(false)} 
+            aria-label="Cerrar vista completa"
+          >
+            <X size={24} />
+          </button>
+
+          <div className="modalImgWrapper" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={modalImage} 
+              alt="Vista completa del equipo" 
+              className="modalImgTag"
+              onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+            />
+          </div>
+        </div>,
+        document.body
       )}
 
       {/* TOP COMPACT BAR */}
-      <div className="detailTopNav">
-        <button onClick={() => navigate(-1)} className="topNavBtn backBtn" aria-label="Volver">
+      <div className="prevesegTopNav">
+        <button onClick={() => navigate(-1)} className="topBackBtn" aria-label="Volver">
           <ArrowLeft size={16} />
           <span>Catálogo</span>
         </button>
-        <div className="topNavCategory">
-          <span className="categoryDot"></span>
-          <span>{categoryName}</span>
+
+        <div className="topCategoryPill">
+          <span className="categoryGlowDot"></span>
+          <span className="categoryLabel">{categoryName}</span>
         </div>
-        <button onClick={handleShare} className="topNavBtn shareBtn" aria-label="Compartir">
+
+        <button onClick={handleShare} className="topShareBtn" aria-label="Compartir">
           <Share2 size={16} />
         </button>
       </div>
 
-      <div className="detailGrid">
-        {/* GALERÍA MULTIMEDIA */}
-        <div className="mediaGallery">
+      <div className="prevesegDetailGrid">
+        {/* =========================================================================
+            1. SHOWCASE MULTIMEDIA (PREVESEG SHIELD GALLERY)
+           ========================================================================= */}
+        <div className="gallerySection">
           <div 
-            className={`mainPreview ${animating ? 'is-switching' : ''}`}
+            className={`showcaseCard ${animating ? 'is-animating' : ''}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -229,17 +265,37 @@ const ProductDetail = () => {
               }
             }}
           >
-            {discountPercent > 0 && (
-              <span className="imageOfferBadge">-{discountPercent}% OFF</span>
+            <div className="flameDiscountBadge certBadge">
+                <ShieldCheck size={12} className="flameIcon" />
+                <span>CERTIFICADO</span>
+              </div>
+
+            {isKit && (
+              <div className="kitFloatingBadge">
+                <Package size={12} />
+                <span>KIT COMBO</span>
+              </div>
             )}
 
             {activeMedia.type === 'image' ? (
-              <img src={activeMedia.url} alt={product.nombre} className="mainImg" />
+              <div className="showcaseImgContainer">
+                <img 
+                  src={activeMedia.url} 
+                  alt={product.nombre} 
+                  className="showcaseImg"
+                  onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+                />
+              </div>
             ) : (
-              <div className="videoWrapper" onClick={() => product.youtube_url && setShowYoutube(true)}>
+              <div className="videoContainer" onClick={() => product.youtube_url && setShowYoutube(true)}>
                 {!showYoutube ? (
                   <>
-                    <img src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} alt="Vista previa" className="mainImg" />
+                    <img 
+                      src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} 
+                      alt="Vista previa video" 
+                      className="showcaseImg"
+                      onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+                    />
                     <div className="playBtnOverlay"><Play size={36} fill="white" /></div>
                   </>
                 ) : (
@@ -247,106 +303,160 @@ const ProductDetail = () => {
                 )}
               </div>
             )}
+
+            {/* DOT INDICATORS FOR CAROUSEL */}
+            {product.imagenes && product.imagenes.length > 1 && (
+              <div className="carouselDots">
+                {product.imagenes.map((img: string, i: number) => (
+                  <span 
+                    key={i} 
+                    className={`carouselDot ${activeMedia.url === img ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMediaChange({ type: 'image', url: img });
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* MINIATURAS HORIZONTALES */}
           {((product.imagenes && product.imagenes.length > 1) || product.youtube_url) && (
-            <div className="thumbGrid scrollbar-hide">
+            <div className="thumbnailRow scrollbar-hide">
               {product.imagenes?.map((img: string, i: number) => (
-                <div 
+                <button 
                   key={i} 
-                  className={`thumbBox ${activeMedia.url === img ? 'active' : ''}`} 
+                  className={`thumbnailBtn ${activeMedia.url === img ? 'active' : ''}`} 
                   onClick={() => handleMediaChange({ type: 'image', url: img })}
+                  aria-label={`Ver imagen ${i + 1}`}
                 >
-                  <img src={img} alt={`Miniatura ${i}`} />
-                </div>
+                  <img 
+                    src={img} 
+                    alt={`Miniatura ${i + 1}`}
+                    onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+                  />
+                </button>
               ))}
               {product.youtube_url && (
-                <div 
-                  className={`thumbBox ${activeMedia.type === 'video' ? 'active' : ''}`} 
+                <button 
+                  className={`thumbnailBtn videoThumb ${activeMedia.type === 'video' ? 'active' : ''}`} 
                   onClick={() => handleMediaChange({ type: 'video', url: product.youtube_url || '' })}
+                  aria-label="Ver video demostrativo"
                 >
-                  <Play size={16} className="vIcon" />
-                  <img src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} alt="Video" />
-                </div>
+                  <Play size={14} className="videoPlayIcon" />
+                  <img 
+                    src={`https://img.youtube.com/vi/${product.youtube_url?.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/)?.[2] || ''}/hqdefault.jpg`} 
+                    alt="Video demostrativo"
+                    onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+                  />
+                </button>
               )}
             </div>
           )}
         </div>
 
-        {/* INFORMACIÓN Y ACCIÓN */}
-        <div className="productInfoPanel">
-          <header className="infoMain">
-            <h1 className="infoTitle">{product.nombre}</h1>
-            
-            {/* TARJETA DE PRECIO */}
-            <div className="infoPriceCard">
-              <div className="priceRow">
-                <div className="priceMainValue">
-                  <span className={`infoPrice ${pricePop ? 'pop' : ''}`}>
-                    ${currentOfferPrice?.toLocaleString()}
-                  </span>
-                  <span className="priceCurrency">COP</span>
-                </div>
-                {discountPercent > 0 && (
-                  <span className="saveBadge">
-                    Ahorras {discountPercent}%
-                  </span>
-                )}
+        {/* =========================================================================
+            2. PRODUCT DATA & ACTIONS
+           ========================================================================= */}
+        <div className="infoSection">
+          {/* HEADER & TITLES */}
+          <div className="productHeaderCard">
+            {isKit && (
+              <div className="kitHeaderPill">
+                <Package size={14} className="kitPillIcon" />
+                <span>KIT INDUSTRIAL COMPLETO • AHORRO EN COMBO</span>
               </div>
-              {currentNormalPrice > currentOfferPrice && (
-                <span className="oldVal">Precio de lista: ${currentNormalPrice?.toLocaleString()} COP</span>
-              )}
+            )}
+
+            <h1 className="productMainTitle">{product.nombre}</h1>
+            
+            {/* TARJETA DE PRECIO PREVESEG DUAL ARCS */}
+            <div className="brandQuotationCard">
+              <div className="quotationHeaderRow">
+                <div className="quotationStatusPill">
+                  <ShieldCheck size={14} className="qStatusIcon" />
+                  <span>EQUIPO DISPONIBLE PARA COTIZACIÓN</span>
+                </div>
+                <span className="quotationLocationPill">Cali • Cra 28D 72f-79</span>
+              </div>
+              <p className="quotationSubtitle">
+                Venta por unidad y al por mayor para empresas, obras e industrias. Asesoría técnica y despacho inmediato.
+              </p>
             </div>
 
-            {/* TRUST BADGES COMPACTOS */}
-            <div className="trustBadgesGrid">
-              <div className="trustTag"><ShieldCheck size={14} /> Certificado</div>
-              <div className="trustTag"><Truck size={14} /> Envío Nacional</div>
-              <div className="trustTag"><Zap size={14} /> Despacho Hoy</div>
+            {/* TRUST BADGES: 3 SEALS OF PREVESEG */}
+            <div className="brandTrustRow">
+              <div className="trustBadgeItem">
+                <ShieldCheck size={15} className="trustIcon blue" />
+                <div className="trustItemText">
+                  <strong>Certificado</strong>
+                  <span>Normas ANSI / OSHA</span>
+                </div>
+              </div>
+              <div className="trustBadgeItem">
+                <Truck size={15} className="trustIcon green" />
+                <div className="trustItemText">
+                  <strong>Envío Seguro</strong>
+                  <span>Cobertura Nacional</span>
+                </div>
+              </div>
+              <div className="trustBadgeItem">
+                <Zap size={15} className="trustIcon red" />
+                <div className="trustItemText">
+                  <strong>Despacho</strong>
+                  <span>Inmediato</span>
+                </div>
+              </div>
             </div>
-          </header>
+          </div>
 
           {/* VARIANTES (COLOR / TALLA / CAPACIDAD) */}
           {Object.keys(groupedVariants).length > 0 && (
-            <div className="infoVariants" ref={variantsRef}>
+            <div className="variantsCard" ref={variantsRef}>
               {Object.entries(groupedVariants).map(([tipo, items]: [string, Variant[]]) => (
-                <div key={tipo} className="varRow">
-                  <span className="varLabel">{tipo}: <strong className="varSelectedValue">{selectedVariants[tipo] || 'Seleccionar'}</strong></span>
-                  <div className="varOptions">
+                <div key={tipo} className="variantGroup">
+                  <div className="variantTitleRow">
+                    <span className="variantLabel">{tipo}:</span>
+                    <span className="variantSelectedText">{selectedVariants[tipo] || 'Selecciona una opción'}</span>
+                  </div>
+
+                  <div className="variantOptionsWrap">
                     {tipo.toLowerCase() === 'color' ? (
-                      <div className="colorSet">
+                      <div className="colorPaletteGrid">
                         {items.map((c: Variant, i: number) => {
                           const isActive = selectedVariants['color'] === c.valor;
                           return (
-                            <div 
+                            <button 
                               key={i} 
-                              className={`colorOptionChip ${isActive ? 'active' : ''}`}
+                              type="button"
+                              className={`colorChipButton ${isActive ? 'active' : ''}`}
                               onClick={() => { handleVariantSelect('color', c.valor, c.imagenUrl); pauseAutoplay(); }}
                             >
                               <span 
-                                className="colorDot" 
+                                className="colorDotPreview" 
                                 style={{ backgroundColor: c.color || '#333' }}
                               >
-                                {isActive && <Check size={10} color={c.color?.toLowerCase() === '#ffffff' ? '#000' : '#fff'} />}
+                                {isActive && <Check size={11} color={c.color?.toLowerCase() === '#ffffff' ? '#000' : '#fff'} />}
                               </span>
-                              <span className="variantName">{c.valor}</span>
-                            </div>
+                              <span className="colorTextLabel">{c.valor}</span>
+                            </button>
                           );
                         })}
                       </div>
                     ) : (
-                      <div className="chipSet">
+                      <div className="sizeChipGrid">
                         {items.map((c: Variant, i: number) => {
                           const isActive = selectedVariants[tipo] === c.valor;
                           return (
                             <button 
-                              key={i}
-                              className={`chipBtn ${isActive ? 'active' : ''}`}
+                              key={i} 
+                              type="button"
+                              className={`sizeOptionButton ${isActive ? 'active' : ''}`}
                               onClick={() => { handleVariantSelect(tipo, c.valor, c.imagenUrl); pauseAutoplay(); }}
                             >
                               <span>{c.valor}</span>
-                              {isActive && <Check size={12} className="chipCheck" />}
+                              {isActive && <Check size={13} className="activeCheckIcon" />}
                             </button>
                           );
                         })}
@@ -358,104 +468,182 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* ACCIONES DESKTOP */}
-          <div className="infoActions hide-mobile">
-            <button className="btnBuy" onClick={handleCustomWhatsApp}>
+          {/* DESKTOP ACTION BUTTONS */}
+          <div className="desktopActionsRow">
+            <button className="desktopBtnBuy" onClick={handleCustomWhatsApp}>
               <MessageCircle size={20} />
-              <span>Cotizar / Comprar por WhatsApp</span>
+              <span>Solicitar Cotización por WhatsApp</span>
             </button>
-            <button className="btnCart" onClick={handleCustomAddToCart} title="Añadir al Carrito">
+            <button className="desktopBtnCart" onClick={handleCustomAddToCart} title="Añadir al Carrito">
               <ShoppingCart size={20} />
-              <span>Agregar</span>
+              <span>Añadir a mi Cotización</span>
             </button>
           </div>
 
-          {/* DESCRIPCIÓN */}
-          <div className="productDescription">
-            <h3 className="sectionSubtitle">Descripción</h3>
-            <p className="infoDesc">{product.descripcion}</p>
-          </div>
+          {/* =========================================================================
+              INTERACTIVE TABS: DESCRIPCIÓN / KIT PIECES | ESPECIFICACIONES | INCLUYE
+             ========================================================================= */}
+          <div className="productDetailTabsWrapper">
+            <div className="tabsHeaderBar">
+              <button 
+                type="button"
+                className={`tabHeaderBtn ${activeTab === 'desc' ? 'active' : ''}`}
+                onClick={() => setActiveTab('desc')}
+              >
+                {isKit ? <Package size={15} /> : <Shield size={15} />}
+                <span>{isKit ? 'Piezas del Kit' : 'Descripción'}</span>
+              </button>
 
-          {/* BENTO GRID DE ESPECIFICACIONES */}
-          <div className="bentoGrid">
-            {product.caracteristicas && product.caracteristicas.length > 0 && (
-              <div className="bentoCell">
-                <h4 className="bentoTitle"><ListChecks size={16} /> Características</h4>
-                <ul className="bentoList">
-                  {product.caracteristicas.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              <button 
+                type="button"
+                className={`tabHeaderBtn ${activeTab === 'specs' ? 'active' : ''}`}
+                onClick={() => setActiveTab('specs')}
+              >
+                <ListChecks size={15} />
+                <span>Especificaciones</span>
+              </button>
 
-            {product.lo_que_incluye && product.lo_que_incluye.length > 0 && (
-              <div className="bentoCell">
-                <h4 className="bentoTitle"><Package size={16} /> Incluye</h4>
-                <div className="bentoTagCloud">
-                  {product.lo_que_incluye.map((item, i) => (
-                    <span key={i} className="bentoTag">{item}</span>
-                  ))}
-                </div>
-              </div>
-            )}
+              {product.lo_que_incluye && product.lo_que_incluye.length > 0 && !isKit && (
+                <button 
+                  type="button"
+                  className={`tabHeaderBtn ${activeTab === 'includes' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('includes')}
+                >
+                  <Package size={15} />
+                  <span>Incluye</span>
+                </button>
+              )}
+            </div>
 
-            {product.detalles && product.detalles.length > 0 && (
-              <div className="bentoCell bentoFull">
-                <h4 className="bentoTitle"><Info size={16} /> Ficha Técnica</h4>
-                <div className="specsTable">
-                  {product.detalles.map((det, i) => (
-                    <div key={i} className="specRow">
-                      <span className="specK">{det.clave}</span>
-                      <span className="specV">{det.valor}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {recommendedProducts.length > 0 && (
-              <div className="bentoCell bentoFull bentoRec">
-                <h4 className="bentoTitle">Recomendados</h4>
-                <div className="recSlider scrollbar-hide">
-                  {recommendedProducts.map((p) => (
-                    <div key={p.id} className="recMini" onClick={() => navigate(`/producto/${p.id}`)}>
-                      <div className="recImgWrapper">
-                        <img src={p.imagenes[0]} alt={p.nombre} />
-                      </div>
-                      <div className="recMeta">
-                        <span className="recName">{p.nombre}</span>
-                        <span className="recPrice">${p.precio_oferta?.toLocaleString()}</span>
+            {/* TAB CONTENT PANEL */}
+            <div className="tabContentPanel">
+              {activeTab === 'desc' && (
+                <div className="tabPane animate-fade-in">
+                  {isKit && product.lo_que_incluye && product.lo_que_incluye.length > 0 && (
+                    <div className="kitComponentsBreakdown">
+                      <h4 className="kitBreakdownTitle">Componentes Incluidos en este Combo:</h4>
+                      <div className="kitItemsList">
+                        {product.lo_que_incluye.map((item, i) => (
+                          <div key={i} className="kitComponentRow">
+                            <div className="kitCheckBadge"><Check size={13} /></div>
+                            <span className="kitComponentText">{item}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
+                  )}
+
+                  <p className="tabDescParagraph">{product.descripcion}</p>
+
+                  <div className="brandQualityCallout">
+                    <ShieldCheck size={16} className="qualityIcon" />
+                    <span>{isKit ? 'Kit completo certificado listo para operación y licitaciones.' : 'Equipo 100% original con respaldo y garantía directa Preveseg.'}</span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+
+              {activeTab === 'specs' && (
+                <div className="tabPane animate-fade-in">
+                  {product.caracteristicas && product.caracteristicas.length > 0 && (
+                    <ul className="cleanSpecsList">
+                      {product.caracteristicas.map((item, i) => (
+                        <li key={i}>
+                          <span className="specBulletDot"></span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {product.detalles && product.detalles.length > 0 && (
+                    <div className="specsTableGrid">
+                      {product.detalles.map((det, i) => (
+                        <div key={i} className="specItem">
+                          <span className="specKey">{det.clave}</span>
+                          <span className="specValue">{det.valor}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'includes' && product.lo_que_incluye && (
+                <div className="tabPane animate-fade-in">
+                  <div className="includesTagsGrid">
+                    {product.lo_que_incluye.map((item, i) => (
+                      <div key={i} className="includeTagItem">
+                        <Check size={14} className="includeCheck" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+
+          {/* EQUIPOS RECOMENDADOS (COMPACT CAROUSEL) */}
+          {recommendedProducts.length > 0 && (
+            <div className="recommendedSection">
+              <div className="recSectionHeader">
+                <Flame size={16} className="recHeaderIcon" />
+                <h4>Equipos Relacionados</h4>
+              </div>
+              <div className="recScrollRow scrollbar-hide">
+                {recommendedProducts.map((p) => (
+                  <div key={p.id} className="recProductCard" onClick={() => navigate(`/producto/${p.id}`)}>
+                    <div className="recImgBox">
+                      <img 
+                        src={p.imagenes[0]} 
+                        alt={p.nombre}
+                        onError={(e) => { (e.target as HTMLImageElement).src = logoImg; }}
+                      />
+                    </div>
+                    <span className="recCardName">{p.nombre}</span>
+                    <span className="recCardPrice quoteTag">Cotizar Equipo</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* BARRA INFERIOR FIJA MÓVIL (Con visualización de precio y botones táctiles) */}
-      <div className="mobileStickyActions">
-        <div className="mobilePricePreview">
-          <span className="mPriceLabel">Precio Total</span>
-          <span className="mPriceVal">${currentOfferPrice?.toLocaleString()}</span>
+      {/* =========================================================================
+          3. BARRA INFERIOR FIJA MÓVIL (PREVESEG BRANDED)
+         ========================================================================= */}
+      <div className="mobileBottomActionBar">
+        <div className="mobilePriceBlock">
+          <span className="mobilePriceLabel">Cotización Directa</span>
+          <span className="mobilePriceAmount">Preveseg Cali</span>
         </div>
-        <div className="mobileActionBtns">
-          <button className="mobileBtnCart" onClick={handleCustomAddToCart} title="Añadir al carrito">
-            <ShoppingCart size={19} />
+
+        <div className="mobileButtonsGroup">
+          <button 
+            type="button" 
+            className="mobileCartButton" 
+            onClick={handleCustomAddToCart} 
+            title="Añadir al carrito"
+            aria-label="Añadir al carrito"
+          >
+            <ShoppingCart size={20} />
           </button>
-          <button className="mobileBtnBuy" onClick={handleCustomWhatsApp}>
-            <MessageCircle size={19} />
-            <span>Comprar</span>
+          
+          <button 
+            type="button" 
+            className="mobileWhatsAppButton" 
+            onClick={handleCustomWhatsApp}
+          >
+            <MessageCircle size={18} />
+            <span>Cotizar por WhatsApp</span>
           </button>
         </div>
       </div>
 
       {/* TOAST NOTIFICATION */}
       {toast.show && (
-        <div className="customToast animate-in-up">
+        <div className="brandToastNotification animate-in-up">
           <AlertCircle size={16} />
           <span>{toast.message}</span>
         </div>

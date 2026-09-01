@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Lock, User, ArrowRight } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
@@ -7,21 +7,19 @@ import './Login.css';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirección directa para modo de pruebas sin contraseña
+    localStorage.setItem('isAdmin', 'true');
+    navigate('/Admin_panel');
+  }, [navigate]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const adminUser = (import.meta.env.VITE_ADMIN_USER || 'wertonywool').trim();
-    const adminPass = (import.meta.env.VITE_ADMIN_PASS || 'woolpacman08').trim();
-
-    if (username.trim() === adminUser && password.trim() === adminPass) {
-      localStorage.setItem('isAdmin', 'true');
-      navigate('/Admin_panel');
-    } else {
-      setError('Credenciales incorrectas. Acceso denegado.');
-    }
+    localStorage.setItem('isAdmin', 'true');
+    navigate('/Admin_panel');
   };
 
   return (

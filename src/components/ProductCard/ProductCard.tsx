@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCart, ChevronLeft, ChevronRight, Zap, X, Minus, Plus } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, ChevronRight, MessageCircle, X, Minus, Plus, Package, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import './ProductCard.css';
 
@@ -18,15 +18,17 @@ interface ProductCardProps {
   id: string;
   nombre: string;
   categoria: string;
-  precioNormal: number;
-  precioOferta: number;
+  precioNormal?: number;
+  precioOferta?: number;
   imagenes: string[];
   youtubeUrl?: string;
   variantes?: Variant[];
   enOferta?: boolean;
+  esKit?: boolean;
 }
 
-const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagenes, youtubeUrl, variantes = [], enOferta = false }: ProductCardProps) => {
+const ProductCard = ({ id, nombre, categoria, precioNormal = 0, precioOferta = 0, imagenes, youtubeUrl, variantes = [], enOferta = false, esKit = false }: ProductCardProps) => {
+  const isKitProduct = esKit || (typeof categoria === 'string' && categoria.toLowerCase().includes('kit'));
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -36,7 +38,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
   // Quick Select State
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
-  const [quickSelectMode, setQuickSelectMode] = useState<'cart' | 'buy'>('cart');
+  const [quickSelectMode, setQuickSelectMode] = useState<'cart' | 'buy'>('buy');
   const [quantity, setQuantity] = useState(1);
 
   const handleCardClick = () => {
@@ -72,24 +74,14 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
 
   const getOptimizedImageUrl = (url: string) => {
     if (!url || typeof url !== 'string') return 'https://via.placeholder.com/400x300?text=Preveseg';
-    
-    // Supabase image transformation
-    if (url.includes('supabase.co/storage/v1/object/public/')) {
-      return url;
-    }
     return url;
   };
 
   const handleAction = (e: React.MouseEvent, mode: 'cart' | 'buy') => {
     e.stopPropagation();
     if (mode === 'buy' && variantes.length === 0) {
-      // Direct to WhatsApp for "Buy Now" only if no variants
       const WHATSAPP_NUMBER = '573046296285';
-      const priceText = precioNormal > precioOferta 
-        ? `\nPrecio: *$${precioOferta.toLocaleString()}* (Antes: $${precioNormal.toLocaleString()})`
-        : `\nPrecio: *$${precioOferta.toLocaleString()}*`;
-      
-      const message = `Hola Preveseg, estoy interesado en comprar: *${nombre}*${priceText}\nLink: ${window.location.origin}/producto/${id}`;
+      const message = `Hola Preveseg Cali, solicito cotización formal para el siguiente equipo:\n\n• *${nombre}*\n• Ubicación: Cra 28D 72f-79, Cali / A coordinar\nLink: ${window.location.origin}/producto/${id}`;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
       return;
     }
@@ -99,8 +91,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
     setShowQuickSelect(true);
   };
 
-  const executeAction = (mode: 'cart' | 'buy', selected: Record<string, string>, priceO: number, priceN: number) => {
-    // Validation: Check if all variants are selected
+  const executeAction = (mode: 'cart' | 'buy', selected: Record<string, string>) => {
     const requiredTypes = Object.keys(groupedVariants);
     const missing = requiredTypes.filter(type => !selected[type]);
     
@@ -114,11 +105,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
 
     if (mode === 'buy') {
       const WHATSAPP_NUMBER = '573046296285';
-      const priceText = priceN > priceO 
-        ? `\nPrecio: *$${priceO.toLocaleString()}* (Antes: $${priceN.toLocaleString()})`
-        : `\nPrecio: *$${priceO.toLocaleString()}*`;
-      
-      const message = `Hola Preveseg, estoy interesado en comprar: *${finalName}* (x${quantity})${priceText}\nLink: ${window.location.origin}/producto/${id}`;
+      const message = `Hola Preveseg Cali, solicito cotización formal para el siguiente equipo:\n\n• *${finalName}* (Cantidad: ${quantity})\n• Ubicación: Cra 28D 72f-79, Cali / A coordinar\nLink: ${window.location.origin}/producto/${id}`;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
       setShowQuickSelect(false);
       return;
@@ -128,8 +115,8 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
       addToCart({
         id,
         nombre: finalName,
-        precio_oferta: priceO,
-        precio_normal: priceN,
+        precio_oferta: precioOferta,
+        precio_normal: precioNormal,
         imagenes,
         cantidad: quantity
       });
@@ -138,17 +125,11 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
     }
   };
 
-  // Calculate current price based on selection
-  let currentOfferPrice = precioOferta;
-  let currentNormalPrice = precioNormal;
   let activePreviewImage = imagenes[0];
-
   Object.entries(selectedVariants).forEach(([tipo, valor]) => {
     const match = variantes.find(v => v.tipo === tipo && v.valor === valor);
-    if (match) {
-      if (match.precio_oferta) currentOfferPrice = parseFloat(match.precio_oferta);
-      if (match.precio_normal) currentNormalPrice = parseFloat(match.precio_normal);
-      if (match.imagenUrl) activePreviewImage = match.imagenUrl;
+    if (match && match.imagenUrl) {
+      activePreviewImage = match.imagenUrl;
     }
   });
 
@@ -186,7 +167,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
                   className={imageLoaded ? 'loaded' : 'loading'}
                   onLoad={() => setImageLoaded(true)}
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Error+al+cargar';
+                    (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Preveseg+Cali';
                     setImageLoaded(true);
                   }}
                 />
@@ -202,9 +183,14 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
               </div>
             )}
 
-            {enOferta && (
-              <div className="badge">OFERTA</div>
-            )}
+            {isKitProduct ? (
+              <div className="kitBadge">
+                <Package size={11} />
+                <span>KIT COMBO</span>
+              </div>
+            ) : enOferta ? (
+              <div className="badge">CERTIFICADO</div>
+            ) : null}
             
             {imagenes && imagenes.length > 1 && (
               <div className="imageDots">
@@ -219,28 +205,28 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
 
       <div className="content">
         <span className="category">
-          {Array.isArray(categoria) ? categoria[0] : (categoria || 'Tecnología')}
+          {Array.isArray(categoria) ? categoria[0] : (categoria || 'Seguridad Industrial')}
         </span>
         <h3 className="title">{nombre}</h3>
         
-        <div className="priceContainer">
-          <span className="oldPrice">${precioNormal?.toLocaleString()}</span>
-          <div className="newPrice">
-            <span>$</span>{precioOferta?.toLocaleString()}
-          </div>
+        {/* BADGE DE COTIZACIÓN INDUSTRIAL */}
+        <div className="quoteBadgeRow">
+          <span className="quoteBadge">
+            <ShieldCheck size={13} className="quoteBadgeIcon" /> Disponible para Cotizar
+          </span>
         </div>
 
         <div className="cardActions">
-          <button className="secondaryBtn" title="Añadir al carrito" onClick={(e) => handleAction(e, 'cart')}>
-            <ShoppingCart size={20} />
+          <button className="secondaryBtn" title="Añadir a mi Cotización" onClick={(e) => handleAction(e, 'cart')}>
+            <ShoppingBag size={18} />
           </button>
           <button className="primaryBtn" onClick={(e) => handleAction(e, 'buy')}>
-            <Zap size={18} /> COMPRAR
+            <MessageCircle size={16} /> COTIZAR
           </button>
         </div>
       </div>
 
-      {/* Quick Select Modal (AliExpress Style) - Using Portal to avoid parent overflow/transform clipping */}
+      {/* Quick Select Modal */}
       {showQuickSelect && createPortal(
         <div className="quickSelectOverlay" onClick={(e) => { e.stopPropagation(); setShowQuickSelect(false); }}>
           <div className="quickSelectModal" onClick={(e) => e.stopPropagation()}>
@@ -257,17 +243,15 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
                 />
               </div>
               <div className="quickSelectInfo">
-                <div className="quickPrice">
-                  <span className="qPriceActual">${currentOfferPrice.toLocaleString()}</span>
-                  {currentNormalPrice > currentOfferPrice && (
-                    <span className="qPriceOld">${currentNormalPrice.toLocaleString()}</span>
-                  )}
+                <div className="quickQuoteStatus">
+                  <ShieldCheck size={15} className="quickQuoteIcon" />
+                  <span>Equipo Disponible para Cotización</span>
                 </div>
-                <p className="qStockInfo">✓ Disponible en stock</p>
+                <p className="qStockInfo">✓ Asesoría técnica en Cali (Cra 28D 72f-79)</p>
                 <p className="qSelectedLabel">
                   {Object.values(selectedVariants).length > 0 
                     ? `Seleccionado: ${Object.values(selectedVariants).join(', ')}` 
-                    : 'Por favor seleccione variaciones'}
+                    : 'Seleccione opciones para cotizar'}
                 </p>
               </div>
             </div>
@@ -281,7 +265,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
                     <div className="qVariantOptions">
                       {items.map((v, i) => (
                         <button 
-                          key={i}
+                          key={i} 
                           className={`qOptionPill ${selectedVariants[tipo] === v.valor ? 'active' : ''}`}
                           onClick={() => setSelectedVariants(prev => ({...prev, [tipo]: v.valor}))}
                         >
@@ -294,7 +278,7 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
               </div>
 
               <div className="qQuantitySection">
-                <span className="qVariantLabel">Cantidad</span>
+                <span className="qVariantLabel">Cantidad a Cotizar</span>
                 <div className="qQuantityControls">
                   <button 
                     className="qQtyBtn" 
@@ -317,10 +301,10 @@ const ProductCard = ({ id, nombre, categoria, precioNormal, precioOferta, imagen
             <div className="quickModalFooter">
               <button 
                 className={`confirmQuickAction ${quickSelectMode === 'buy' ? 'is-buy' : ''}`}
-                onClick={() => executeAction(quickSelectMode, selectedVariants, currentOfferPrice, currentNormalPrice)}
+                onClick={() => executeAction(quickSelectMode, selectedVariants)}
               >
-                {quickSelectMode === 'buy' ? <Zap size={20} /> : <ShoppingCart size={20} />}
-                {quickSelectMode === 'buy' ? 'COMPRAR AHORA' : 'AÑADIR AL CARRITO'}
+                {quickSelectMode === 'buy' ? <MessageCircle size={20} /> : <ShoppingBag size={20} />}
+                {quickSelectMode === 'buy' ? 'COTIZAR POR WHATSAPP' : 'AÑADIR A MI COTIZACIÓN'}
               </button>
             </div>
           </div>

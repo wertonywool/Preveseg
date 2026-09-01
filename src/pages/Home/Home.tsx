@@ -13,26 +13,31 @@ import {
   Building2, 
   FileText,
   Truck,
-  Sparkles
+  Sparkles,
+  MapPin,
+  Clock,
+  Wrench,
+  GraduationCap,
+  Move,
+  Tag,
+  AlertTriangle
 } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import ProductSkeleton from '../../components/ProductCard/ProductSkeleton';
 import { useHome } from '../../hooks/useHome';
-import { supabase } from '../../services/supabaseClient';
+// import { supabase } from '../../services/supabaseClient';
+import { PREVESEG_COMPANY_INFO, INITIAL_CATEGORIES } from '../../data/defaultCatalog';
 import './Home.css';
 import logoImgFile from '../../assets/logo.png';
 
-const DEFAULT_CATEGORIES = [
-  { id: 1, nombre: 'Protección Craneal y Facial', slug: 'proteccion-craneal', imagen_url: '' },
-  { id: 2, nombre: 'Protección Respiratoria', slug: 'proteccion-respiratoria', imagen_url: '' },
-  { id: 3, nombre: 'Calzado Industrial', slug: 'calzado-industrial', imagen_url: '' },
-  { id: 4, nombre: 'Extintores y Fuego', slug: 'extintores', imagen_url: '' },
-];
-
 const Home = () => {
   const { featuredProducts, categories, loading } = useHome();
-  const displayCategories = categories.length > 0 ? categories : DEFAULT_CATEGORIES;
+  const displayCategories = categories.length > 0 ? categories : INITIAL_CATEGORIES;
 
+  // =========================================================================
+  // BOLETÍN / NEWSLETTER (PRESERVADO EN CÓDIGO - OCULTO TEMPORALMENTE)
+  // =========================================================================
+  /*
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -47,13 +52,13 @@ const Home = () => {
 
         if (error) {
           if (error.code === '23505') {
-            alert('Este correo ya está suscrito a las novedades de Preveseg. ¡Gracias!');
+            alert('Este correo ya está suscrito a las novedades de Preveseg Cali. ¡Gracias!');
           } else {
             console.error('Error subscribing:', error);
             alert('¡Gracias por registrar tu correo! Nos pondremos en contacto contigo.');
           }
         } else {
-          alert('¡Gracias por suscribirte! Te enviaremos información técnica y ofertas en EPP.');
+          alert('¡Gracias por suscribirte! Te enviaremos información técnica sobre seguridad industrial y normativas.');
           form.reset();
         }
       } catch (err) {
@@ -63,33 +68,39 @@ const Home = () => {
       }
     }
   };
+  */
+
+  const getServiceWhatsAppUrl = (servicioTitulo: string) => {
+    const msg = `Hola Preveseg Cali, requiero asesoría y cotización para el servicio de: *${servicioTitulo}*\nUbicación: Cra 28D 72f-79, Cali / A coordinar`;
+    return `https://wa.me/573046296285?text=${encodeURIComponent(msg)}`;
+  };
 
   return (
     <div className="homeContainer page-transition">
-      {/* HERO SECTION */}
+      {/* 1. HERO SECTION */}
       <section className="hero">
         <div className="heroGrid">
           <div className="heroContent">
             <div className="heroBadge animate-in">
-              <ShieldCheck size={15} /> Prevención y Seguridad Industrial
+              <ShieldCheck size={15} /> Cali • Prevención & Seguridad Industrial
             </div>
             <h1 className="heroTitle animate-in delay-1">
-              PREVESEG <span>Protección Laboral & Contra Incendios</span>
+              PREVESEG <span>Equipos Contra Incendio & Seguridad Industrial</span>
             </h1>
             <p className="heroSubtitle animate-in delay-2">
-              Suministramos equipos de protección personal (EPP), extintores certificados y señalización de alta resistencia para proteger la vida y productividad en tu empresa.
+              Somos una empresa dedicada a la venta y mantenimiento de equipos contra incendio y seguridad industrial. Suministramos extintores certificados, camillas, botiquines, conos viales, señalización y EPP en Cali y a nivel nacional.
             </p>
             <div className="heroActions animate-in delay-3">
               <Link to="/productos" className="ctaMain">
-                Explorar Catálogo EPP <ArrowRight size={18} />
+                Explorar Catálogo de Equipos <ArrowRight size={18} />
               </Link>
               <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20requiero%20una%20cotizaci%C3%B3n%20para%20mi%20empresa." 
+                href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20una%20cotizaci%C3%B3n%20para%20mi%20empresa." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="ctaSecondary"
               >
-                <FileText size={18} /> Cotizar por WhatsApp
+                <FileText size={18} /> Solicitar Cotización Directa
               </a>
             </div>
           </div>
@@ -98,16 +109,16 @@ const Home = () => {
             <div className="visualContainer">
               <div className="floatingCard card-1">
                 <div className="cardIcon red"><Flame size={20} /></div>
-                <span>Extintores Certificados</span>
+                <span>Extintores & Recargas</span>
               </div>
               <div className="floatingCard card-2">
                 <div className="cardIcon blue"><HardHat size={20} /></div>
-                <span>EPP Normas ANSI / NTC</span>
+                <span>EPP & Señalización</span>
               </div>
               
               <div className="logoDisplayWrapper">
-                <img src={logoImgFile} alt="Preveseg Seguridad Industrial" className="heroLogoImage" />
-                <div className="heroBrandBadge">PREVESEG</div>
+                <img src={logoImgFile} alt="Preveseg Seguridad Industrial Cali" className="heroLogoImage" />
+                <div className="heroBrandBadge">PREVESEG CALI</div>
               </div>
               <div className="mainVisualBlob"></div>
               <div className="visualCircle"></div>
@@ -116,7 +127,48 @@ const Home = () => {
         </div>
       </section>
 
-      {/* TRUST BAR / VALORES */}
+      {/* 2. BARRA DE ATENCIÓN Y CONTACTO INMEDIATO (DATOS OFICIALES) */}
+      <section className="locationNoticeBar">
+        <div className="container">
+          <div className="infoBarGrid">
+            <div className="infoBarItem">
+              <MapPin size={20} className="infoBarIcon red" />
+              <div>
+                <strong>Dirección en Cali</strong>
+                <span>Cra 28D 72f-79, Cali</span>
+              </div>
+            </div>
+
+            <div className="infoBarItem">
+              <Phone size={20} className="infoBarIcon green" />
+              <div>
+                <strong>WhatsApp / Teléfono</strong>
+                <a href="https://wa.me/573046296285" target="_blank" rel="noopener noreferrer">
+                  +57 304 629 6285
+                </a>
+              </div>
+            </div>
+
+            <div className="infoBarItem">
+              <Clock size={20} className="infoBarIcon blue" />
+              <div>
+                <strong>Horarios de Atención</strong>
+                <span>Lunes a Viernes 8am - 6pm | Sábados 8am - 4pm</span>
+              </div>
+            </div>
+
+            <div className="infoBarItem">
+              <Mail size={20} className="infoBarIcon navy" />
+              <div>
+                <strong>Correo Electrónico</strong>
+                <span>prevesegcali@gmail.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. TRUST BAR / VALORES */}
       <section className="trustBar">
         <div className="container">
           <div className="trustGrid">
@@ -124,43 +176,84 @@ const Home = () => {
               <div className="trustIcon blue"><Award size={22} /></div>
               <div className="trustText">
                 <h4>Equipos Certificados</h4>
-                <p>Cumplimiento estricto de normas de seguridad laboral</p>
+                <p>Cumplimiento de normas técnicas NFPA, ANSI, NTC y OSHA</p>
               </div>
             </div>
             <div className="trustItem">
               <div className="trustIcon red"><Flame size={22} /></div>
               <div className="trustText">
-                <h4>Control de Incendios</h4>
-                <p>Venta, recarga y mantenimiento de extintores</p>
+                <h4>Equipos Contra Incendio</h4>
+                <p>Venta, recarga, mantenimiento y pruebas hidrostáticas</p>
               </div>
             </div>
             <div className="trustItem">
               <div className="trustIcon blue"><Building2 size={22} /></div>
               <div className="trustText">
-                <h4>Atención Corporativa</h4>
-                <p>Precios especiales al por mayor para empresas</p>
+                <h4>Cotizaciones para Empresas</h4>
+                <p>Atención inmediata a industrias, obras, conjuntos y locales</p>
               </div>
             </div>
             <div className="trustItem">
               <div className="trustIcon green"><Truck size={22} /></div>
               <div className="trustText">
-                <h4>Despacho Nacional</h4>
-                <p>Envíos ágiles y seguros a todo el país</p>
+                <h4>Despacho Inmediato</h4>
+                <p>Entregas en Cali y envíos garantizados a todo el país</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CATEGORIES SECTION */}
+      {/* 4. SERVICIOS ESPECIALIZADOS PREVESEG */}
+      <section className="servicesSection">
+        <div className="container">
+          <div className="sectionHeader center">
+            <span className="subTitle"><Wrench size={14} className="inline-icon" /> Asesoría & Soporte Técnico</span>
+            <h2>Nuestros <span>Servicios Especializados</span></h2>
+            <p className="sectionSubDesc">
+              Soluciones integrales de mantenimiento, inspección y capacitación en seguridad contra incendios en Cali.
+            </p>
+            <div className="headerDivider"></div>
+          </div>
+
+          <div className="servicesGrid">
+            {PREVESEG_COMPANY_INFO.services.map((serv, index) => (
+              <div key={serv.id} className="serviceCard">
+                <div className="serviceIconBox">
+                  {index === 0 && <Flame size={28} className="servIcon red" />}
+                  {index === 1 && <ShieldCheck size={28} className="servIcon blue" />}
+                  {index === 2 && <Tag size={28} className="servIcon blue" />}
+                  {index === 3 && <AlertTriangle size={28} className="servIcon red" />}
+                  {index === 4 && <Move size={28} className="servIcon blue" />}
+                  {index === 5 && <GraduationCap size={28} className="servIcon green" />}
+                </div>
+                <div className="serviceContent">
+                  <h3>{serv.titulo}</h3>
+                  <p>{serv.descripcion}</p>
+                  <a 
+                    href={getServiceWhatsAppUrl(serv.titulo)}
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="serviceCtaLink"
+                  >
+                    <span>Cotizar Servicio</span> <ArrowRight size={14} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. LÍNEAS DE PRODUCTOS */}
       <section className="categorySection">
         <div className="container">
           <div className="sectionHeader">
             <div className="headerInfo">
-              <span className="subTitle"><Sparkles size={14} className="inline-icon" /> Catálogo Especializado</span>
-              <h2>Líneas de <span>Protección Industrial</span></h2>
+              <span className="subTitle"><Sparkles size={14} className="inline-icon" /> Catálogo Industrial</span>
+              <h2>Líneas de <span>Productos Disponibles</span></h2>
             </div>
-            <Link to="/productos" className="textBtn">Ver todo el catálogo <ArrowRight size={16} /></Link>
+            <Link to="/productos" className="textBtn">Ver catálogo completo <ArrowRight size={16} /></Link>
           </div>
           
           <div className="categoryLayout">
@@ -171,11 +264,11 @@ const Home = () => {
                 className="categoryCardItem"
               >
                 <div className="categoryIconBox">
-                  {idx % 3 === 0 ? <HardHat size={28} /> : idx % 3 === 1 ? <Flame size={28} /> : <ShieldCheck size={28} />}
+                  {idx === 0 ? <Flame size={26} /> : idx === 1 ? <ShieldCheck size={26} /> : <HardHat size={26} />}
                 </div>
                 <div className="categoryInfo">
                   <h3>{cat.nombre}</h3>
-                  <span className="categoryLinkText">Explorar línea <ArrowRight size={14} /></span>
+                  <span className="categoryLinkText">Ver equipos <ArrowRight size={14} /></span>
                 </div>
               </Link>
             ))}
@@ -183,12 +276,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* FEATURED PRODUCTS */}
+      {/* 6. EQUIPOS DESTACADOS (CATÁLOGO PARA COTIZAR) */}
       <section id="destacados" className="showcaseSection dark">
         <div className="container">
           <div className="sectionHeader center">
-            <span className="subTitle"><Star size={16} fill="currentColor" /> Selección Industrial</span>
-            <h2>Equipos <span>Destacados</span></h2>
+            <span className="subTitle"><Star size={16} fill="currentColor" /> Catálogo de Referencias</span>
+            <h2>Equipos <span>Destacados para Cotización</span></h2>
             <div className="headerDivider"></div>
           </div>
           
@@ -210,59 +303,60 @@ const Home = () => {
                   youtubeUrl={product.youtube_url}
                   variantes={product.variantes || []}
                   enOferta={product.en_oferta}
+                  esKit={product.es_kit}
                 />
               ))}
             </div>
           ) : (
             <div className="emptyShowcase">
               <ShoppingBag size={48} />
-              <h3>Catálogo en preparación</h3>
-              <p>Puedes consultar disponibilidad de cualquier equipo de seguridad directamente por WhatsApp.</p>
+              <h3>Catálogo de Equipos</h3>
+              <p>Puedes solicitar cotización formal de cualquier equipo de protección y contra incendio directamente por WhatsApp.</p>
               <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20consultar%20disponibilidad%20de%20equipos%20EPP." 
+                href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20cotizaci%C3%B3n%20de%20equipos." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="ctaMain"
                 style={{ display: 'inline-flex', marginTop: '1rem' }}
               >
-                Consultar por WhatsApp <ArrowRight size={18} />
+                Solicitar Cotización por WhatsApp <ArrowRight size={18} />
               </a>
             </div>
           )}
         </div>
       </section>
 
-      {/* COMPANY PRESENTATION SECTION */}
+      {/* 7. COMPANY PRESENTATION SECTION */}
       <section className="aboutSection">
         <div className="container">
           <div className="aboutGrid">
             <div className="aboutInfo">
-              <span className="subTitle red"><ShieldCheck size={16} /> Sobre Preveseg</span>
-              <h2>Tu Aliado en <span>Seguridad y Salud en el Trabajo</span></h2>
+              <span className="subTitle red"><ShieldCheck size={16} /> Sobre Preveseg Cali</span>
+              <h2>Venta y Mantenimiento de <span>Equipos Contra Incendio y Seguridad Industrial</span></h2>
               <p className="aboutDescription">
-                En <strong>PREVESEG</strong> asesoramos y equipamos industrias, obras de construcción, almacenes y entidades comerciales con insumos normados de alta durabilidad y protección comprobada.
+                En <strong>PREVESEG</strong> nos especializamos en brindar soluciones efectivas para la prevención de riesgos y protección de instalaciones en Cali y la región. Atendemos requerimientos normativos para empresas, obras, colegios, conjuntos y comercios.
               </p>
               
               <div className="aboutHighlights">
                 <div className="highlightCard">
                   <CheckCircle2 className="highlightIcon" size={20} />
                   <div>
-                    <h4>Protección Personal Completa (EPP)</h4>
-                    <p>Cascos de seguridad, respiradores, monofajas, guantes de nitrilo/carnaza y calzado dieléctrico.</p>
+                    <h4>Extintores, Recargas & Mantenimiento</h4>
+                    <p>Polvo químico seco ABC, Solkaflam agente limpio, CO2, inspección reglamentaria y pruebas hidrostáticas.</p>
                   </div>
                 </div>
                 <div className="highlightCard">
                   <CheckCircle2 className="highlightIcon" size={20} />
                   <div>
-                    <h4>Protección Contra Incendios</h4>
-                    <p>Extintores Solkaflam, ABC multipropósito, CO2 y gabinetes de emergencia.</p>
+                    <h4>Camillas, Botiquines & Seguridad Vial</h4>
+                    <p>Camillas rígidas de inmovilización, botiquines industriales tipo A/B, conos reflectivos y reductores.</p>
                   </div>
                 </div>
                 <div className="highlightCard">
                   <CheckCircle2 className="highlightIcon" size={20} />
                   <div>
-                    <h4>Señalización & Primeros Auxilios</h4>
-                    <p>Cintas de demarcación, botiquines tipo A/B/C y kits para derrames.</p>
+                    <h4>Capacitación, Instalación & Codificación</h4>
+                    <p>Talleres en manejo de extintores, demarcación, señalización fotoluminiscente y codificación técnica.</p>
                   </div>
                 </div>
               </div>
@@ -271,15 +365,15 @@ const Home = () => {
             <div className="aboutBanner">
               <div className="bannerCard">
                 <Flame size={48} className="bannerIconRed" />
-                <h3>Seguridad & Prevención 24/7</h3>
-                <p>Protege la integridad de tus colaboradores con el respaldo técnico y normativo de profesionales.</p>
+                <h3>Seguridad & Prevención Oficial</h3>
+                <p>Punto de atención y despachos en Cali (Cra 28D 72f-79). Garantía directa y asesoría especializada.</p>
                 <div className="bannerStats">
                   <div className="statItem">
-                    <span className="statNum">100%</span>
-                    <span className="statLabel">Garantía Técnica</span>
+                    <span className="statNum">Cali</span>
+                    <span className="statLabel">Sede Principal</span>
                   </div>
                   <div className="statItem">
-                    <span className="statNum">ANSI</span>
+                    <span className="statNum">100%</span>
                     <span className="statLabel">Normas Certificadas</span>
                   </div>
                 </div>
@@ -289,32 +383,36 @@ const Home = () => {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
+      {/* =========================================================================
+          8. BOLETÍN TÉCNICO (OCULTO TEMPORALMENTE - PRESERVADO PARA USO FUTURO)
+         ========================================================================= */}
+      {/*
       <section className="newsletter">
         <div className="newsletterVisual"></div>
         <div className="newsletterContent">
           <div className="newsletterIcon"><Mail size={30} /></div>
-          <h2>Boletín Técnico & Ofertas Preveseg</h2>
-          <p>Suscríbete para recibir novedades sobre normativas laborales, guías de prevención y promociones exclusivas para empresas.</p>
-          <form className="newsletterForm" onSubmit={handleSubscribe}>
+          <h2>Boletín Técnico Preveseg Cali</h2>
+          <p>Suscríbete para recibir información sobre normativas contra incendio, recomendaciones de brigadas y novedades en seguridad industrial.</p>
+          <form className="newsletterForm">
             <input type="email" placeholder="Ingresa tu correo corporativo o personal" required />
             <button type="submit">Suscribirme</button>
           </form>
           <p className="formHint">Respetamos tu privacidad. No enviamos spam.</p>
         </div>
       </section>
+      */}
 
       {/* Floating WhatsApp Button */}
       <a 
-        href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20informaci%C3%B3n%20sobre%20sus%20equipos%20de%20seguridad%20industrial." 
+        href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20asesor%C3%ADa%20y%20cotizaci%C3%B3n%20para%20mi%20empresa." 
         className="whatsapp-float" 
         target="_blank" 
         rel="noopener noreferrer" 
-        aria-label="Contactar a Preveseg por WhatsApp"
+        aria-label="Contactar a Preveseg Cali por WhatsApp"
       >
         <div className="whatsapp-pulse"></div>
         <Phone size={24} />
-        <span className="whatsapp-tooltip">¿Asesoría en Seguridad Industrial?</span>
+        <span className="whatsapp-tooltip">¿Cotización de Extintores o EPP en Cali?</span>
       </a>
     </div>
   );

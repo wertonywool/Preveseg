@@ -73,6 +73,7 @@ const Admin = () => {
       youtubeUrl: '',
       destacado: false,
       enOferta: false,
+      es_kit: false,
       imagenes: [],
       existingImages: [],
       detalles: [],

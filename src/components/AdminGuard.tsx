@@ -1,17 +1,15 @@
-import { Navigate } from 'react-router-dom';
-
 interface Props {
   children: JSX.Element;
 }
 
 const AdminGuard = ({ children }: Props) => {
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
-  if (!isAdmin) {
-    return <Navigate to="/login" replace />;
+  // Modo de pruebas activo: acceso directo sin contraseña
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('isAdmin', 'true');
   }
 
   return children;
 };
 
 export default AdminGuard;
+

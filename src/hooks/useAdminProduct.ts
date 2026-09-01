@@ -20,6 +20,7 @@ export const useAdminProduct = () => {
     youtubeUrl: '',
     destacado: false,
     enOferta: false,
+    es_kit: false,
     imagenes: [] as File[], 
     existingImages: [] as string[],
     detalles: [] as { clave: string, valor: string }[],
@@ -180,6 +181,7 @@ export const useAdminProduct = () => {
       youtubeUrl: p.youtube_url || '', 
       destacado: p.destacado || false,
       enOferta: p.en_oferta || false,
+      es_kit: p.es_kit || false,
       imagenes: [], 
       existingImages: normalizeArray(p.imagenes),
       detalles: normalizeArray(p.detalles),
@@ -197,7 +199,7 @@ export const useAdminProduct = () => {
     setEditingId(null);
     setProduct({ 
       nombre: '', descripcion: '', categoria: [], precioNormal: '', precioOferta: '', 
-      youtubeUrl: '', destacado: false, enOferta: false, imagenes: [], existingImages: [], detalles: [], variantes: [],
+      youtubeUrl: '', destacado: false, enOferta: false, es_kit: false, imagenes: [], existingImages: [], detalles: [], variantes: [],
       loQueIncluye: [], caracteristicas: [],
       customHtml: '', customCss: ''
     });
@@ -266,6 +268,7 @@ export const useAdminProduct = () => {
         caracteristicas: JSON.stringify(product.caracteristicas),
         destacado: Boolean(product.destacado),
         en_oferta: Boolean(product.enOferta),
+        es_kit: Boolean(product.es_kit),
         visible: true,
         custom_html: product.customHtml,
         custom_css: product.customCss

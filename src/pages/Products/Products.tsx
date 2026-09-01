@@ -1,4 +1,4 @@
-import { Search, Grid, SlidersHorizontal, ChevronRight, ShieldCheck, X, Sparkles, Flame, DollarSign } from 'lucide-react';
+import { Search, Grid, SlidersHorizontal, ChevronRight, ShieldCheck, X, Sparkles, Flame } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import ProductSkeleton from '../../components/ProductCard/ProductSkeleton';
 import { useProducts } from '../../hooks/useProducts';
@@ -26,7 +26,7 @@ const Products = () => {
         {/* DESKTOP SIDEBAR */}
         <aside className="productsSidebar">
           <div className="sidebarSection">
-            <h3 className="sidebarTitle">Líneas de Protección</h3>
+            <h3 className="sidebarTitle">Líneas de Productos</h3>
             <div className="categoryNav">
               <button
                 onClick={() => filterByCategory('todos')}
@@ -35,7 +35,7 @@ const Products = () => {
                 <div className="catIcon">
                   <Grid size={16} />
                 </div>
-                <span>Todo el Catálogo EPP</span>
+                <span>Todo el Catálogo de Equipos</span>
                 <ChevronRight size={16} className="chevron" />
               </button>
               {visibleCategories.map((cat) => (
@@ -62,15 +62,15 @@ const Products = () => {
             <div className="promoCard">
               <div className="promoGradient"></div>
               <span className="promoTag">Asesoría Técnica</span>
-              <h4>Precios Corporativos</h4>
-              <p>Descuentos especiales por volumen, licitaciones y dotaciones completas.</p>
+              <h4>Cotización para Empresas</h4>
+              <p>Suministro de extintores, señalización, botiquines y EPP en Cali (Cra 28D 72f-79).</p>
               <a 
                 href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20cotizar%20dotaciones%20para%20mi%20empresa." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="promoBtn"
               >
-                Cotizar Dotación
+                Cotizar por WhatsApp
               </a>
             </div>
           </div>
@@ -82,7 +82,7 @@ const Products = () => {
           <div className="productsHeroHeader">
             <div className="heroBadge">
               <span className="badgeDot"></span>
-              <span>Equipos EPP Certificados • Precios Mayoristas</span>
+              <span>Equipos Contra Incendio & Seguridad Industrial • Cali</span>
             </div>
 
             <h1 className="productsMainTitle">
@@ -161,10 +161,10 @@ const Products = () => {
                 <Sparkles size={14} /> Destacados
               </button>
               <button 
-                className={`filterChip ${sortBy === 'price-asc' ? 'active' : ''}`}
-                onClick={() => handleSortChange('price-asc')}
+                className={`filterChip ${activeCategory === 'Kits & Combos de Seguridad' ? 'active' : ''}`}
+                onClick={() => filterByCategory('Kits & Combos de Seguridad')}
               >
-                <DollarSign size={14} /> Menor Precio
+                <ShieldCheck size={14} /> Kits & Combos
               </button>
             </div>
           </div>
@@ -188,6 +188,7 @@ const Products = () => {
                     youtubeUrl={product.youtube_url}
                     variantes={product.variantes || []}
                     enOferta={product.en_oferta}
+                    esKit={product.es_kit}
                   />
                 </div>
               ))}

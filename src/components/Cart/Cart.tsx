@@ -11,23 +11,22 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, updateQuantity, clearCart, total, itemCount } = useCart();
+  const { cart, removeFromCart, updateQuantity, clearCart, itemCount } = useCart();
   const navigate = useNavigate();
   const WHATSAPP_NUMBER = '573046296285';
 
   const handleCheckout = () => {
-    let message = `*Hola Preveseg, me gustaría solicitar una cotización / pedido para los siguientes equipos:*%0A%0A`;
+    let message = `*SOLICITUD DE COTIZACIÓN FORMAL - PREVESEG CALI*%0A`;
+    message += `Ubicación: Cra 28D 72f-79, Cali%0A`;
+    message += `Contacto: 3046296285%0A%0A`;
+    message += `*Equipos a Cotizar:*` + `%0A`;
     
     cart.forEach(item => {
-      const priceText = item.precio_normal && item.precio_normal > item.precio 
-        ? `$${item.precio.toLocaleString()} (Antes: $${item.precio_normal.toLocaleString()})`
-        : `$${item.precio.toLocaleString()}`;
-      
-      message += `• *${item.nombre}* x${item.cantidad} - ${priceText}%0A`;
+      message += `• *${item.nombre}* (Cantidad: ${item.cantidad})` + `%0A`;
     });
 
-    message += `%0A*Subtotal Estimado: $${total.toLocaleString()}*`;
-    message += `%0A%0A¿Me confirman disponibilidad y tiempos de despacho?`;
+    message += `%0A*Total de referencias:* ${itemCount} equipos%0A`;
+    message += `¿Me confirman disponibilidad, cotización y tiempos de entrega?`;
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
@@ -53,10 +52,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                 <h3>PREVESEG</h3>
                 <span className="cartCountBadge">{itemCount}</span>
               </div>
-              <p>Seguridad Industrial & Dotaciones</p>
+              <p>Lista de Cotización • Cali</p>
             </div>
           </div>
-          <button className="closeBtn" onClick={onClose} aria-label="Cerrar Carrito"><X size={20} /></button>
+          <button className="closeBtn" onClick={onClose} aria-label="Cerrar Lista"><X size={20} /></button>
         </div>
 
         {/* ITEMS LIST */}
@@ -64,10 +63,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           {cart.length === 0 ? (
             <div className="emptyCart">
               <div className="emptyIcon"><ShoppingBag size={48} /></div>
-              <h3>Tu carrito está vacío</h3>
-              <p>Explora nuestro catálogo de equipos de protección personal y seguridad industrial certificados.</p>
+              <h3>Tu lista de cotización está vacía</h3>
+              <p>Explora nuestro catálogo de extintores, camillas, botiquines, señalización y EPP para cotizar.</p>
               <button className="continueBtn" onClick={handleExplore}>
-                <span>Ver Catálogo de Productos</span> <ArrowRight size={16} />
+                <span>Ver Catálogo de Equipos</span> <ArrowRight size={16} />
               </button>
             </div>
           ) : (
@@ -83,10 +82,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                 <div className="itemDetails">
                   <h4 className="itemName">{item.nombre}</h4>
                   <div className="itemPriceRow">
-                    <span className="itemPriceActual">${item.precio.toLocaleString()}</span>
-                    {item.precio_normal && item.precio_normal > item.precio && (
-                      <span className="itemPriceOld">${item.precio_normal.toLocaleString()}</span>
-                    )}
+                    <span className="quoteItemTag">
+                      <ShieldCheck size={12} className="inline-icon" /> Para Cotización
+                    </span>
                   </div>
                   <div className="itemActions">
                     <div className="qtyControls">
@@ -108,8 +106,8 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                     <button 
                       className="deleteBtn" 
                       onClick={() => removeFromCart(item.id)} 
-                      title="Eliminar producto"
-                      aria-label="Eliminar producto"
+                      title="Eliminar de la lista"
+                      aria-label="Eliminar de la lista"
                     >
                       <Trash2 size={15} />
                     </button>
@@ -125,36 +123,36 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           <div className="cartFooter">
             <div className="summaryInfo">
               <div className="summaryRow">
-                <span>Subtotal ({itemCount} {itemCount === 1 ? 'equipo' : 'equipos'})</span>
-                <span className="subtotalVal">${total.toLocaleString()}</span>
+                <span>Total de Referencias</span>
+                <span className="subtotalVal">{itemCount} {itemCount === 1 ? 'equipo' : 'equipos'}</span>
               </div>
               <div className="summaryRow shipping">
-                <span>Despacho / Envíos</span>
-                <span className="shippingBadge">Nacional / Inmediato</span>
+                <span>Punto de Atención</span>
+                <span className="shippingBadge">Cra 28D 72f-79, Cali</span>
               </div>
               <div className="divider"></div>
               <div className="summaryRow total">
-                <span>Total Estimado:</span>
-                <span className="totalValue">${total.toLocaleString()} COP</span>
+                <span>Modalidad:</span>
+                <span className="totalValue" style={{ fontSize: '1rem', color: '#34d399' }}>Cotización por WhatsApp</span>
               </div>
             </div>
             
             <button className="checkoutBtn" onClick={handleCheckout}>
               <MessageCircle size={20} />
-              <span>Realizar Pedido por WhatsApp</span>
+              <span>Enviar Cotización por WhatsApp</span>
             </button>
 
             <div className="cartFooterActions">
               <button className="clearCartBtn" onClick={() => clearCart && clearCart()}>
-                Vaciar Carrito
+                Vaciar Lista
               </button>
               <button className="continueShoppingLink" onClick={onClose}>
-                Seguir Comprando
+                Seguir Explorando
               </button>
             </div>
 
             <p className="footerHint">
-              <ShieldCheck size={14} className="inline-icon" /> Preveseg: Asesoría técnica y cotizaciones inmediatas.
+              <ShieldCheck size={14} className="inline-icon" /> Preveseg Cali: Respuesta inmediata y asesoría en seguridad industrial.
             </p>
           </div>
         )}
@@ -164,4 +162,3 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 };
 
 export default Cart;
-

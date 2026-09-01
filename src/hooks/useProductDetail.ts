@@ -28,6 +28,7 @@ export interface Product {
   custom_css?: string;
   lo_que_incluye?: string[];
   caracteristicas?: string[];
+  es_kit?: boolean;
 }
 
 export const useProductDetail = () => {
@@ -219,13 +220,10 @@ export const useProductDetail = () => {
     if (!validateSelection()) return;
 
     const variantSuffix = Object.values(selectedVariants).join(' / ');
-    const priceText = currentNormalPrice > currentOfferPrice 
-      ? `*Precio: $${currentOfferPrice.toLocaleString()}* (Antes: $${currentNormalPrice.toLocaleString()})`
-      : `*Precio: $${currentOfferPrice.toLocaleString()}*`;
     const productUrl = window.location.href;
-    const message = `Hola Preveseg, quiero más información sobre: *${product.nombre}* ${variantSuffix ? `en (${variantSuffix})` : ''}\n\n${priceText}\n\n🔗 Enlace: ${productUrl}`;
+    const message = `Hola Preveseg Cali, solicito cotización formal para el siguiente equipo:\n\n• *${product.nombre}* ${variantSuffix ? `\n• Opción / Especificación: ${variantSuffix}` : ''}\n• Ubicación: Cra 28D 72f-79, Cali / A coordinar\n\n🔗 Enlace: ${productUrl}\n\n¿Me confirman disponibilidad y tiempos de entrega?`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-  }, [product, selectedVariants, currentOfferPrice, currentNormalPrice, validateSelection]);
+  }, [product, selectedVariants, validateSelection]);
 
   const getYoutubeId = useCallback((url: string) => {
     if (!url) return '';

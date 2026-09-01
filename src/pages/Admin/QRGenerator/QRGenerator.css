@@ -242,12 +242,36 @@
 
 /* 
   ========================================================================
-  PREVIEW & PRINT CARD
+  PREVIEW & PRINT CARD - PREVESEG DUAL BRAND IDENTITY (BLUE & RED)
   ========================================================================
 */
 
-.qr-main-preview { flex: 1; background: #020617; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-.preview-header-label { position: absolute; top: 3rem; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 950; color: #475569; letter-spacing: 6px; text-transform: uppercase; z-index: 200; }
+.qr-main-preview { 
+  flex: 1; 
+  background: #060a14; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
+  position: relative; 
+}
+
+.preview-header-label { 
+  position: absolute; 
+  top: 2rem; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  font-size: 0.72rem; 
+  font-weight: 900; 
+  color: #94a3b8; 
+  letter-spacing: 4px; 
+  text-transform: uppercase; 
+  z-index: 200; 
+  background: rgba(15, 23, 42, 0.8);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
 .qr-scaler-container { 
   display: flex; 
@@ -255,38 +279,71 @@
   justify-content: center; 
   width: 100%; 
   height: 100%; 
-  overflow: auto;
-  padding: 100px;
+  overflow: auto; 
+  padding: 60px;
   scrollbar-width: thin;
-  scrollbar-color: var(--s-blue) transparent;
+  scrollbar-color: #0066ff transparent;
 }
 .qr-scaler-container::-webkit-scrollbar { width: 6px; height: 6px; }
-.qr-scaler-container::-webkit-scrollbar-thumb { background: var(--s-blue); border-radius: 10px; }
+.qr-scaler-container::-webkit-scrollbar-thumb { background: #0066ff; border-radius: 10px; }
 
-.qr-scaler { transform-origin: center center; background: white; box-shadow: 0 100px 200px rgba(0,0,0,0.9); border-radius: 8px; flex-shrink: 0; }
+.qr-scaler { 
+  transform-origin: center center; 
+  background: white; 
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.85); 
+  border-radius: 12px; 
+  flex-shrink: 0; 
+}
 
 .print-exclusive { display: none; }
 
+/* CARTA MAESTRA */
 .supreme-card {
   width: 21.59cm;
   height: 27.94cm;
-  background: white;
-  color: var(--s-navy);
+  background: #ffffff;
+  color: #0f172a;
   position: relative;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 1.5cm 2cm;
+  padding: 1.2cm 1.5cm 0.8cm 1.5cm;
   overflow: hidden;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
-.card-border-frame {
+/* Cinta superior dual Preveseg */
+.card-top-accent-bar {
   position: absolute;
-  top: 0.8cm; left: 0.8cm; right: 0.8cm; bottom: 0.8cm;
-  border: 2px solid var(--s-blue);
-  opacity: 0.3;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #003399 0%, #0047cc 48%, #ee1b24 52%, #c41018 100%);
 }
+
+/* Marco de seguridad con esquinas industriales */
+.card-security-frame {
+  position: absolute;
+  top: 0.6cm;
+  left: 0.6cm;
+  right: 0.6cm;
+  bottom: 0.6cm;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.frame-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #0047cc;
+}
+.frame-corner.top-left { top: -1px; left: -1px; border-top: 3px solid #0047cc; border-left: 3px solid #0047cc; }
+.frame-corner.top-right { top: -1px; right: -1px; border-top: 3px solid #ee1b24; border-right: 3px solid #ee1b24; }
+.frame-corner.bottom-left { bottom: -1px; left: -1px; border-bottom: 3px solid #0047cc; border-left: 3px solid #0047cc; }
+.frame-corner.bottom-right { bottom: -1px; right: -1px; border-bottom: 3px solid #ee1b24; border-right: 3px solid #ee1b24; }
 
 .supreme-card-content {
   position: relative;
@@ -297,41 +354,409 @@
   justify-content: space-between;
 }
 
-.main-logo { height: 45px; width: auto; max-width: 180px; object-fit: contain; }
-.brand-name { font-size: 1.4rem; font-weight: 900; letter-spacing: -1px; color: var(--s-navy); }
-.brand-motto { font-size: 0.6rem; font-weight: 700; color: var(--s-blue); letter-spacing: 3px; }
+/* 1. Header */
+.supreme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.8rem;
+  border-bottom: 1.5px solid #e2e8f0;
+}
 
-.supreme-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0.5cm 0; }
-.gratitude-line { font-size: 0.8rem; font-weight: 900; letter-spacing: 8px; color: var(--s-blue); margin-bottom: 15px; text-transform: uppercase; }
-.customer-display { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 800; font-style: italic; color: var(--s-navy); line-height: 1; }
-.divider-glow { width: 80px; height: 4px; background: var(--s-blue); border-radius: 10px; margin-bottom: 2cm; }
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-.product-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 1cm; }
-.product-area.is-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 10px 0; }
-.product-item-supreme { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.main-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
 
-.image-presentation { width: 10cm; height: 7.5cm; background: white; border-radius: 30px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #e2e8f0; overflow: hidden; }
-.image-presentation img, .image-presentation svg { transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); max-width: 90%; max-height: 90%; object-fit: contain; }
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
 
-.is-grid .image-presentation { width: 80px; height: 80px; }
-.is-grid .product-name-label { font-size: 0.6rem; max-height: 2.4em; overflow: hidden; text-align: center; }
+.brand-name {
+  font-size: 1.6rem;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+}
 
-.product-name-label { font-size: 1rem; font-weight: 900; color: var(--s-navy); text-transform: uppercase; letter-spacing: 4px; }
-.elegant-message { font-size: 1.4rem; line-height: 1.8; color: var(--s-slate); font-weight: 500; max-width: 85%; margin: 0 auto; }
+.brand-navy { color: #003399; }
+.brand-red { color: #ee1b24; }
 
-.supreme-footer { padding-top: 1cm; border-top: 1.5px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-end; }
-.contact-details { display: flex; flex-direction: column; gap: 0.8cm; text-align: left; }
-.c-label { color: var(--s-blue); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 0.65rem; }
-.c-value { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--s-navy); }
+.brand-motto {
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 2px;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
 
-.is-preview .print-icon { width: 14px; height: 14px; }
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.security-seal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 71, 204, 0.08);
+  border: 1px solid rgba(0, 71, 204, 0.25);
+  color: #0047cc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.seal-icon { color: #0047cc; }
+
+.date-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+/* 2. Body */
+.supreme-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.4cm 0;
+  gap: 0.6rem;
+}
+
+.recipient-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.gratitude-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.gratitude-icon { color: #ee1b24; }
+
+.customer-display {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #0b1329;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+
+.dual-brand-divider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 90px;
+  margin: 4px auto 0;
+}
+
+.div-blue {
+  flex: 1;
+  height: 3px;
+  background: #0047cc;
+  border-radius: 2px;
+}
+
+.div-red {
+  flex: 1;
+  height: 3px;
+  background: #ee1b24;
+  border-radius: 2px;
+}
+
+/* Product presentation */
+.product-presentation-container {
+  width: 100%;
+  margin: 0.4rem 0;
+}
+
+.product-showcase-grid {
+  width: 100%;
+}
+
+.product-showcase-grid.is-single {
+  display: flex;
+  justify-content: center;
+}
+
+.product-showcase-grid.is-multi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.supreme-product-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.product-showcase-grid.is-single .supreme-product-card {
+  max-width: 480px;
+  width: 100%;
+}
+
+.fallback-single {
+  max-width: 440px;
+  margin: 0 auto;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.fallback-icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgba(0, 71, 204, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0047cc;
+  flex-shrink: 0;
+}
+
+.p-img-box {
+  width: 65px;
+  height: 65px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.p-img-box img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.p-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.p-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #0047cc;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.p-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.p-subnorm {
+  font-size: 0.65rem;
+  color: #64748b;
+  font-weight: 700;
+}
+
+/* Mensaje Quote */
+.supreme-message-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #ee1b24;
+  border-radius: 10px;
+  padding: 12px 20px;
+  max-width: 520px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.quote-mark {
+  position: absolute;
+  font-size: 2.2rem;
+  font-family: Georgia, serif;
+  color: rgba(238, 27, 36, 0.2);
+  line-height: 1;
+  top: -2px;
+  left: 6px;
+}
+
+.quote-mark.end {
+  top: auto;
+  left: auto;
+  bottom: -16px;
+  right: 10px;
+}
+
+.message-text {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #334155;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 3. Footer */
+.supreme-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.8rem;
+  border-top: 1.5px solid #e2e8f0;
+}
+
+.contact-pillars-grid {
+  display: flex;
+  gap: 18px;
+  text-align: left;
+}
+
+.contact-pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pillar-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  color: #64748b;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dot-blue { width: 5px; height: 5px; border-radius: 50%; background: #0047cc; }
+.dot-red { width: 5px; height: 5px; border-radius: 50%; background: #ee1b24; }
+
+.pillar-val {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.val-icon-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.val-icon-box.blue { background: rgba(0, 71, 204, 0.1); color: #0047cc; }
+.val-icon-box.red { background: rgba(238, 27, 36, 0.1); color: #ee1b24; }
+.val-icon-box.navy { background: rgba(15, 23, 42, 0.08); color: #0f172a; }
+
+.footer-guarantee-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #10b981;
+  margin-top: 6px;
+}
+
+.note-icon { color: #10b981; }
+
+/* QR Card Frame */
+.qr-master-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-card-frame {
+  background: white;
+  border: 1.5px solid #0047cc;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 71, 204, 0.12);
+}
+
+.qr-instructions-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.qr-badge-flame { color: #ffdd00; }
+
+.card-micro-legal {
+  text-align: center;
+  font-size: 0.52rem;
+  color: #94a3b8;
+  font-weight: 600;
+  padding-top: 4px;
+}
 
 /* 
   ========================================================================
-  FAIL-SAFE PRINT SYSTEM
+  PRINT SPECIFICATIONS FOR PHYSICAL PAPER
   ========================================================================
 */
-
 @media print {
   @page { size: letter portrait; margin: 0; }
   
@@ -357,33 +782,11 @@
   
   .supreme-card { 
     width: 21.59cm !important; 
-    height: 26.5cm !important;
-    padding: 1.5cm 2cm !important;
+    height: 27.94cm !important;
+    padding: 1.2cm 1.5cm 0.8cm 1.5cm !important;
     margin: 0 auto !important;
     background: white !important;
     border: none !important;
     box-shadow: none !important;
   }
-
-  .print-icon { width: 13px !important; height: 13px !important; display: inline-block !important; vertical-align: middle !important; }
-  .supreme-card svg.qr-svg-render { width: 140px !important; height: 140px !important; display: block !important; }
-  .qr-wrapper-premium { padding: 10px !important; border-radius: 12px !important; border: 1.5px solid #e2e8f0 !important; }
-  
-  .supreme-body { flex: 1 !important; justify-content: center !important; padding: 0 !important; }
-  .image-presentation { height: 5.5cm !important; width: 8.5cm !important; margin-bottom: 0.8cm !important; }
-  .customer-display { font-size: 2.2rem !important; }
-  .elegant-message { font-size: 1.1rem !important; line-height: 1.6 !important; }
-
-  .supreme-footer {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-end !important;
-    border-top: 1.5px solid #e2e8f0 !important;
-    padding-top: 0.8cm !important;
-    background: white !important;
-  }
-  
-  .contact-details { gap: 0.5cm !important; }
-  .contact-row { display: flex !important; flex-direction: row !important; gap: 1cm !important; }
-  .c-value { font-size: 0.85rem !important; }
 }

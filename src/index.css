@@ -84,7 +84,17 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-* {
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -95,6 +105,7 @@ img, video, iframe, canvas {
   height: auto;
   display: block;
 }
+
 
 .container-custom {
   max-width: 1400px;

@@ -203,9 +203,23 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
             <span>Mostrar Etiqueta de Oferta</span>
           </label>
         </div>
+
+        <div className="formGroup checkboxGroup">
+          <label className="checkboxLabel">
+            <input 
+              type="checkbox" 
+              name="es_kit" 
+              checked={Boolean(product.es_kit)} 
+              onChange={onInputChange} 
+            />
+            <Package size={18} className={product.es_kit ? 'text-blue' : ''} />
+            <span>Es un Kit / Combo Industrial</span>
+          </label>
+        </div>
       </div>
 
       <style>{`
+        .text-blue { color: #0066ff; }
         .formGroup label { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 8px; }
         .text-yellow { color: #f59e0b; fill: #f59e0b; }
         .text-green { color: #10b981; }

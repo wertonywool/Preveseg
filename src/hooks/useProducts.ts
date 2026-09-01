@@ -13,6 +13,7 @@ export interface Product {
   imagenes: string[];
   youtube_url: string;
   en_oferta: boolean;
+  es_kit?: boolean;
   destacado?: boolean;
   visible?: boolean;
   variantes?: any[];
