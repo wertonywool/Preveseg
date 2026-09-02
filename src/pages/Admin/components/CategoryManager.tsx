@@ -93,7 +93,7 @@ const CategoryManager = ({
             <label>Nombre de Categoría</label>
             <input 
               type="text" 
-              placeholder="Ej. Accesorios Gaming" 
+              placeholder="Ej. Extintores y Gabinetes" 
               value={newCatName} 
               onChange={(e) => setNewCatName(e.target.value)}
             />
@@ -201,58 +201,58 @@ const CategoryManager = ({
       <style>{`
         .categoryManagerContainer { display: flex; flex-direction: column; gap: 2rem; }
         
-        .catHeaderForm { background: rgba(255,255,255,0.02); padding: 2rem; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
-        .formTitle { font-size: 1rem; margin-bottom: 1.5rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .catHeaderForm { background: #f8fafc; padding: 2rem; border-radius: 18px; border: 1px solid #e2e8f0; }
+        .formTitle { font-size: 0.95rem; margin-bottom: 1.5rem; color: #0f172a; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
         
         .catInputGrid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 20px; align-items: flex-end; }
-        .catInputWrapper { display: flex; flex-direction: column; gap: 10px; }
-        .catInputWrapper label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
-        .catInputWrapper input { background: #0f172a; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 16px; color: white; transition: all 0.2s; }
-        .catInputWrapper input:focus { outline: none; border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.1); }
+        .catInputWrapper { display: flex; flex-direction: column; gap: 8px; }
+        .catInputWrapper label { font-size: 0.78rem; font-weight: 800; color: #334155; text-transform: uppercase; }
+        .catInputWrapper input { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 11px 16px; color: #0f172a; font-size: 0.92rem; font-family: inherit; transition: all 0.2s; }
+        .catInputWrapper input:focus { outline: none; border-color: #ee1b24; box-shadow: 0 0 0 3px rgba(238, 27, 36, 0.1); }
         
-        .uploadTrigger { height: 48px; background: #0f172a; border: 1.5px dashed rgba(255,255,255,0.1); border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.2s; }
-        .uploadTrigger:hover { border-color: var(--tech-blue); background: rgba(0, 174, 239, 0.05); }
+        .uploadTrigger { height: 44px; background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.2s; }
+        .uploadTrigger:hover { border-color: #ee1b24; background: #fff5f5; }
         
-        .placeholderTrigger { display: flex; align-items: center; gap: 10px; color: #64748b; font-size: 0.85rem; font-weight: 600; }
+        .placeholderTrigger { display: flex; align-items: center; gap: 8px; color: #64748b; font-size: 0.85rem; font-weight: 700; }
         .previewContainer { width: 100%; height: 100%; position: relative; }
         .previewContainer img { width: 100%; height: 100%; object-fit: cover; }
         .changeOverlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; color: white; }
         .previewContainer:hover .changeOverlay { opacity: 1; }
         
-        .catAddBtn { background: var(--tech-blue); color: white; border: none; border-radius: 14px; padding: 0 30px; font-weight: 800; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; height: 48px; box-shadow: 0 10px 20px -5px rgba(0, 174, 239, 0.3); }
-        .catAddBtn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -8px rgba(0, 174, 239, 0.4); }
+        .catAddBtn { background: #ee1b24; color: white; border: none; border-radius: 10px; padding: 0 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; height: 44px; box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35); font-size: 0.9rem; }
+        .catAddBtn:hover { background: #dc141d; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(238, 27, 36, 0.45); }
         .catAddBtn:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
         
-        .catList { display: flex; flex-direction: column; gap: 12px; }
-        .catRow { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.04); transition: all 0.2s; }
-        .catRow:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); }
+        .catList { display: flex; flex-direction: column; gap: 10px; }
+        .catRow { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 14px 20px; border-radius: 14px; border: 1px solid #e2e8f0; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .catRow:hover { border-color: #ee1b24; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.05); }
         .catRow.is-hidden { opacity: 0.5; }
         
         .catMainInfo { display: flex; align-items: center; gap: 15px; }
-        .catPreviewThumb { width: 50px; height: 50px; background: #0f172a; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; color: #475569; border: 1px solid rgba(255,255,255,0.05); }
+        .catPreviewThumb { width: 48px; height: 48px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; color: #64748b; border: 1px solid #e2e8f0; }
         .catPreviewThumb img { width: 100%; height: 100%; object-fit: cover; }
         
         .catTextInfo { display: flex; flex-direction: column; gap: 2px; }
-        .catLabel { font-weight: 700; color: #f1f5f9; font-size: 1rem; }
-        .catStatus { font-size: 0.65rem; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 2px 8px; border-radius: 6px; font-weight: 800; width: fit-content; text-transform: uppercase; }
+        .catLabel { font-weight: 800; color: #0f172a; font-size: 0.96rem; }
+        .catStatus { font-size: 0.65rem; background: rgba(238, 27, 36, 0.1); color: #ee1b24; padding: 2px 8px; border-radius: 6px; font-weight: 800; width: fit-content; text-transform: uppercase; }
         
         .catRowActions { display: flex; gap: 8px; }
-        .catBtn { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: #94a3b8; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-        .catBtn:hover { background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.2); }
-        .catBtn.delete:hover { color: #ef4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
+        .catBtn { background: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .catBtn:hover { background: #ffffff; color: #0f172a; border-color: #cbd5e1; }
+        .catBtn.delete:hover { color: #ee1b24; background: #fff5f5; border-color: rgba(238, 27, 36, 0.3); }
         
         .catEditFullWrapper { display: flex; flex: 1; gap: 20px; align-items: center; }
         .catEditVisual { flex-shrink: 0; }
-        .editUploadTrigger { width: 60px; height: 60px; border-radius: 14px; position: relative; overflow: hidden; cursor: pointer; border: 2px solid var(--tech-blue); }
+        .editUploadTrigger { width: 56px; height: 56px; border-radius: 10px; position: relative; overflow: hidden; cursor: pointer; border: 2px solid #ee1b24; }
         .editUploadTrigger img { width: 100%; height: 100%; object-fit: cover; }
         .editOverlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; color: white; }
         .editUploadTrigger:hover .editOverlay { opacity: 1; }
         
         .catEditContent { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .catEditInput { background: #0f172a; border: 1px solid var(--tech-blue); border-radius: 10px; padding: 10px 14px; color: white; font-size: 0.95rem; font-weight: 600; width: 100%; }
+        .catEditInput { background: #ffffff; border: 1.5px solid #ee1b24; border-radius: 10px; padding: 10px 14px; color: #0f172a; font-size: 0.95rem; font-weight: 600; width: 100%; }
         .catEditActions { display: flex; gap: 10px; }
         .catEditActions .catBtn { width: auto; padding: 0 15px; font-size: 0.85rem; font-weight: 700; gap: 8px; }
-        .catEditActions .catBtn.check { background: var(--tech-blue); color: white; border: none; }
+        .catEditActions .catBtn.check { background: #ee1b24; color: white; border: none; }
         
         @media (max-width: 768px) {
           .catInputGrid { grid-template-columns: 1fr; gap: 15px; }
@@ -260,7 +260,7 @@ const CategoryManager = ({
           .catEditFullWrapper { flex-direction: column; align-items: stretch; }
           .catEditVisual { display: flex; justify-content: center; }
         }
-      `}</style>
+`}</style>
     </div>
   );
 };

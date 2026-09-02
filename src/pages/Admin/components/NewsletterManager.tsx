@@ -110,7 +110,7 @@ const NewsletterManager = () => {
               <label>Asunto del correo</label>
               <input 
                 type="text" 
-                placeholder="Ej: ¡Nuevos Gadgets Disponibles!" 
+                placeholder="Ej: ¡Actualización Normativa NTC 2885 - Extintores Cali!" 
                 value={message.subject}
                 onChange={e => setMessage({ ...message, subject: e.target.value })}
                 required
@@ -197,42 +197,42 @@ const NewsletterManager = () => {
         .nmGrid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem; }
         
         .nmSection { 
-          background: #070b14; 
+          background: #f8fafc; 
           border-radius: 18px; 
-          padding: 1.5rem; 
-          border: 1px solid rgba(255,255,255,0.08); 
+          padding: 1.75rem; 
+          border: 1px solid #e2e8f0; 
           display: flex; 
           flex-direction: column; 
           gap: 1.25rem;
         }
 
         .sectionHeader { display: flex; align-items: center; gap: 14px; }
-        .headerIcon { color: #60a5fa; }
-        .sectionHeader h3 { font-size: 1.15rem; color: white; margin: 0; font-weight: 800; }
-        .sectionHeader p { font-size: 0.82rem; color: #94a3b8; margin: 2px 0 0 0; }
+        .headerIcon { color: #ee1b24; }
+        .sectionHeader h3 { font-size: 1.15rem; color: #0f172a; margin: 0; font-weight: 800; }
+        .sectionHeader p { font-size: 0.82rem; color: #64748b; margin: 2px 0 0 0; }
 
         .nmForm { display: flex; flex-direction: column; gap: 1.25rem; }
         .formGroup { display: flex; flex-direction: column; gap: 6px; }
-        .formGroup label { font-size: 0.88rem; color: #cbd5e1; font-weight: 700; }
+        .formGroup label { font-size: 0.84rem; color: #334155; font-weight: 700; }
         .formGroup input, .formGroup textarea {
-          background: #0d1527;
-          border: 1.5px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
+          background: #ffffff;
+          border: 1.5px solid #cbd5e1;
+          border-radius: 10px;
           padding: 12px 15px;
-          color: white;
+          color: #0f172a;
           outline: none;
-          font-size: 0.95rem;
+          font-size: 0.92rem;
           font-family: inherit;
-          transition: border-color 0.25s;
+          transition: border-color 0.2s;
         }
-        .formGroup input:focus, .formGroup textarea:focus { border-color: #0066ff; }
+        .formGroup input:focus, .formGroup textarea:focus { border-color: #ee1b24; box-shadow: 0 0 0 3px rgba(238, 27, 36, 0.1); }
 
         .sendBtn {
-          background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%);
+          background: #ee1b24;
           color: white;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
-          padding: 14px;
+          border: none;
+          border-radius: 10px;
+          padding: 13px;
           font-weight: 800;
           font-size: 0.92rem;
           display: flex;
@@ -240,47 +240,47 @@ const NewsletterManager = () => {
           justify-content: center;
           gap: 8px;
           cursor: pointer;
-          transition: all 0.25s;
-          box-shadow: 0 4px 15px rgba(0, 102, 255, 0.35);
+          transition: all 0.2s;
+          box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35);
         }
-        .sendBtn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 102, 255, 0.5); }
+        .sendBtn:hover:not(:disabled) { background: #dc141d; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(238, 27, 36, 0.45); }
         .sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .nmSearch {
           display: flex;
           align-items: center;
           gap: 10px;
-          background: #0d1527;
-          border-radius: 12px;
+          background: #ffffff;
+          border-radius: 10px;
           padding: 10px 14px;
-          border: 1.5px solid rgba(255,255,255,0.08);
+          border: 1.5px solid #cbd5e1;
         }
-        .nmSearch input { background: none; border: none; color: white; outline: none; width: 100%; font-size: 0.9rem; }
+        .nmSearch input { background: none; border: none; color: #0f172a; outline: none; width: 100%; font-size: 0.9rem; }
         .nmSearch svg { color: #64748b; }
 
         .subList { display: flex; flex-direction: column; gap: 8px; max-height: 450px; overflow-y: auto; padding-right: 4px; }
         .subList::-webkit-scrollbar { width: 5px; }
-        .subList::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .subList::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
         .subItem {
-          background: #0d1527;
-          border-radius: 12px;
+          background: #ffffff;
+          border-radius: 10px;
           padding: 10px 14px;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border: 1px solid rgba(255,255,255,0.06);
+          border: 1px solid #e2e8f0;
         }
         .subInfo { display: flex; flex-direction: column; }
-        .subEmail { color: white; font-size: 0.88rem; font-weight: 700; }
+        .subEmail { color: #0f172a; font-size: 0.88rem; font-weight: 700; }
         .subDate { color: #64748b; font-size: 0.72rem; }
 
-        .deleteSubBtn { background: rgba(238, 27, 36, 0.1); border: 1px solid rgba(238, 27, 36, 0.2); color: #ff6b6b; cursor: pointer; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .deleteSubBtn { background: rgba(238, 27, 36, 0.08); border: 1px solid rgba(238, 27, 36, 0.2); color: #ee1b24; cursor: pointer; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .deleteSubBtn:hover { background: #ee1b24; color: white; }
 
-        .statusBanner { padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 700; }
-        .statusBanner.success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.25); }
-        .statusBanner.error { background: rgba(238, 27, 36, 0.15); color: #ff6b6b; border: 1px solid rgba(238, 27, 36, 0.25); }
+        .statusBanner { padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 700; }
+        .statusBanner.success { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.25); }
+        .statusBanner.error { background: rgba(238, 27, 36, 0.1); color: #ee1b24; border: 1px solid rgba(238, 27, 36, 0.25); }
 
         .nmLoading, .emptyList { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1rem; color: #64748b; gap: 10px; }
         .emptyHint { text-align: center; color: #64748b; font-size: 0.85rem; }
@@ -288,7 +288,7 @@ const NewsletterManager = () => {
         @media (max-width: 1024px) {
           .nmGrid { grid-template-columns: 1fr; }
         }
-      `}</style>
+`}</style>
     </div>
   );
 };

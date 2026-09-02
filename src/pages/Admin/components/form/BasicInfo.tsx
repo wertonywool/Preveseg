@@ -45,7 +45,7 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
             value={product.nombre} 
             onChange={onInputChange} 
             required 
-            placeholder="Ej: iPhone 15 Pro Max 256GB Titanium" 
+            placeholder="Ej: Extintor Multipropósito ABC 10 lbs (PQS)" 
           />
         </div>
 
@@ -57,7 +57,7 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
             onChange={onInputChange} 
             required 
             rows={4} 
-            placeholder="Describe las características principales, beneficios y qué incluye la caja..." 
+            placeholder="Describe las especificaciones técnicas del equipo, capacidad, normas que cumple y recomendaciones de uso..." 
           />
         </div>
 
@@ -68,7 +68,7 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
             <input 
               value={newFeature} 
               onChange={(e) => setNewFeature(e.target.value)}
-              placeholder="Ej: Batería de larga duración (48h)"
+              placeholder="Ej: Manómetro de alta precisión certificado NTC 2885"
               onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddFeature())}
             />
             <button type="button" onClick={handleAddFeature} className="addListItemBtn">
@@ -94,7 +94,7 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
             <input 
               value={newInclude} 
               onChange={(e) => setNewInclude(e.target.value)}
-              placeholder="Ej: Cable de carga USB-C"
+              placeholder="Ej: Soporte de pared, manguera y pasador de seguridad"
               onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddInclude())}
             />
             <button type="button" onClick={handleAddInclude} className="addListItemBtn">
@@ -219,40 +219,40 @@ const BasicInfo = ({ product, categories, onInputChange, onCategoryToggle, onLis
       </div>
 
       <style>{`
-        .text-blue { color: #0066ff; }
-        .formGroup label { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #cbd5e1; font-size: 0.9rem; margin-bottom: 8px; }
+        .text-blue { color: #ee1b24; }
+        .formGroup label { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #334155; font-size: 0.88rem; margin-bottom: 8px; }
         .text-yellow { color: #f59e0b; fill: #f59e0b; }
         .text-green { color: #10b981; }
         .inputWithIcon { position: relative; }
         .sectionHeader { margin-bottom: 1.75rem; }
-        .headerText h3 { margin: 0; color: white; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; }
-        .headerText p { margin: 4px 0 0 0; color: #94a3b8; font-size: 0.88rem; }
+        .headerText h3 { margin: 0; color: #0f172a; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; }
+        .headerText p { margin: 4px 0 0 0; color: #64748b; font-size: 0.88rem; }
 
         .categorySelectionGrid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .categoryPill { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 12px; background: #070b14; border: 1.5px solid rgba(255,255,255,0.08); color: #94a3b8; font-weight: 700; font-size: 0.86rem; cursor: pointer; transition: all 0.2s; position: relative; }
-        .categoryPill:hover { background: rgba(255,255,255,0.04); color: white; border-color: rgba(255,255,255,0.15); }
-        .categoryPill.active { background: rgba(0, 102, 255, 0.12); color: white; border-color: rgba(0, 102, 255, 0.35); }
-        .categoryPill.primary-cat { background: linear-gradient(135deg, rgba(0, 102, 255, 0.2) 0%, rgba(238, 27, 36, 0.15) 100%); color: #ffffff; border-color: #0066ff; box-shadow: 0 4px 15px rgba(0, 102, 255, 0.25); }
+        .categoryPill { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 10px; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #334155; font-weight: 700; font-size: 0.86rem; cursor: pointer; transition: all 0.2s; position: relative; }
+        .categoryPill:hover { background: #ffffff; color: #ee1b24; border-color: #ee1b24; }
+        .categoryPill.active { background: rgba(238, 27, 36, 0.08); color: #ee1b24; border-color: #ee1b24; }
+        .categoryPill.primary-cat { background: #ee1b24; color: #ffffff; border-color: #ee1b24; box-shadow: 0 4px 12px rgba(238, 27, 36, 0.3); }
 
-        .cat-badge { font-size: 0.62rem; font-weight: 900; text-transform: uppercase; background: linear-gradient(135deg, #0066ff 0%, #ee1b24 100%); color: white; padding: 3px 8px; border-radius: 6px; margin-left: 4px; letter-spacing: 0.05em; }
+        .cat-badge { font-size: 0.62rem; font-weight: 900; text-transform: uppercase; background: #ffffff; color: #ee1b24; padding: 2px 6px; border-radius: 4px; margin-left: 4px; letter-spacing: 0.05em; }
         .field-hint { font-size: 0.76rem; color: #64748b; margin-top: 8px; }
 
         .listInputGroup { display: flex; gap: 10px; margin-top: 8px; }
         .listInputGroup input { flex: 1; }
-        .addListItemBtn { background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%); color: white; border: 1px solid rgba(255,255,255,0.15); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
-        .addListItemBtn:hover { transform: scale(1.05); }
+        .addListItemBtn { background: #ee1b24; color: white; border: none; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; box-shadow: 0 4px 12px rgba(238, 27, 36, 0.35); }
+        .addListItemBtn:hover { background: #dc141d; transform: scale(1.05); }
         
         .listItemsDisplay { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
-        .listItem { display: flex; justify-content: space-between; align-items: center; background: #070b14; padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
-        .listItem span { font-size: 0.9rem; color: #cbd5e1; font-weight: 600; }
-        .listItem button { background: rgba(238, 27, 36, 0.1); border: 1px solid rgba(238, 27, 36, 0.2); color: #ff6b6b; cursor: pointer; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .listItem { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 16px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .listItem span { font-size: 0.88rem; color: #0f172a; font-weight: 600; }
+        .listItem button { background: rgba(238, 27, 36, 0.08); border: 1px solid rgba(238, 27, 36, 0.2); color: #ee1b24; cursor: pointer; width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .listItem button:hover { background: #ee1b24; color: white; }
 
         @media (max-width: 640px) {
-          .categoryPill { padding: 9px 12px; font-size: 0.8rem; }
+          .categoryPill { padding: 8px 12px; font-size: 0.8rem; }
           .listItem { padding: 8px 12px; }
         }
-      `}</style>
+`}</style>
     </div>
   );
 };
