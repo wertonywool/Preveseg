@@ -427,3 +427,56 @@
     height: 36px !important;
   }
 }
+
+
+/* MOBILE HEADER BUTTONS (WHATSAPP & CATALOG) */
+.mobileHeaderActionBtn {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobileHeaderActionBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .mobileHeaderActionBtn.wa {
+    background: rgba(37, 211, 102, 0.14);
+    border: 1px solid rgba(37, 211, 102, 0.35);
+    color: #25D366;
+  }
+
+  .mobileHeaderActionBtn.wa:hover {
+    background: #25D366;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  }
+
+  .mobileHeaderActionBtn.catalog {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+  }
+
+  .mobileHeaderActionBtn.catalog:hover,
+  .mobileHeaderActionBtn.catalog.active {
+    background: rgba(238, 27, 36, 0.12);
+    border-color: #ee1b24;
+    color: #ee1b24;
+  }
+
+  .navActions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+}

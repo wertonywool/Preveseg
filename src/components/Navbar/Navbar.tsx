@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown, Menu } from 'lucide-react';
+import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown, Menu, Grid } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../Cart/Cart';
 import PrevesegLogo from './PrevesegLogo';
@@ -124,6 +124,29 @@ const Navbar = () => {
               <span className="locBtnLabel">Cali</span>
             </button>
             
+                        {/* MOBILE ONLY: WHATSAPP BUTTON */}
+            <a 
+              href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20o%20cotizaci%C3%B3n." 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="mobileHeaderActionBtn wa"
+              title="WhatsApp Preveseg"
+              aria-label="Contactar por WhatsApp"
+            >
+              <MessageCircle size={18} />
+            </a>
+
+            {/* MOBILE ONLY: CATALOG BUTTON */}
+            <Link 
+              to="/productos" 
+              className={`mobileHeaderActionBtn catalog ${location.pathname.startsWith('/producto') ? 'active' : ''}`}
+              title="Ver Catálogo de Productos"
+              aria-label="Ver Catálogo"
+              onClick={closeMobileMenu}
+            >
+              <Grid size={18} />
+            </Link>
+
             {/* QUOTATION LIST CART BUTTON */}
             <button 
               className="cartBtn" 
