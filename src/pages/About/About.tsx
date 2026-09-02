@@ -1,167 +1,434 @@
-import { ShieldCheck, Award, Users, CheckCircle2, Flame, MapPin, ArrowRight, Phone } from 'lucide-react';
+import { useState } from 'react';
+import { 
+  ShieldCheck, 
+  Award, 
+  Users, 
+  CheckCircle2, 
+  MapPin, 
+  ArrowRight, 
+  Phone, 
+  Building2, 
+  Factory, 
+  Truck, 
+  FileCheck2, 
+  HeartHandshake, 
+  Clock, 
+  ChevronDown, 
+  Sparkles, 
+  Zap, 
+  HardHat, 
+  Compass 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroProductsImg from '../../assets/hero-products.jpg';
 import './About.css';
 
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+const faqs: FaqItem[] = [
+  {
+    q: '¿Cada cuánto tiempo se debe recargar un extintor en Colombia?',
+    a: 'De acuerdo con la norma técnica NTC 2885 y las directrices de los Cuerpos de Bomberos en Colombia, los extintores deben someterse a inspección y recarga obligatoria una vez al año (cada 12 meses), incluso si no han sido percutados o descargados, para garantizar la presurización y calidad del agente químico.'
+  },
+  {
+    q: '¿Preveseg entrega certificado válido para el SG-SST y Bomberos?',
+    a: 'Sí, absolutamente. Con cada servicio de venta, recarga o mantenimiento emitimos el Certificado Oficial de Inspección y Recarga con fecha de ejecución, vigencia, número de collarín reglamentario y registro técnico, 100% válido ante inspecciones de la Secretaría de Salud, Bomberos Cali y auditores de SG-SST.'
+  },
+  {
+    q: '¿Prestan extintores de respaldo mientras se realiza la recarga de nuestros equipos?',
+    a: 'Sí. Ofrecemos servicio de extintores de respaldo temporal para que las instalaciones de tu empresa, obra o comercio nunca queden desprotegidas durante el tiempo que toma el proceso técnico en nuestro taller.'
+  },
+  {
+    q: '¿Realizan visitas de inspección técnica en empresas de Cali y alrededores?',
+    a: 'Sí. Nuestro equipo técnico visita tus instalaciones en Cali, Yumbo, Jamundí y Palmira para realizar el levantamiento de carga de fuego, verificar alturas reglamentarias, señalización y estado de gabinetes sin compromiso comercial.'
+  },
+  {
+    q: '¿Qué garantía tienen los productos y recargas suministrados por Preveseg?',
+    a: 'Todos los extintores nuevos cuentan con garantía directa de fábrica. Las recargas cuentan con 1 año de garantía en sellos, manómetros y presurización, respaldadas por repuestos y collarines originales.'
+  }
+];
+
 const About = () => {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
-    <div className="aboutPage page-transition">
-      {/* HEADER HERO */}
-      <section className="aboutHero">
+    <div className="aboutPageUnified page-transition">
+      {/* =========================================================================
+          1. HERO EXPANSIVO CORPORATIVO
+         ========================================================================= */}
+      <section className="aboutHeroUnified">
         <div className="container">
-          <div className="aboutHeroContent">
-            <span className="pageTagRed">— PREVESEG CALI</span>
-            <h1>Seguridad & Protección que <span className="textRed">Salva Vidas</span></h1>
-            <p className="heroLead">
-              Somos una empresa colombiana especializada en la venta, distribución y mantenimiento de equipos contra incendio y seguridad industrial. Atendemos a empresas, industrias, instituciones y obras en Cali y a nivel nacional.
-            </p>
-            <div className="aboutHeroActions">
-              <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20quisiera%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20empresariales." 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btnRedPill"
-              >
-                <Phone size={18} /> Asesoría Directa WhatsApp
-              </a>
-              <Link to="/contacto" className="btnOutlinePill">
-                Visitar Sede en Cali <ArrowRight size={16} />
-              </Link>
+          <div className="aboutHeroGrid">
+            <div className="aboutHeroText">
+              <div className="aboutHeroBadge">
+                <span className="badgeDotPulse"></span>
+                <span>EMPRESA LÍDER EN SEGURIDAD INDUSTRIAL Y EXTINTORES</span>
+              </div>
+              
+              <h1>
+                Más que equipos, <br />
+                <span className="textRedGlow">Protegemos Vidas</span> e Instalaciones
+              </h1>
+
+              <p className="heroLeadText">
+                En <strong>PREVESEG</strong> somos especialistas en la venta, mantenimiento certificado y recarga de equipos contra incendio, seguridad industrial, dotaciones EPP y rescate. Con sede principal en Cali, brindamos respaldo normativo y tranquilidad a más de 500 empresas de la región.
+              </p>
+
+              <div className="aboutHeroChips">
+                <div className="heroChip"><MapPin size={15} className="chipIconRed" /> Cra 28D 72f-79, Cali</div>
+                <div className="heroChip"><Award size={15} className="chipIconRed" /> +10 Años de Experiencia</div>
+                <div className="heroChip"><ShieldCheck size={15} className="chipIconRed" /> Normas NTC 2885 & NFPA 10</div>
+              </div>
+
+              <div className="aboutHeroActions">
+                <a 
+                  href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20corporativa%20para%20mi%20empresa." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btnRedPillSolid"
+                >
+                  <Phone size={17} /> Hablar con un Asesor Técnico
+                </a>
+                <Link to="/servicios" className="btnOutlinePillGlass">
+                  Conocer Servicios <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+
+            <div className="aboutHeroVisual">
+              <div className="aboutImageCard">
+                <img src={heroProductsImg} alt="Equipos de seguridad Preveseg" className="aboutHeroImg" />
+                <div className="aboutImgOverlayCard">
+                  <div className="overlayBadge">
+                    <CheckCircle2 size={18} className="textRed" />
+                    <div>
+                      <strong>Taller Autorizado en Cali</strong>
+                      <span>Inspección, recargas y pruebas hidrostáticas</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* STATS BAR */}
-      <section className="aboutStatsBar">
+      {/* =========================================================================
+          2. MÉTRICAS CLAVE / STATS BAR
+         ========================================================================= */}
+      <section className="aboutMetricsSection">
         <div className="container">
-          <div className="statsGrid">
-            <div className="statBox">
-              <span className="statNumber">+10</span>
-              <span className="statTitle">Años de Experiencia</span>
-              <p>Trayectoria continua en el sector de seguridad y protección industrial.</p>
+          <div className="metricsGrid">
+            <div className="metricCard">
+              <span className="metricNum">+10</span>
+              <span className="metricTitle">Años de Trayectoria</span>
+              <p>Experiencia sólida y continuada en el sector de protección contra incendios.</p>
             </div>
-            <div className="statBox">
-              <span className="statNumber">100%</span>
-              <span className="statTitle">Equipos Certificados</span>
-              <p>Cumplimiento estricto con las normas NTC 2885, NFPA 10 y RETIE.</p>
+            <div className="metricCard">
+              <span className="metricNum">100%</span>
+              <span className="metricTitle">Certificación Oficial</span>
+              <p>Equipos y procesos que cumplen con la reglamentación técnica de Bomberos y SG-SST.</p>
             </div>
-            <div className="statBox">
-              <span className="statNumber">Cali</span>
-              <span className="statTitle">Sede Principal</span>
-              <p>Punto de distribución y taller técnico en Cra 28D 72f-79.</p>
+            <div className="metricCard">
+              <span className="metricNum">+500</span>
+              <span className="metricTitle">Empresas Protegidas</span>
+              <p>Atención a industrias, obras civiles, centros de salud, comercios e instituciones.</p>
             </div>
-            <div className="statBox">
-              <span className="statNumber">24/7</span>
-              <span className="statTitle">Soporte y Asesoría</span>
-              <p>Respuesta ágil a cotizaciones y emergencias operativas.</p>
+            <div className="metricCard">
+              <span className="metricNum">24/48h</span>
+              <span className="metricTitle">Tiempo de Entrega</span>
+              <p>Despachos ágiles en Cali y cobertura con extintores de préstamo temporal.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MISIÓN & VISIÓN */}
+      {/* =========================================================================
+          3. NUESTRA HISTORIA & EVOLUCIÓN
+         ========================================================================= */}
+      <section className="aboutStorySection">
+        <div className="container">
+          <div className="storyContainer">
+            <div className="storyHeader center">
+              <span className="sectionPreTitle">— TRAYECTORIA Y COMPROMISO</span>
+              <h2>Nuestra Evolución <span className="textRed">en Cali</span></h2>
+              <p className="storyIntro">
+                Nacimos con la convicción de que la seguridad contra incendios no debe ser un simple trámite, sino una garantía real de protección para el patrimonio y la vida de las personas.
+              </p>
+              <div className="headerDivider"></div>
+            </div>
+
+            <div className="timelineGrid">
+              <div className="timelineItem">
+                <div className="timelineYear">2014</div>
+                <div className="timelineContent">
+                  <h4>Fundación y Primer Taller Técnico</h4>
+                  <p>Iniciamos operaciones en Cali con servicio especializado en recarga y mantenimiento de extintores de Polvo Químico Seco (PQS) y CO₂ para el sector comercial.</p>
+                </div>
+              </div>
+
+              <div className="timelineItem">
+                <div className="timelineYear">2018</div>
+                <div className="timelineContent">
+                  <h4>Expansión a Seguridad Industrial</h4>
+                  <p>Ampliamos nuestro catálogo a camillas rígidas de inmovilización, botiquines reglamentarios tipo trauma, señalización fotoluminiscente y elementos de protección personal (EPP).</p>
+                </div>
+              </div>
+
+              <div className="timelineItem">
+                <div className="timelineYear">2021</div>
+                <div className="timelineContent">
+                  <h4>Laboratorio de Pruebas Hidrostáticas</h4>
+                  <p>Implementamos banco de pruebas hidrostáticas de alta y baja presión y tolva neumática de llenado automatizado para garantizar agentes extintores libres de humedad.</p>
+                </div>
+              </div>
+
+              <div className="timelineItem">
+                <div className="timelineYear">HOY</div>
+                <div className="timelineContent">
+                  <h4>Aliado Estratégico Integral</h4>
+                  <p>Consolidados como referente en Cali y el Valle del Cauca, capacitando brigadas y abasteciendo a industrias con asesoría normativa continua.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          4. MISIÓN, VISIÓN Y PILARES ESTRATÉGICOS
+         ========================================================================= */}
       <section className="missionVisionSection">
         <div className="container">
-          <div className="mvGrid">
-            <div className="mvCard">
-              <div className="mvIconBadge"><ShieldCheck size={28} /></div>
-              <h2>Nuestra Misión</h2>
+          <div className="mvGridUnified">
+            <div className="mvCardUnified">
+              <div className="mvIconBadge"><Compass size={28} /></div>
+              <h3>Nuestra Misión</h3>
               <p>
-                Proveer a las empresas, instituciones y hogares equipos de protección contra incendio y seguridad industrial de la más alta calidad técnica y normativa. Garantizamos la tranquilidad de nuestros clientes mediante recargas certificadas, mantenimiento preventivo continuo y asesoría experta.
+                Proveer a las empresas, industrias, instituciones y hogares equipos de protección contra incendio y seguridad industrial con los más altos estándares técnicos y de calidad. Aseguramos la continuidad operativa de nuestros clientes mediante recargas certificadas, mantenimiento preventivo y formación técnica de brigadas.
               </p>
+              <div className="mvHighlight">
+                <CheckCircle2 size={16} className="textRed" />
+                <span>Salvar vidas y resguardar bienes materiales es nuestro objetivo primordial.</span>
+              </div>
             </div>
 
-            <div className="mvCard">
-              <div className="mvIconBadge"><Award size={28} /></div>
-              <h2>Nuestra Visión</h2>
+            <div className="mvCardUnified">
+              <div className="mvIconBadge"><Sparkles size={28} /></div>
+              <h3>Nuestra Visión</h3>
               <p>
-                Consolidarnos como el referente líder en seguridad industrial y protección contra incendios en el suroccidente colombiano, reconocidos por nuestra excelencia técnica, agilidad en despachos y compromiso inquebrantable con la preservación de la vida humana e instalaciones.
+                Ser reconocidos como la empresa líder y más confiable en soluciones integrales de seguridad industrial y prevención contra incendios en el suroccidente colombiano, destacándonos por la rigurosidad técnica de nuestro taller, la innovación en servicios y la cercanía humana con cada cliente.
               </p>
+              <div className="mvHighlight">
+                <CheckCircle2 size={16} className="textRed" />
+                <span>Consolidar alianzas a largo plazo fundamentadas en transparencia y cumplimiento.</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* VALORES Y PILARES */}
-      <section className="pillarsSection">
+      {/* =========================================================================
+          5. VALORES CORPORATIVOS
+         ========================================================================= */}
+      <section className="aboutValuesSection">
         <div className="container">
-          <div className="sectionHeader center">
-            <span className="pageTagRed">— POR QUÉ ELEGIRNOS</span>
-            <h2>Pilares que Respaldan <span className="textRed">Nuestro Servicio</span></h2>
+          <div className="sectionHeaderUnified center">
+            <span className="sectionPreTitle">— CÓDIGO DE TRABAJO</span>
+            <h2>Nuestros Valores <span className="textRed">Fundamentales</span></h2>
             <div className="headerDivider"></div>
           </div>
 
-          <div className="pillarsGrid">
-            <div className="pillarItem">
-              <div className="pillarIcon"><CheckCircle2 size={24} /></div>
-              <h3>Cumplimiento Normativo</h3>
-              <p>Todos nuestros equipos y procesos de recarga cumplen estrictamente con la normativa nacional e internacional vigente (NFPA 10, NTS 2885, ISO 9001).</p>
+          <div className="valuesFourGrid">
+            <div className="valueBox">
+              <div className="valueBoxIcon"><ShieldCheck size={24} /></div>
+              <h4>Rigor Técnico & Normativo</h4>
+              <p>No improvisamos. Cada proceso de recarga, desarme y prueba hidrostática se rige fielmente por las normas NFPA 10 y NTC 2885.</p>
             </div>
 
-            <div className="pillarItem">
-              <div className="pillarIcon"><Flame size={24} /></div>
-              <h3>Garantía & Seguridad</h3>
-              <p>Pruebas hidrostáticas, sellos de seguridad originales, pasadores intactos y codificación por colores para una trazabilidad perfecta de cada cilindro.</p>
+            <div className="valueBox">
+              <div className="valueBoxIcon"><HeartHandshake size={24} /></div>
+              <h4>Transparencia y Trazabilidad</h4>
+              <p>Sellos de seguridad originales con fecha grabada, anillo de verificación del año en curso y collarín inviolable en cada cilindro entregado.</p>
             </div>
 
-            <div className="pillarItem">
-              <div className="pillarIcon"><Users size={24} /></div>
-              <h3>Asesoría Especializada</h3>
-              <p>Capacitamos a tu equipo en el uso adecuado de extintores, primeros auxilios y brigadas de emergencia para responder efectivamente a cualquier contingencia.</p>
+            <div className="valueBox">
+              <div className="valueBoxIcon"><Zap size={24} /></div>
+              <h4>Agilidad y Compromiso</h4>
+              <p>Sabemos que un extintor vencido representa riesgos y posibles sanciones. Atendemos con velocidad récord y extintores de préstamo.</p>
             </div>
 
-            <div className="pillarItem">
-              <div className="pillarIcon"><MapPin size={24} /></div>
-              <h3>Cobertura y Puntualidad</h3>
-              <p>Atención directa en Cali, Yumbo, Jamundí, Palmira y envíos a todo el territorio nacional con tiempos de entrega récord.</p>
+            <div className="valueBox">
+              <div className="valueBoxIcon"><Users size={24} /></div>
+              <h4>Vocación de Servicio</h4>
+              <p>Te acompañamos paso a paso para que entiendas la normativa de tu sector y tomes las mejores decisiones de seguridad costo-beneficio.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* COMPOSICIÓN VISUAL / EQUIPO */}
-      <section className="aboutVisualSection">
+      {/* =========================================================================
+          6. SECTORES QUE PROTEGEMOS
+         ========================================================================= */}
+      <section className="sectorsSection">
         <div className="container">
-          <div className="visualBannerCard">
-            <div className="visualBannerText">
-              <h2>Equipamiento Integral para la <span className="textRed">Protección de tu Empresa</span></h2>
+          <div className="sectionHeaderUnified">
+            <div>
+              <span className="sectionPreTitle">— COBERTURA SECTORIAL</span>
+              <h2>Soluciones a Medida para <span className="textRed">Cada Sector</span></h2>
+            </div>
+            <Link to="/productos" className="sectionLinkAction">
+              Ver equipos por sector <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <div className="sectorsGrid">
+            <div className="sectorCard">
+              <div className="sectorIconBox"><Factory size={26} /></div>
+              <h4>Industria & Manufactura</h4>
+              <p>Extintores rodantes de 150 lbs, sistemas CO₂ para maquinaria eléctrica, gabinetes contra incendio y señalización fotoluminiscente de alta resistencia.</p>
+            </div>
+
+            <div className="sectorCard">
+              <div className="sectorIconBox"><Building2 size={26} /></div>
+              <h4>Comercio & Edificios</h4>
+              <p>Solkaflam agente limpio para salas de cómputo y servidores, extintores ABC de 10 y 20 lbs, detectores de humo y gabinetes para propiedad horizontal.</p>
+            </div>
+
+            <div className="sectorCard">
+              <div className="sectorIconBox"><HardHat size={26} /></div>
+              <h4>Obras Civiles & Construcción</h4>
+              <p>Dotaciones completas de EPP, camillas rígidas para emergencias en obra, botiquines trauma tipo A/B y conos reflectivos viales.</p>
+            </div>
+
+            <div className="sectorCard">
+              <div className="sectorIconBox"><Truck size={26} /></div>
+              <h4>Transporte & Flotas</h4>
+              <p>Extintores vehiculares de 5 y 10 lbs reglamentarios, kits de carretera completos exigidos por el Código Nacional de Tránsito y tacos bloqueadores.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          7. MARCO NORMATIVO Y CERTIFICACIONES
+         ========================================================================= */}
+      <section className="normativeFrameworkSection">
+        <div className="container">
+          <div className="normativeCard">
+            <div className="normativeLeft">
+              <span className="sectionPreTitle">— RESPALDO TÉCNICO</span>
+              <h2>Certificación y Cumplimiento de <span className="textRed">Normas Oficiales</span></h2>
               <p>
-                Desde extintores de polvo químico seco ABC, CO₂ y Solkaflam agente limpio, hasta camillas rígidas, botiquines tipo A/B, kits viales y elementos de protección personal (EPP).
+                Nuestros procesos técnicos y productos están alineados con las regulaciones de los organismos más exigentes del sector de seguridad en Colombia y el mundo:
               </p>
-              <div className="bannerPoints">
-                <div className="bPoint"><CheckCircle2 size={16} className="textRed" /> Extintores nuevos y servicio de recarga</div>
-                <div className="bPoint"><CheckCircle2 size={16} className="textRed" /> Dotación para brigadistas y primeros auxilios</div>
-                <div className="bPoint"><CheckCircle2 size={16} className="textRed" /> Señalización reglamentaria fotoluminiscente</div>
-              </div>
-              <Link to="/productos" className="btnRedPill" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
-                Explorar Catálogo de Equipos <ArrowRight size={16} />
-              </Link>
             </div>
-            <div className="visualBannerImgBox">
-              <img src={heroProductsImg} alt="Productos Preveseg" className="visualBannerImg" />
+
+            <div className="normativeBadgesList">
+              <div className="nBadgeItem">
+                <FileCheck2 size={20} className="textRed" />
+                <div>
+                  <strong>NTC 2885 (Colombia)</strong>
+                  <span>Norma técnica obligatoria para selección, mantenimiento y recarga de extintores.</span>
+                </div>
+              </div>
+
+              <div className="nBadgeItem">
+                <FileCheck2 size={20} className="textRed" />
+                <div>
+                  <strong>NFPA 10 (USA / Global)</strong>
+                  <span>Estándar de la National Fire Protection Association para extintores portátiles.</span>
+                </div>
+              </div>
+
+              <div className="nBadgeItem">
+                <FileCheck2 size={20} className="textRed" />
+                <div>
+                  <strong>Resolución 0312 de 2019</strong>
+                  <span>Estándares mínimos del Sistema de Gestión de Seguridad y Salud en el Trabajo (SG-SST).</span>
+                </div>
+              </div>
+
+              <div className="nBadgeItem">
+                <FileCheck2 size={20} className="textRed" />
+                <div>
+                  <strong>Cuerpo de Bomberos Cali</strong>
+                  <span>Cumplimiento pleno de los lineamientos de prevención para concepto favorable de inspección.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA INVITACIÓN */}
-      <section className="aboutCtaSection">
+      {/* =========================================================================
+          8. PREGUNTAS FRECUENTES (FAQ ACORDEÓN)
+         ========================================================================= */}
+      <section className="aboutFaqSection">
         <div className="container">
-          <div className="aboutCtaCard">
-            <h2>¿Necesitas asesoría para el plan de seguridad de tu empresa?</h2>
-            <p>Contáctanos hoy mismo. Te ayudamos a cumplir con los requerimientos del SG-SST y normatividad vigente.</p>
-            <div className="aboutCtaActions">
+          <div className="sectionHeaderUnified center">
+            <span className="sectionPreTitle">— RESOLVEMOS TUS DUDAS</span>
+            <h2>Preguntas Frecuentes <span className="textRed">sobre Preveseg</span></h2>
+            <div className="headerDivider"></div>
+          </div>
+
+          <div className="faqListWrapper">
+            {faqs.map((item, idx) => (
+              <div 
+                key={idx} 
+                className={`faqItemCard ${openFaq === idx ? 'open' : ''}`}
+                onClick={() => toggleFaq(idx)}
+              >
+                <div className="faqQuestionRow">
+                  <h4>{item.q}</h4>
+                  <ChevronDown size={20} className="faqChevron" />
+                </div>
+                {openFaq === idx && (
+                  <div className="faqAnswerContent">
+                    <p>{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          9. CTA FINAL CON INVITACIÓN A SEDE
+         ========================================================================= */}
+      <section className="aboutFinalCtaSection">
+        <div className="container">
+          <div className="aboutFinalCtaCard">
+            <div className="ctaLeftContent">
+              <span className="sectionPreTitle">— PREVESEG CALI</span>
+              <h2>¿Listo para blindar la seguridad de tus instalaciones?</h2>
+              <p>Agenda una inspección técnica o solicita la cotización inmediata de tus recargas y dotaciones con nuestros asesores.</p>
+              
+              <div className="ctaDetails">
+                <div className="ctaDetail"><MapPin size={16} className="textRed" /> Sede: Cra 28D 72f-79, Cali</div>
+                <div className="ctaDetail"><Clock size={16} className="textRed" /> Lun a Vie 8am - 6pm | Sáb 8am - 4pm</div>
+              </div>
+            </div>
+
+            <div className="ctaRightActions">
               <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20necesito%20asesor%C3%ADa%20para%20el%20plan%20de%20seguridad%20de%20mi%20empresa." 
+                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20una%20cotizaci%C3%B3n%20formal%20para%20mi%20empresa." 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="btnRedPill"
+                className="btnRedPillSolid"
               >
-                <Phone size={18} /> Hablar con un Asesor (304 629 6285)
+                <Phone size={18} /> Chatear al 304 629 6285
               </a>
-              <Link to="/contacto" className="btnOutlinePill">
-                Ver Datos de Contacto
+              <Link to="/contacto" className="btnOutlinePillGlass">
+                Ver Mapa y Formulario
               </Link>
             </div>
           </div>
