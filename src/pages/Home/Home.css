@@ -5,31 +5,30 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1380px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 /* =========================================================================
-   1. HERO LIGHT SECTION (WHITE BACKGROUND WITH RED INDUSTRIAL ACCENTS)
+   1. HERO LIGHT SECTION (CLEAN WHITE, NO TEXT SATURATION, REFINED ICONS)
    ========================================================================= */
 .heroLightSection {
   background: #ffffff;
-  padding: 3.5rem 0 3.5rem;
+  padding: 3.5rem 0 3rem;
   position: relative;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #edf2f7;
   display: flex;
   align-items: center;
-  min-height: 80vh;
 }
 
 .heroLightContainer {
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  gap: 3.5rem;
+  gap: 3rem;
   align-items: center;
   width: 100%;
 }
@@ -39,16 +38,16 @@
   flex-direction: column;
 }
 
-/* EYEBROW TAG */
+/* EYEBROW */
 .heroEyebrowLine {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 1rem;
+  gap: 8px;
+  margin-bottom: 0.85rem;
 }
 
 .eyebrowRedDash {
-  width: 28px;
+  width: 22px;
   height: 3px;
   background: #ee1b24;
   border-radius: 2px;
@@ -56,20 +55,20 @@
 
 .eyebrowRedText {
   color: #ee1b24;
-  font-size: 0.82rem;
-  font-weight: 900;
+  font-size: 0.78rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 /* MAIN HEADLINE */
 .heroMainTitleLight {
-  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-size: clamp(2.2rem, 4.2vw, 3.7rem);
   font-weight: 900;
-  line-height: 1.04;
+  line-height: 1.05;
   color: #0c0d10;
-  margin: 0 0 1.25rem 0;
-  letter-spacing: -0.025em;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -79,225 +78,207 @@
   display: inline-block;
 }
 
-/* SUBTITLE */
+/* SHORT SUBTITLE */
 .heroSubtitleDark {
-  font-size: 1.05rem;
-  color: #334155;
-  line-height: 1.6;
-  max-width: 580px;
-  margin: 0 0 2rem 0;
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.55;
+  max-width: 520px;
+  margin: 0 0 1.75rem 0;
   font-weight: 500;
 }
 
-/* 4 VALUES ROW */
-.heroFourValuesRow {
+/* 4 COMPACT REFINED VALUES (SUBTLE, PROPORTIONAL ICONS) */
+.heroCompactValuesRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 2.25rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.valueColItem {
+.compactValueItem {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
 }
 
-.valueColIcon {
+.compactValueIcon {
   color: #ee1b24;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(238, 27, 36, 0.08);
+  flex-shrink: 0;
 }
 
-.valueColText strong {
+.compactValueText strong {
   display: block;
-  font-size: 0.76rem;
-  font-weight: 900;
+  font-size: 0.74rem;
+  font-weight: 800;
   color: #0f172a;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.valueColText span {
+.compactValueText span {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: #64748b;
-  line-height: 1.35;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
-/* ACTION BUTTONS */
+/* 2 ACTION BUTTONS */
 .heroActionButtonsRow {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
 .btnRedPillWhatsApp {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #ee1b24;
   color: #ffffff;
   text-decoration: none;
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-radius: 9999px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 900;
-  letter-spacing: 0.03em;
-  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.4);
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(238, 27, 36, 0.35);
   transition: all 0.25s ease;
-  border: 2px solid #ee1b24;
+  border: 1.5px solid #ee1b24;
 }
 
 .btnRedPillWhatsApp:hover {
   background: #dc141d;
   border-color: #dc141d;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(238, 27, 36, 0.55);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.5);
 }
 
 .btnWhitePillCatalog {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: #ffffff;
-  color: #ee1b24;
+  color: #0f172a;
   text-decoration: none;
-  padding: 14px 28px;
+  padding: 12px 22px;
   border-radius: 9999px;
-  font-size: 0.95rem;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  border: 2px solid #ee1b24;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  border: 1.5px solid #cbd5e1;
   transition: all 0.25s ease;
 }
 
 .btnWhitePillCatalog:hover {
-  background: #ee1b24;
-  color: #ffffff;
+  border-color: #ee1b24;
+  color: #ee1b24;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.35);
 }
 
-/* RIGHT VISUAL COLUMN */
+/* RIGHT VISUAL COLUMN: PURE CLEAN PRODUCTS IMAGE */
 .heroLightVisual {
   position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
-.equipmentPhotoCard {
+.heroProductImageWrapper {
   position: relative;
   width: 100%;
-  max-width: 580px;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 30px rgba(238, 27, 36, 0.1);
-  background: #0d0f14;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), 0 0 20px rgba(238, 27, 36, 0.06);
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
 }
 
-.equipmentMainImg {
+.heroProductsRealImg {
   width: 100%;
   height: auto;
-  display: block;
+  aspect-ratio: 1024 / 682;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.equipmentFadeEdge {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 15%);
+.heroProductsRealImg:hover {
+  transform: scale(1.02);
 }
 
-.equipmentTabsBar {
+.heroProductBadgeOverlay {
   position: absolute;
   bottom: 12px;
-  left: 0;
-  right: 0;
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  z-index: 10;
-}
-
-.eqTabBtn {
+  left: 12px;
   background: rgba(11, 12, 16, 0.85);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #cbd5e1;
   padding: 6px 14px;
   border-radius: 9999px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.eqTabBtn:hover {
+.badgeDotRed {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: #ee1b24;
-  color: #ffffff;
-  border-color: #ee1b24;
-}
-
-.eqTabBtn.active {
-  background: #ee1b24;
-  color: #ffffff;
-  border-color: #ee1b24;
-  box-shadow: 0 4px 12px rgba(238, 27, 36, 0.5);
+  box-shadow: 0 0 6px #ee1b24;
 }
 
 /* =========================================================================
-   2. FLOATING SERVICES BAR (BLACK CARDS WITH RED ICONS)
+   2. FLOATING SERVICES BAR (BLACK CARDS, REFINED ICONS)
    ========================================================================= */
 .floatingServicesSection {
-  background: #090a0d;
-  padding: 3rem 0 3rem;
+  background: #0b0c10;
+  padding: 2.25rem 0;
   position: relative;
   z-index: 20;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .floatingServicesContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .floatingServiceCard {
-  background: #111319;
+  background: #12141a;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 1.4rem;
+  border-radius: 12px;
+  padding: 1.15rem;
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
 }
 
 .floatingServiceCard:hover {
-  transform: translateY(-6px);
-  border-color: rgba(238, 27, 36, 0.5);
-  background: #161822;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(238, 27, 36, 0.2);
+  transform: translateY(-3px);
+  border-color: rgba(238, 27, 36, 0.45);
+  background: #181b22;
 }
 
 .serviceIconCircle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,23 +288,22 @@
 .serviceIconCircle.red {
   background: #ee1b24;
   color: #ffffff;
-  box-shadow: 0 4px 15px rgba(238, 27, 36, 0.4);
 }
 
 .serviceCardInfo h4 {
-  font-size: 0.88rem;
-  font-weight: 900;
+  font-size: 0.8rem;
+  font-weight: 800;
   color: #ffffff;
-  margin: 0 0 5px 0;
+  margin: 0 0 3px 0;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   line-height: 1.25;
 }
 
 .serviceCardInfo p {
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   color: #94a3b8;
-  line-height: 1.45;
+  line-height: 1.35;
   margin: 0;
 }
 
@@ -332,31 +312,32 @@
    ========================================================================= */
 .whiteNormativityRibbon {
   background: #f8fafc;
-  padding: 1.75rem 0;
+  padding: 1.25rem 0;
   border-top: 1px solid #e2e8f0;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .normativityGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  align-items: center;
 }
 
 .normativityItem {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
-.normativityIconBox {
+.normativityIcon {
   color: #ee1b24;
   flex-shrink: 0;
 }
 
 .normativityText strong {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 900;
   color: #0f172a;
   letter-spacing: 0.03em;
@@ -366,26 +347,25 @@
 
 .normativityText span {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #64748b;
-  font-weight: 700;
-  margin-top: 2px;
+  font-weight: 600;
 }
 
 /* =========================================================================
-   4. PRODUCT LINES (WHITE / LIGHT THEMED)
+   4. PRODUCT LINES (WHITE & LIGHT BACKGROUND)
    ========================================================================= */
 .categorySectionLight {
   background: #ffffff;
-  padding: 5rem 0 4rem;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid #edf2f7;
 }
 
 .sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .sectionHeader.center {
@@ -397,18 +377,18 @@
 .subTitleRed {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   color: #ee1b24;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .titleDark {
   color: #0f172a;
-  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
   font-weight: 900;
   margin: 0;
   letter-spacing: -0.02em;
@@ -419,61 +399,60 @@
 }
 
 .headerRedDivider {
-  width: 60px;
-  height: 4px;
+  width: 50px;
+  height: 3px;
   background: #ee1b24;
   border-radius: 2px;
-  margin-top: 1rem;
-  box-shadow: 0 0 12px rgba(238, 27, 36, 0.4);
+  margin-top: 0.85rem;
 }
 
 .textBtnRed {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   color: #ee1b24;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 800;
   transition: all 0.2s ease;
 }
 
 .textBtnRed:hover {
   color: #dc141d;
-  gap: 10px;
+  gap: 8px;
 }
 
 .categoryLayoutLight {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
 }
 
 .categoryCardItemLight {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .categoryCardItemLight:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   border-color: #ee1b24;
-  box-shadow: 0 12px 30px rgba(238, 27, 36, 0.15);
+  box-shadow: 0 8px 20px rgba(238, 27, 36, 0.12);
 }
 
 .categoryIconBoxLight {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   background: rgba(238, 27, 36, 0.08);
-  border: 1px solid rgba(238, 27, 36, 0.25);
+  border: 1px solid rgba(238, 27, 36, 0.2);
   color: #ee1b24;
   display: flex;
   align-items: center;
@@ -482,14 +461,14 @@
 }
 
 .categoryInfoLight h3 {
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   font-weight: 800;
   color: #0f172a;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
 }
 
 .categoryLinkTextLight {
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: #ee1b24;
   font-weight: 800;
   display: inline-flex;
@@ -498,68 +477,67 @@
 }
 
 /* =========================================================================
-   5. SHOWCASE SECTION (EQUIPOS DESTACADOS - FONDO CLARO)
+   5. SHOWCASE SECTION (CATÁLOGO CLARO)
    ========================================================================= */
 .showcaseSectionLight {
   background: #f8fafc;
-  padding: 5rem 0;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 4rem 0;
+  border-bottom: 1px solid #edf2f7;
 }
 
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.75rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 .emptyShowcase {
   text-align: center;
-  padding: 3.5rem 1.5rem;
+  padding: 3rem 1.5rem;
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px dashed #cbd5e1;
-  max-width: 500px;
-  margin: 2rem auto;
+  max-width: 480px;
+  margin: 1.5rem auto;
 }
 
 /* =========================================================================
-   6. ABOUT SECTION (NOSOTROS - FONDO BLANCO)
+   6. ABOUT SECTION (NOSOTROS - BLANCO)
    ========================================================================= */
 .aboutSectionLight {
   background: #ffffff;
-  padding: 5rem 0;
+  padding: 4rem 0;
 }
 
 .aboutGrid {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
-  gap: 3.5rem;
+  gap: 3rem;
   align-items: center;
 }
 
 .aboutDescriptionDark {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #475569;
-  line-height: 1.65;
-  margin: 1rem 0 2rem 0;
+  line-height: 1.6;
+  margin: 0.85rem 0 1.5rem 0;
 }
 
 .aboutHighlightsLight {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 0.85rem;
 }
 
 .highlightCardLight {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
   background: #f8fafc;
-  padding: 1.15rem 1.4rem;
-  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .highlightIconRed {
@@ -569,44 +547,44 @@
 }
 
 .highlightCardLight h4 {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: #0f172a;
-  margin: 0 0 4px 0;
+  margin: 0 0 3px 0;
 }
 
 .highlightCardLight p {
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   color: #64748b;
-  line-height: 1.45;
+  line-height: 1.4;
   margin: 0;
 }
 
 .bannerCardIndustrial {
-  background: radial-gradient(circle at 80% 20%, rgba(238, 27, 36, 0.25) 0%, transparent 60%), #0f1118;
+  background: #0f1118;
   border: 1.5px solid rgba(238, 27, 36, 0.35);
-  border-radius: 20px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15);
 }
 
 .bannerIconRed {
   color: #ee1b24;
-  margin-bottom: 1rem;
-}
-
-.bannerCardIndustrial h3 {
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: #ffffff;
   margin-bottom: 0.75rem;
 }
 
+.bannerCardIndustrial h3 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
 .bannerCardIndustrial p {
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   color: #cbd5e1;
-  line-height: 1.5;
-  margin-bottom: 2rem;
+  line-height: 1.45;
+  margin-bottom: 1.5rem;
 }
 
 .bannerStats {
@@ -614,7 +592,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1.5rem;
+  padding-top: 1.25rem;
 }
 
 .statItem {
@@ -623,49 +601,48 @@
 }
 
 .statNum {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 900;
   color: #ee1b24;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .statLabel {
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   color: #94a3b8;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 /* =========================================================================
-   FLOATING WHATSAPP BUTTON
+   FLOATING WHATSAPP
    ========================================================================= */
 .whatsapp-float {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 58px;
-  height: 58px;
+  bottom: 22px;
+  right: 22px;
+  width: 52px;
+  height: 52px;
   background: #25D366;
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
   z-index: 999;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s ease;
   text-decoration: none;
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.08) translateY(-3px);
-  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.7);
+  transform: scale(1.06);
 }
 
 .whatsapp-pulse {
   position: absolute;
-  inset: -4px;
+  inset: -3px;
   background: #25D366;
   border-radius: 50%;
   z-index: -1;
@@ -674,40 +651,21 @@
 
 @keyframes waPulse {
   0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 .whatsapp-tooltip {
-  position: absolute;
-  right: 70px;
-  background: #0f1118;
-  color: white;
-  border: 1px solid rgba(238, 27, 36, 0.4);
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(8px);
-  transition: all 0.25s;
-}
-
-.whatsapp-float:hover .whatsapp-tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
+  display: none;
 }
 
 /* =========================================================================
-   RESPONSIVE LAYOUTS (TABLET & MOBILE)
+   MOBILE & TABLET RESPONSIVE (DE-SATURATED, REFINED, CLEAN)
    ========================================================================= */
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .heroLightContainer {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2.5rem;
+    gap: 2rem;
   }
 
   .heroLightContent {
@@ -723,9 +681,11 @@
     margin-right: auto;
   }
 
-  .heroFourValuesRow {
-    grid-template-columns: repeat(2, 1fr);
-    text-align: left;
+  .heroCompactValuesRow {
+    justify-content: center;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .heroActionButtonsRow {
@@ -747,46 +707,148 @@
 
 @media (max-width: 768px) {
   .heroLightSection {
-    padding: 2.5rem 0 2rem;
+    padding: 1.75rem 0 1.5rem;
   }
 
   .heroLightContainer {
     padding: 0 1rem;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .heroMainTitleLight {
-    font-size: 2.2rem;
-    line-height: 1.1;
+    font-size: 1.95rem;
+    line-height: 1.08;
+    margin-bottom: 0.65rem;
   }
 
-  .heroFourValuesRow {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
+  .heroSubtitleDark {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ON MOBILE: HIDE REPETITIVE EXPLANATORY TEXT - KEEP COMPACT 4 PILLS */
+  .mobileHideSub {
+    display: none !important;
+  }
+
+  .heroCompactValuesRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
     width: 100%;
+    max-width: 340px;
+    margin: 0 auto 1.25rem;
+    padding: 0.65rem 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .compactValueItem {
+    gap: 6px;
+    background: #f8fafc;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+  }
+
+  .compactValueIcon {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+  }
+
+  .compactValueText strong {
+    font-size: 0.7rem;
   }
 
   .heroActionButtonsRow {
     flex-direction: column;
     width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: 0.65rem;
   }
 
   .btnRedPillWhatsApp, .btnWhitePillCatalog {
     width: 100%;
     justify-content: center;
+    padding: 11px 18px;
+    font-size: 0.88rem;
+  }
+
+  .heroProductImageWrapper {
+    border-radius: 14px;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .heroProductBadgeOverlay {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .floatingServicesSection {
+    padding: 1.5rem 0;
   }
 
   .floatingServicesContainer {
     grid-template-columns: 1fr;
-    gap: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .floatingServiceCard {
+    padding: 0.85rem 1rem;
+    gap: 10px;
+  }
+
+  .serviceIconCircle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .serviceCardInfo h4 {
+    font-size: 0.76rem;
+    margin-bottom: 1px;
+  }
+
+  .serviceCardInfo p {
+    font-size: 0.68rem;
+  }
+
+  .whiteNormativityRibbon {
+    padding: 1rem 0;
   }
 
   .normativityGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+
+  .categorySectionLight {
+    padding: 2.5rem 0;
   }
 
   .categoryLayoutLight {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .categoryCardItemLight {
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .showcaseSectionLight {
+    padding: 2.5rem 0;
+  }
+
+  .aboutSectionLight {
+    padding: 2.5rem 0;
+  }
+
+  .bannerCardIndustrial {
+    padding: 1.5rem 1.25rem;
   }
 }
