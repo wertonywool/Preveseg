@@ -1,4 +1,4 @@
-import { Search, Grid, SlidersHorizontal, ChevronRight, ShieldCheck, X, Sparkles, Flame } from 'lucide-react';
+import { Search, Grid, SlidersHorizontal, ChevronRight, ShieldCheck, X, Sparkles, Flame, Phone, MapPin, Truck, Award } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import ProductSkeleton from '../../components/ProductCard/ProductSkeleton';
 import { useProducts } from '../../hooks/useProducts';
@@ -35,8 +35,8 @@ const Products = () => {
                 <div className="catIcon">
                   <Grid size={16} />
                 </div>
-                <span>Todo el Catálogo de Equipos</span>
-                <ChevronRight size={16} className="chevron" />
+                <span>Todo el Catálogo</span>
+                <ChevronRight size={15} className="chevron" />
               </button>
               {visibleCategories.map((cat) => (
                 <button
@@ -52,58 +52,72 @@ const Products = () => {
                     )}
                   </div>
                   <span>{cat.nombre}</span>
-                  <ChevronRight size={16} className="chevron" />
+                  <ChevronRight size={15} className="chevron" />
                 </button>
               ))}
             </div>
           </div>
 
           <div className="sidebarSection hide-mobile">
-            <div className="promoCard">
-              <div className="promoGradient"></div>
-              <span className="promoTag">Asesoría Técnica</span>
-              <h4>Cotización para Empresas</h4>
-              <p>Suministro de extintores, señalización, botiquines y EPP en Cali (Cra 28D 72f-79).</p>
+            <div className="sidebarPromoCard">
+              <span className="sidebarPromoBadge">PREVESEG CALI</span>
+              <h4>Asesoría & Cotizaciones</h4>
+              <p>Suministramos extintores reglamentarios, camillas, botiquines y dotaciones EPP con entrega inmediata en Cali.</p>
+              
+              <div className="promoMeta">
+                <div className="promoMetaItem"><MapPin size={14} className="textRed" /> Cra 28D 72f-79, Cali</div>
+                <div className="promoMetaItem"><Truck size={14} className="textRed" /> Despachos a nivel local y nacional</div>
+              </div>
+
               <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20cotizar%20dotaciones%20para%20mi%20empresa." 
+                href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20cotizaci%C3%B3n%20para%20los%20equipos%20de%20mi%20empresa." 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="promoBtn"
+                className="btnSidebarWa"
               >
-                Cotizar por WhatsApp
+                <Phone size={15} /> Cotizar por WhatsApp (304 629 6285)
               </a>
             </div>
           </div>
         </aside>
 
         {/* MAIN CONTENT AREA */}
-        <main className="productsContent">
-          {/* MOBILE HERO & SEARCH UNIT */}
-          <div className="productsHeroHeader">
-            <div className="heroBadge">
-              <span className="badgeDot"></span>
-              <span>Equipos Contra Incendio & Seguridad Industrial • Cali</span>
+        <main className="productsMain">
+          {/* HEADER BANNER */}
+          <div className="catalogHeaderCard">
+            <div className="catalogHeaderTop">
+              <span className="catalogPreTitle">— PREVESEG CALI • VENTA DIRECTA & MANTENIMIENTO</span>
+              <div className="catalogHeaderBadge">
+                <Award size={14} /> Equipos 100% Certificados NTC & NFPA
+              </div>
             </div>
 
-            <h1 className="productsMainTitle">
+            <h1 className="catalogMainTitle">
               {activeCategory === 'todos' ? (
-                <>Catálogo de <span className="text-gradient-blue">Seguridad</span> <span className="text-gradient-red">Industrial</span></>
+                <>Catálogo de <span className="textRed">Equipos Contra Incendio</span> y Seguridad Industrial</>
               ) : (
                 activeCategory
               )}
             </h1>
 
-            <p className="productsSubTitle">
-              {filteredProducts.length} {filteredProducts.length === 1 ? 'producto disponible' : 'equipos y referencias disponibles con despacho inmediato'}
+            <p className="catalogLeadText">
+              Extintores nuevos (PQS, CO₂, Solkaflam, Agua), camillas rígidas, botiquines trauma, kits de carretera, elementos viales y EPP. Solicita tu cotización formal con asesoría personalizada para tu empresa.
             </p>
 
-            {/* INTEGRATED SEARCH BOX */}
-            <div className="mainSearchWrapper">
+            {/* TRUST PILLS */}
+            <div className="catalogTrustPills">
+              <div className="cPill"><ShieldCheck size={14} className="textRed" /> Cumplimiento NTC 2885 & Bomberos</div>
+              <div className="cPill"><Truck size={14} className="textRed" /> Despachos en Cali y Valle del Cauca</div>
+              <div className="cPill"><Phone size={14} className="textRed" /> Cotización Rápida por WhatsApp</div>
+            </div>
+
+            {/* SEARCH AND CONTROLS TOOLBAR */}
+            <div className="catalogControlsToolbar">
               <div className="mainSearchBox">
-                <Search size={20} className="mainSearchIcon" />
+                <Search size={18} className="mainSearchIcon" />
                 <input 
                   type="text" 
-                  placeholder="Buscar casco, guantes, extintor, botas, arnés..." 
+                  placeholder="Buscar extintor, camilla, botiquín, casco, chaleco, kit..." 
                   value={searchTerm}
                   onChange={(e) => handleSearch(e.target.value)}
                   autoComplete="off"
@@ -114,19 +128,47 @@ const Products = () => {
                     onClick={() => handleSearch('')} 
                     aria-label="Limpiar búsqueda"
                   >
-                    <X size={18} />
+                    <X size={16} />
                   </button>
                 )}
               </div>
+
+              {/* QUICK SORT / FILTER CHIPS */}
+              <div className="catalogFilterChips">
+                <button 
+                  className={`filterChip ${sortBy === 'default' && activeCategory === 'todos' ? 'active' : ''}`}
+                  onClick={() => { handleSortChange('default'); filterByCategory('todos'); }}
+                >
+                  Todos ({filteredProducts.length})
+                </button>
+                <button 
+                  className={`filterChip ${sortBy === 'offer' ? 'active' : ''}`}
+                  onClick={() => handleSortChange('offer')}
+                >
+                  <Flame size={14} className="chipIconRed" /> Ofertas
+                </button>
+                <button 
+                  className={`filterChip ${sortBy === 'featured' ? 'active' : ''}`}
+                  onClick={() => handleSortChange('featured')}
+                >
+                  <Sparkles size={14} className="chipIconYellow" /> Destacados
+                </button>
+                <button 
+                  className={`filterChip ${activeCategory === 'Kits & Combos de Seguridad' ? 'active' : ''}`}
+                  onClick={() => filterByCategory('Kits & Combos de Seguridad')}
+                >
+                  <ShieldCheck size={14} className="chipIconBlue" /> Kits & Combos
+                </button>
+              </div>
             </div>
 
-            {/* HORIZONTAL CATEGORIES BAR (Scrollable on mobile) */}
+            {/* MOBILE CATEGORIES SCROLL */}
             <div className="mobileCatScroll scrollbar-hide">
               <button
                 onClick={() => filterByCategory('todos')}
                 className={`mobileCatBtn ${activeCategory === 'todos' ? 'active' : ''}`}
               >
-                <Grid size={15} />
+                <Grid size={14} />
                 <span>Todos</span>
               </button>
               {visibleCategories.map(cat => (
@@ -139,45 +181,17 @@ const Products = () => {
                 </button>
               ))}
             </div>
-
-            {/* QUICK SORT / FILTER CHIPS */}
-            <div className="quickFilterChips scrollbar-hide">
-              <button 
-                className={`filterChip ${sortBy === 'default' ? 'active' : ''}`}
-                onClick={() => handleSortChange('default')}
-              >
-                Todos
-              </button>
-              <button 
-                className={`filterChip chip-offer ${sortBy === 'offer' ? 'active' : ''}`}
-                onClick={() => handleSortChange('offer')}
-              >
-                <Flame size={14} /> Ofertas
-              </button>
-              <button 
-                className={`filterChip ${sortBy === 'featured' ? 'active' : ''}`}
-                onClick={() => handleSortChange('featured')}
-              >
-                <Sparkles size={14} /> Destacados
-              </button>
-              <button 
-                className={`filterChip ${activeCategory === 'Kits & Combos de Seguridad' ? 'active' : ''}`}
-                onClick={() => filterByCategory('Kits & Combos de Seguridad')}
-              >
-                <ShieldCheck size={14} /> Kits & Combos
-              </button>
-            </div>
           </div>
 
           {/* PRODUCTS GRID */}
           {loading ? (
-            <div className="productGrid">
+            <div className="productsGridList">
               {[1, 2, 3, 4, 5, 6].map(i => <ProductSkeleton key={i} />)}
             </div>
           ) : filteredProducts.length > 0 ? (
-            <div className="productGrid">
+            <div className="productsGridList">
               {filteredProducts.map((product) => (
-                <div key={product.id} className="productCardWrapper">
+                <div key={product.id} className="productCardItem">
                   <ProductCard
                     id={product.id}
                     nombre={product.nombre}
@@ -194,20 +208,18 @@ const Products = () => {
               ))}
             </div>
           ) : (
-            <div className="noProducts">
-              <div className="noProductsContent">
-                <div className="emptyIconWrapper">
-                  <SlidersHorizontal size={38} className="empty-icon" />
-                </div>
-                <h3>No encontramos productos para "{searchTerm || activeCategory}"</h3>
-                <p>Prueba con otros términos como <strong>casco, guantes, extintor, botas</strong> o revisa todas las categorías.</p>
-                <button 
-                  onClick={() => { handleSearch(''); filterByCategory('todos'); handleSortChange('default'); }} 
-                  className="resetBtn"
-                >
-                  Ver Todo el Catálogo EPP
-                </button>
+            <div className="noProductsCard">
+              <div className="emptyIconCircle">
+                <SlidersHorizontal size={32} />
               </div>
+              <h3>No se encontraron productos para "{searchTerm || activeCategory}"</h3>
+              <p>Intenta buscar por términos generales como <strong>extintor, camilla, botiquín, conos, cascos o gafas</strong>.</p>
+              <button 
+                onClick={() => { handleSearch(''); filterByCategory('todos'); handleSortChange('default'); }} 
+                className="btnResetCatalog"
+              >
+                Ver Todo el Catálogo de Equipos
+              </button>
             </div>
           )}
         </main>
@@ -217,4 +229,3 @@ const Products = () => {
 };
 
 export default Products;
-
