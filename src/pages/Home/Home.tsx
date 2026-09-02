@@ -10,7 +10,6 @@ import {
   ShoppingBag, 
   Phone, 
   CheckCircle2, 
-  Truck, 
   Sparkles, 
   Wrench, 
   ChevronRight, 
@@ -24,14 +23,14 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import ProductSkeleton from '../../components/ProductCard/ProductSkeleton';
 import { useHome } from '../../hooks/useHome';
 import { INITIAL_CATEGORIES } from '../../data/defaultCatalog';
-import heroDesign1 from '../../assets/hero-design-1.jpg';
-import heroDesign2 from '../../assets/hero-design-2.jpg';
+import equipmentEpp from '../../assets/equipment-epp.png';
+import equipmentRescue from '../../assets/equipment-rescue.png';
 import './Home.css';
 
 const Home = () => {
   const { featuredProducts, categories, loading } = useHome();
   const displayCategories = categories.length > 0 ? categories : INITIAL_CATEGORIES;
-  const [activeHeroTab, setActiveHeroTab] = useState<'fire-rescue' | 'epp-extinguishers'>('fire-rescue');
+  const [activeHeroTab, setActiveHeroTab] = useState<'epp' | 'rescue'>('epp');
 
   const getServiceWhatsAppUrl = (servicioTitulo: string) => {
     const msg = `Hola Preveseg Cali, solicito asesoría y cotización para el servicio de: *${servicioTitulo}*\nUbicación: Cra 28D 72f-79, Cali / A coordinar`;
@@ -41,128 +40,115 @@ const Home = () => {
   return (
     <div className="homeContainer page-transition">
       {/* =========================================================================
-          1. HERO SECTION (HIGH IMPACT RED & CHARCOAL INDUSTRIAL)
+          1. HERO SECTION (LUMINOUS WHITE & INDUSTRIAL RED ACCENTS)
          ========================================================================= */}
-      <section className="heroIndustrial">
-        <div className="heroIndustrialContainer">
-          {/* LEFT CONTENT COLUMN */}
-          <div className="heroIndustrialContent">
+      <section className="heroLightSection">
+        <div className="heroLightContainer">
+          {/* LEFT CONTENT COLUMN (CLEAN WHITE BACKGROUND & CRISP DARK TEXT) */}
+          <div className="heroLightContent">
             {/* EYEBROW TAG */}
-            <div className="heroEyebrowTag">
-              <span className="eyebrowDash">—</span> DISTRIBUIMOS SEGURIDAD, PROTEGEMOS VIDAS
+            <div className="heroEyebrowLine">
+              <span className="eyebrowRedDash"></span>
+              <span className="eyebrowRedText">SEGURIDAD QUE PROTEGE VIDAS</span>
             </div>
 
             {/* MAIN HEADLINE */}
-            <h1 className="heroMainTitle">
-              TODO LO QUE TU<br />
-              EMPRESA NECESITA,<br />
-              <span className="heroTitleRed">EN UN SOLO LUGAR</span>
+            <h1 className="heroMainTitleLight">
+              PROTEGEMOS<br />
+              LO QUE <span className="titleRedHighlight">IMPORTA</span>
             </h1>
 
             {/* SUBTITLE */}
-            <p className="heroDescription">
-              Distribuimos extintores, equipos contra incendio, camillas, botiquines y seguridad vial con los más altos estándares de calidad y normatividad.
+            <p className="heroSubtitleDark">
+              Especialistas en recarga y mantenimiento de extintores y venta de elementos de protección personal. Equipos certificados para empresas, obras e industrias en Cali y a nivel nacional.
             </p>
 
-            {/* 4 MINI VALUE BADGES */}
-            <div className="heroValuesGrid">
-              <div className="valueMiniItem">
-                <div className="valueMiniIcon">
-                  <ShieldCheck size={18} />
+            {/* 4 HORIZONTAL VALUES BADGES (FROM MOCKUP 2) */}
+            <div className="heroFourValuesRow">
+              <div className="valueColItem">
+                <div className="valueColIcon">
+                  <ShieldCheck size={20} />
                 </div>
-                <div className="valueMiniText">
-                  <strong>PRODUCTOS CERTIFICADOS</strong>
-                  <span>Cumplimos con la normativa vigente.</span>
-                </div>
-              </div>
-
-              <div className="valueMiniItem">
-                <div className="valueMiniIcon">
-                  <Award size={18} />
-                </div>
-                <div className="valueMiniText">
-                  <strong>CALIDAD GARANTIZADA</strong>
-                  <span>Equipos confiables y de alta durabilidad.</span>
+                <div className="valueColText">
+                  <strong>CALIDAD</strong>
+                  <span>Equipos certificados y personal calificado.</span>
                 </div>
               </div>
 
-              <div className="valueMiniItem">
-                <div className="valueMiniIcon">
-                  <Truck size={18} />
+              <div className="valueColItem">
+                <div className="valueColIcon">
+                  <Wrench size={20} />
                 </div>
-                <div className="valueMiniText">
-                  <strong>ENTREGA RÁPIDA</strong>
-                  <span>Cobertura ágil y segura en todo el país.</span>
+                <div className="valueColText">
+                  <strong>EXPERIENCIA</strong>
+                  <span>Más de 10 años en el mercado.</span>
                 </div>
               </div>
 
-              <div className="valueMiniItem">
-                <div className="valueMiniIcon">
-                  <Headphones size={18} />
+              <div className="valueColItem">
+                <div className="valueColIcon">
+                  <Award size={20} />
                 </div>
-                <div className="valueMiniText">
-                  <strong>ASESORÍA ESPECIALIZADA</strong>
-                  <span>Te ayudamos a elegir la mejor solución.</span>
+                <div className="valueColText">
+                  <strong>CONFIANZA</strong>
+                  <span>Soluciones seguras para tu empresa.</span>
+                </div>
+              </div>
+
+              <div className="valueColItem">
+                <div className="valueColIcon">
+                  <Headphones size={20} />
+                </div>
+                <div className="valueColText">
+                  <strong>ASESORÍA</strong>
+                  <span>Atención personalizada y soporte continuo.</span>
                 </div>
               </div>
             </div>
 
-            {/* CALL TO ACTION GROUP (RED CARD + OUTLINE BTN) */}
-            <div className="heroCtaGroup">
+            {/* 2 ACTION BUTTONS (RED PILL + OUTLINE PILL) */}
+            <div className="heroActionButtonsRow">
               <a 
                 href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20solicito%20una%20cotizaci%C3%B3n%20inmediata%20para%20mi%20empresa." 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="heroWhatsAppRedCard"
+                className="btnRedPillWhatsApp"
                 title="Cotizar por WhatsApp"
               >
-                <div className="redCardPhoneCircle">
-                  <Phone size={22} className="redCardIcon" />
-                </div>
-                <div className="redCardCenter">
-                  <span className="redCardSmallTag">COTIZA AHORA POR WHATSAPP</span>
-                  <strong className="redCardPhoneNumber">304 629 6285</strong>
-                </div>
-                <div className="redCardDivider"></div>
-                <div className="redCardRight">
-                  <span>ATENCIÓN RÁPIDA,</span>
-                  <strong>SOLUCIONES SEGURAS.</strong>
-                </div>
+                <Phone size={18} />
+                <span>3046 296285</span>
               </a>
 
-              <Link to="/productos" className="heroCatalogOutlineBtn">
+              <Link to="/productos" className="btnWhitePillCatalog">
                 <span>VER PRODUCTOS</span>
-                <ChevronRight size={18} />
+                <ChevronRight size={17} />
               </Link>
             </div>
           </div>
 
-          {/* RIGHT VISUAL COLUMN */}
-          <div className="heroIndustrialVisual">
-            <div className="visualCompositionWrapper">
-              {/* IMAGE SHOWCASE */}
-              <div className="visualImageContainer">
-                <img 
-                  src={activeHeroTab === 'fire-rescue' ? heroDesign1 : heroDesign2} 
-                  alt="Equipos contra incendio y seguridad industrial Preveseg" 
-                  className="visualMockupImg"
-                />
-                <div className="visualGradientOverlay"></div>
-              </div>
+          {/* RIGHT VISUAL COLUMN (REALISTIC PHOTOGRAPHIC EQUIPMENT SHOWCASE) */}
+          <div className="heroLightVisual">
+            <div className="equipmentPhotoCard">
+              <img 
+                src={activeHeroTab === 'epp' ? equipmentEpp : equipmentRescue} 
+                alt="Equipos de seguridad y extintores Preveseg" 
+                className="equipmentMainImg"
+              />
+              <div className="equipmentFadeEdge"></div>
 
-              {/* TABS SELECTOR (Allows switching between the 2 mockups) */}
-              <div className="heroVisualTabsBar">
+              {/* TABS SELECTOR */}
+              <div className="equipmentTabsBar">
                 <button 
-                  className={`heroTabBtn ${activeHeroTab === 'fire-rescue' ? 'active' : ''}`}
-                  onClick={() => setActiveHeroTab('fire-rescue')}
+                  className={`eqTabBtn ${activeHeroTab === 'epp' ? 'active' : ''}`}
+                  onClick={() => setActiveHeroTab('epp')}
                 >
-                  <Flame size={14} /> Extintores & Rescate Vial
+                  <HardHat size={14} /> Extintores & EPP
                 </button>
                 <button 
-                  className={`heroTabBtn ${activeHeroTab === 'epp-extinguishers' ? 'active' : ''}`}
-                  onClick={() => setActiveHeroTab('epp-extinguishers')}
+                  className={`eqTabBtn ${activeHeroTab === 'rescue' ? 'active' : ''}`}
+                  onClick={() => setActiveHeroTab('rescue')}
                 >
-                  <HardHat size={14} /> EPP & Protección Laboral
+                  <Flame size={14} /> Rescate & Señalización
                 </button>
               </div>
             </div>
@@ -171,7 +157,7 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          2. FLOATING SERVICES BAR (FROM MOCKUP 2)
+          2. FLOATING SERVICES BAR (BLACK CARDS WITH RED ICONS)
          ========================================================================= */}
       <section id="servicios" className="floatingServicesSection">
         <div className="container">
@@ -235,7 +221,7 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          3. WHITE NORMATIVITY RIBBON BAR (FROM MOCKUPS 1 & 2)
+          3. WHITE NORMATIVITY RIBBON BAR (LIGHT BAR WITH CRISP CONTRAST)
          ========================================================================= */}
       <section className="whiteNormativityRibbon">
         <div className="container">
@@ -284,31 +270,31 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          4. PRODUCT LINES (CATEGORÍAS DE PRODUCTO)
+          4. PRODUCT LINES (FONDO BLANCO / CLARO CON TARJETAS INDUSTRIALES)
          ========================================================================= */}
-      <section className="categorySection">
+      <section className="categorySectionLight">
         <div className="container">
           <div className="sectionHeader">
             <div className="headerInfo">
               <span className="subTitleRed"><Sparkles size={14} className="inline-icon" /> CATÁLOGO INDUSTRIAL</span>
-              <h2>Líneas de <span className="textRed">Productos Disponibles</span></h2>
+              <h2 className="titleDark">Líneas de <span className="textRed">Productos Disponibles</span></h2>
             </div>
             <Link to="/productos" className="textBtnRed">Ver catálogo completo <ArrowRight size={16} /></Link>
           </div>
           
-          <div className="categoryLayout">
+          <div className="categoryLayoutLight">
             {displayCategories.map((cat, idx) => (
               <Link 
                 key={cat.id || idx}
                 to={`/productos?categoria=${encodeURIComponent(cat.nombre)}`} 
-                className="categoryCardItem"
+                className="categoryCardItemLight"
               >
-                <div className="categoryIconBox">
+                <div className="categoryIconBoxLight">
                   {idx === 0 ? <Flame size={26} /> : idx === 1 ? <ShieldCheck size={26} /> : <Package size={26} />}
                 </div>
-                <div className="categoryInfo">
+                <div className="categoryInfoLight">
                   <h3>{cat.nombre}</h3>
-                  <span className="categoryLinkText">Ver equipos <ArrowRight size={14} /></span>
+                  <span className="categoryLinkTextLight">Ver equipos <ArrowRight size={14} /></span>
                 </div>
               </Link>
             ))}
@@ -319,11 +305,11 @@ const Home = () => {
       {/* =========================================================================
           5. FEATURED PRODUCTS (DESTACADOS PARA COTIZACIÓN)
          ========================================================================= */}
-      <section id="destacados" className="showcaseSection dark">
+      <section id="destacados" className="showcaseSectionLight">
         <div className="container">
           <div className="sectionHeader center">
             <span className="subTitleRed"><Star size={16} fill="currentColor" /> EQUIPOS RECOMENDADOS</span>
-            <h2>Equipos <span className="textRed">Destacados para Cotización</span></h2>
+            <h2 className="titleDark">Equipos <span className="textRed">Destacados para Cotización</span></h2>
             <div className="headerRedDivider"></div>
           </div>
           
@@ -358,7 +344,7 @@ const Home = () => {
                 href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20cotizaci%C3%B3n%20de%20equipos." 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="ctaMainRed"
+                className="btnRedPillWhatsApp"
                 style={{ display: 'inline-flex', marginTop: '1rem' }}
               >
                 Solicitar Cotización por WhatsApp <ArrowRight size={18} />
@@ -369,34 +355,34 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          6. COMPANY PRESENTATION (NOSOTROS)
+          6. ABOUT SECTION (NOSOTROS - FONDO CLARO / BLANCO EQUILIBRADO)
          ========================================================================= */}
-      <section id="nosotros" className="aboutSection">
+      <section id="nosotros" className="aboutSectionLight">
         <div className="container">
           <div className="aboutGrid">
             <div className="aboutInfo">
               <span className="subTitleRed"><ShieldCheck size={16} /> SOBRE PREVESEG CALI</span>
-              <h2>Venta y Mantenimiento de <span className="textRed">Equipos Contra Incendio y Seguridad Industrial</span></h2>
-              <p className="aboutDescription">
+              <h2 className="titleDark">Venta y Mantenimiento de <span className="textRed">Equipos Contra Incendio y Seguridad Industrial</span></h2>
+              <p className="aboutDescriptionDark">
                 En <strong>PREVESEG</strong> nos especializamos en brindar soluciones efectivas para la prevención de riesgos y protección de instalaciones en Cali y la región. Atendemos requerimientos normativos para empresas, obras, colegios, conjuntos y comercios.
               </p>
               
-              <div className="aboutHighlights">
-                <div className="highlightCard">
+              <div className="aboutHighlightsLight">
+                <div className="highlightCardLight">
                   <CheckCircle2 className="highlightIconRed" size={20} />
                   <div>
                     <h4>Extintores, Recargas & Mantenimiento</h4>
                     <p>Polvo químico seco ABC, Solkaflam agente limpio, CO2, inspección reglamentaria y pruebas hidrostáticas.</p>
                   </div>
                 </div>
-                <div className="highlightCard">
+                <div className="highlightCardLight">
                   <CheckCircle2 className="highlightIconRed" size={20} />
                   <div>
                     <h4>Camillas, Botiquines & Seguridad Vial</h4>
                     <p>Camillas rígidas de inmovilización, botiquines industriales tipo A/B, conos reflectivos y reductores.</p>
                   </div>
                 </div>
-                <div className="highlightCard">
+                <div className="highlightCardLight">
                   <CheckCircle2 className="highlightIconRed" size={20} />
                   <div>
                     <h4>Capacitación, Instalación & Codificación</h4>
