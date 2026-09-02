@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Lock, User, ArrowRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { ShieldCheck, Lock, User, ArrowRight, ArrowLeft } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import './Login.css';
+
+const ADMIN_USER = 'Preveseg2106';
+const ADMIN_PASS = '1144137354';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirección directa para modo de pruebas sin contraseña
-    localStorage.setItem('isAdmin', 'true');
-    navigate('/Admin_panel');
+    // Si ya está autenticado, redirigir directo al admin
+    if (localStorage.getItem('isAdmin') === 'true') {
+      navigate('/Admin_panel');
+    }
   }, [navigate]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('isAdmin', 'true');
-    navigate('/Admin_panel');
+    setError('');
+
+    if (username.trim() === ADMIN_USER && password.trim() === ADMIN_PASS) {
+      localStorage.setItem('isAdmin', 'true');
+      navigate('/Admin_panel');
+    } else {
+      setError('Credenciales incorrectas. Verifica el usuario y la contraseña.');
+    }
   };
 
   return (
@@ -30,7 +40,7 @@ const Login = () => {
             <img src={logoImg} alt="Preveseg Logo" className="loginLogo" />
           </div>
           <h2>PREVESEG <span>ADMIN</span></h2>
-          <p className="loginSubtitle"><ShieldCheck size={14} className="inline-icon" /> Acceso al Panel de Control</p>
+          <p className="loginSubtitle"><ShieldCheck size={14} className="inline-icon" /> Portal Administrativo • Cali</p>
         </div>
 
         {error && <div className="errorMsg">{error}</div>}
@@ -47,6 +57,7 @@ const Login = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Ingresa tu usuario"
                 required
+                autoComplete="username"
               />
             </div>
           </div>
@@ -62,6 +73,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Ingresa tu contraseña"
                 required
+                autoComplete="current-password"
               />
             </div>
           </div>
@@ -70,6 +82,12 @@ const Login = () => {
             Ingresar al Panel <ArrowRight size={18} />
           </button>
         </form>
+
+        <div className="loginFooterLink">
+          <Link to="/" className="backToStoreLink">
+            <ArrowLeft size={15} /> Volver a la página principal
+          </Link>
+        </div>
       </div>
     </div>
   );
