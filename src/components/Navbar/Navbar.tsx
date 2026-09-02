@@ -97,7 +97,7 @@ const Navbar = () => {
               href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20o%20cotizaci%C3%B3n." 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="navPhonePill"
+              className="navPhonePill desktopOnlyAction"
               title="Contactar por WhatsApp"
             >
               <MessageCircle size={16} className="phonePillIcon" />
@@ -106,7 +106,7 @@ const Navbar = () => {
 
             {/* LOCATION BUTTON (OPENS QUICK INFO MODAL) */}
             <button 
-              className="locationNavBtn"
+              className="locationNavBtn desktopOnlyAction"
               onClick={() => setIsLocationModalOpen(true)}
               title="Ubicación y Horarios en Cali"
               aria-label="Ver Ubicación en Cali"
@@ -139,32 +139,40 @@ const Navbar = () => {
 
         {/* MOBILE DRAWER */}
         {isMobileMenuOpen && (
-          <div className="mobileNavDrawer">
+          <div className="mobileNavDrawer animate-in">
             <div className="mobileNavLinks">
               <Link to="/" className={`mobileNavLink ${location.pathname === '/' ? 'active' : ''}`} onClick={closeMobileMenu}>
-                Inicio
+                INICIO
               </Link>
               <Link to="/nosotros" className={`mobileNavLink ${location.pathname === '/nosotros' ? 'active' : ''}`} onClick={closeMobileMenu}>
-                Nosotros
+                NOSOTROS
               </Link>
               <Link to="/productos" className={`mobileNavLink ${location.pathname.startsWith('/producto') ? 'active' : ''}`} onClick={closeMobileMenu}>
-                Catálogo de Productos
+                PRODUCTOS & EQUIPOS
               </Link>
               <Link to="/servicios" className={`mobileNavLink ${location.pathname === '/servicios' ? 'active' : ''}`} onClick={closeMobileMenu}>
-                Servicios & Mantenimiento
+                SERVICIOS DE RECARGA
               </Link>
               <Link to="/contacto" className={`mobileNavLink ${location.pathname === '/contacto' ? 'active' : ''}`} onClick={closeMobileMenu}>
-                Contacto & Sede Cali
+                CONTACTO & SEDE
               </Link>
             </div>
-            <div className="mobileDrawerFooter">
+
+            <div className="mobileDrawerActions">
+              <button 
+                onClick={() => { setIsLocationModalOpen(true); closeMobileMenu(); }} 
+                className="mobileLocBtn"
+              >
+                <MapPin size={16} /> Ver Sede Cali & Horarios (Cra 28D 72f-79)
+              </button>
+              
               <a 
-                href="https://wa.me/573046296285" 
+                href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20o%20cotizaci%C3%B3n." 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="mobileWhatsAppBtn"
               >
-                <Phone size={16} /> Chatear al 304 629 6285
+                <MessageCircle size={17} /> Cotizar por WhatsApp (304 629 6285)
               </a>
             </div>
           </div>

@@ -256,15 +256,18 @@
 /* =========================================================================
    MOBILE DRAWER
    ========================================================================= */
+
+/* =========================================================================
+   MOBILE DRAWER & ACTIONS
+   ========================================================================= */
 .mobileNavDrawer {
   width: 100%;
-  background: #0f1118;
+  background: #0b0d14;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 1rem 0;
+  padding: 0.5rem 0 1rem;
   margin-top: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   animation: fadeIn 0.2s ease-out;
 }
 
@@ -276,11 +279,12 @@
 .mobileNavLink {
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 700;
-  padding: 12px 1rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  padding: 12px 1.25rem;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
+  letter-spacing: 0.04em;
 }
 
 .mobileNavLink.active {
@@ -289,9 +293,35 @@
   border-left-color: #ee1b24;
 }
 
-.mobileDrawerFooter {
-  padding: 0.75rem 1rem 0;
+.mobileDrawerActions {
+  padding: 1rem 1.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 0.5rem;
+}
+
+.mobileLocBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.mobileLocBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ee1b24;
 }
 
 .mobileWhatsAppBtn {
@@ -302,189 +332,17 @@
   background: #ee1b24;
   color: white;
   text-decoration: none;
-  padding: 11px;
+  padding: 12px;
   border-radius: 10px;
   font-weight: 800;
-  font-size: 0.88rem;
-}
-
-/* MODAL DE UBICACIÓN */
-.locationModalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 8, 16, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
-}
-
-.locationModalCard {
-  background: #0f1118;
-  border: 1.5px solid rgba(238, 27, 36, 0.4);
-  border-radius: 20px;
+  font-size: 0.86rem;
+  box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35);
   width: 100%;
-  max-width: 480px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-  overflow: hidden;
-}
-
-.locationModalHeader {
-  padding: 1.25rem 1.4rem;
-  background: #141722;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.locHeaderTitle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.locIconBadge {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(238, 27, 36, 0.15);
-  border: 1px solid rgba(238, 27, 36, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.locPinIcon {
-  color: #ee1b24;
-}
-
-.locHeaderTitle h3 {
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: #ffffff;
-  margin: 0;
-}
-
-.locCityTag {
-  font-size: 0.74rem;
-  color: #ff6b6b;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.locCloseBtn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.locCloseBtn:hover {
-  background: #ee1b24;
-  color: white;
-}
-
-.locationModalBody {
-  padding: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.locInfoRow {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 12px 14px;
-  border-radius: 12px;
-}
-
-.locRowIcon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.locRowIcon.red { background: rgba(238, 27, 36, 0.15); color: #ee1b24; }
-.locRowIcon.blue { background: rgba(0, 102, 255, 0.15); color: #60a5fa; }
-.locRowIcon.green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-.locRowIcon.navy { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
-
-.locRowContent strong {
-  display: block;
-  font-size: 0.76rem;
-  color: #ff6b6b;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.locRowContent p, .locRowContent a {
-  font-size: 0.88rem;
-  color: #f1f5f9;
-  font-weight: 600;
-  margin: 0;
-  text-decoration: none;
-}
-
-.locActionButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 0.5rem;
-}
-
-.locMapBtn {
-  background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
-  color: white;
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.88rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-}
-
-.locWhatsAppBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.88rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
   transition: all 0.2s ease;
 }
 
-.locWhatsAppBtn:hover {
-  border-color: #ee1b24;
-  color: #ee1b24;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.mobileWhatsAppBtn:hover {
+  background: #dc141d;
 }
 
 @media (max-width: 1024px) {
@@ -493,11 +351,67 @@
 }
 
 @media (max-width: 768px) {
-  .navbar { padding: 0.6rem 1rem; }
-  .brand-tagline-text { display: none !important; }
-  .navPhonePill .phonePillText { display: none; }
-  .navPhonePill { padding: 9px; border-radius: 10px; }
-  .locBtnLabel { display: none; }
-  .locationNavBtn { padding: 9px; border-radius: 10px; }
-  .cartBtn { padding: 9px; border-radius: 10px; }
+  .navbar { 
+    padding: 0.7rem 1rem; 
+  }
+
+  .navbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .logoLink {
+    flex-shrink: 0;
+  }
+
+  .desktopOnlyAction {
+    display: none !important;
+  }
+
+  .navActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .cartBtn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mobileMenuToggleBtn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .brand-tagline-text { 
+    display: none !important; 
+  }
+
+  .brand-name-title {
+    font-size: 1.25rem !important;
+  }
+
+  .brand-shield-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+  }
 }
