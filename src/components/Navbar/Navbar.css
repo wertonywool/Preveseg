@@ -4,13 +4,15 @@
   -webkit-backdrop-filter: blur(20px);
   padding: 0.85rem 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .navbarContainer {
@@ -28,7 +30,7 @@
 }
 
 /* =========================================================================
-   NAV LINKS (INICIO, NOSOTROS, PRODUCTOS, SERVICIOS, CONTACTO)
+   NAV LINKS (DESKTOP)
    ========================================================================= */
 .navLinks {
   display: flex;
@@ -140,7 +142,7 @@
 }
 
 /* =========================================================================
-   NAV ACTIONS (WHATSAPP PILL, LOCATION, CART)
+   NAV ACTIONS
    ========================================================================= */
 .navActions {
   display: flex;
@@ -148,12 +150,11 @@
   gap: 0.85rem;
 }
 
-/* WHATSAPP PILL BUTTON (OFFICIAL DESIGN) */
 .navPhonePill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #108e45; /* Darker emerald for high contrast */
+  background: #ee1b24;
   color: #ffffff;
   text-decoration: none;
   padding: 8px 18px;
@@ -161,15 +162,15 @@
   font-size: 0.92rem;
   font-weight: 900;
   letter-spacing: 0.02em;
-  box-shadow: 0 4px 14px rgba(16, 142, 69, 0.4);
+  box-shadow: 0 4px 14px rgba(238, 27, 36, 0.4);
   transition: all 0.25s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .navPhonePill:hover {
-  background: #0d7539;
+  background: #dc141d;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 142, 69, 0.6);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.6);
 }
 
 .phonePillIcon {
@@ -177,7 +178,6 @@
   flex-shrink: 0;
 }
 
-/* BOTÓN DE UBICACIÓN */
 .locationNavBtn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -206,25 +206,6 @@
   flex-shrink: 0;
 }
 
-.mobileCatalogBtn {
-  display: none;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.mobileCatalogBtn.active {
-  background: #ee1b24;
-  color: #ffffff;
-  border-color: #ee1b24;
-}
-
 .cartBtn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -243,7 +224,6 @@
   background: rgba(238, 27, 36, 0.18);
   color: #ff6b6b;
   border-color: rgba(238, 27, 36, 0.45);
-  box-shadow: 0 0 15px rgba(238, 27, 36, 0.3);
 }
 
 .cartBadge {
@@ -261,18 +241,74 @@
   align-items: center;
   justify-content: center;
   border: 2px solid #0b0c10;
-  box-shadow: 0 2px 8px rgba(238, 27, 36, 0.6);
-  animation: pulseBadge 2s infinite;
 }
 
-@keyframes pulseBadge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+.mobileMenuToggleBtn {
+  display: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 /* =========================================================================
-   LOCATION MODAL STYLES
+   MOBILE DRAWER
    ========================================================================= */
+.mobileNavDrawer {
+  width: 100%;
+  background: #0f1118;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem 0;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileNavLink {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 12px 1rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.mobileNavLink.active {
+  color: #ffffff;
+  background: rgba(238, 27, 36, 0.1);
+  border-left-color: #ee1b24;
+}
+
+.mobileDrawerFooter {
+  padding: 0.75rem 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobileWhatsAppBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ee1b24;
+  color: white;
+  text-decoration: none;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+/* MODAL DE UBICACIÓN */
 .locationModalOverlay {
   position: fixed;
   inset: 0;
@@ -284,7 +320,6 @@
   justify-content: center;
   z-index: 2000;
   padding: 1rem;
-  animation: fadeIn 0.25s ease-out;
 }
 
 .locationModalCard {
@@ -293,9 +328,8 @@
   border-radius: 20px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(238, 27, 36, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
   overflow: hidden;
-  animation: scaleUp 0.25s ease-out;
 }
 
 .locationModalHeader {
@@ -322,7 +356,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 .locPinIcon {
@@ -334,7 +367,6 @@
   font-weight: 900;
   color: #ffffff;
   margin: 0;
-  letter-spacing: -0.01em;
 }
 
 .locCityTag {
@@ -342,7 +374,6 @@
   color: #ff6b6b;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .locCloseBtn {
@@ -356,13 +387,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .locCloseBtn:hover {
   background: #ee1b24;
   color: white;
-  border-color: #ee1b24;
 }
 
 .locationModalBody {
@@ -389,7 +418,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 .locRowIcon.red { background: rgba(238, 27, 36, 0.15); color: #ee1b24; }
@@ -402,7 +430,6 @@
   font-size: 0.76rem;
   color: #ff6b6b;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
   margin-bottom: 2px;
 }
 
@@ -411,13 +438,7 @@
   color: #f1f5f9;
   font-weight: 600;
   margin: 0;
-  line-height: 1.35;
   text-decoration: none;
-}
-
-.locRowContent a:hover {
-  color: #34d399;
-  text-decoration: underline;
 }
 
 .locActionButtons {
@@ -430,29 +451,6 @@
 .locMapBtn {
   background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
   color: white;
-  padding: 13px 18px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.88rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(238, 27, 36, 0.35);
-  transition: all 0.2s ease;
-}
-
-.locMapBtn:hover {
-  background: linear-gradient(135deg, #dc141d 0%, #a80a10 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.5);
-}
-
-.locWhatsAppBtn {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1.5px solid rgba(16, 185, 129, 0.4);
-  color: #34d399;
   padding: 12px 18px;
   border-radius: 12px;
   font-weight: 800;
@@ -462,14 +460,26 @@
   justify-content: center;
   gap: 8px;
   text-decoration: none;
+}
+
+.locWhatsAppBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .locWhatsAppBtn:hover {
-  background: #10b981;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  border-color: #ee1b24;
+  color: #ee1b24;
 }
 
 @keyframes fadeIn {
@@ -477,57 +487,17 @@
   to { opacity: 1; }
 }
 
-@keyframes scaleUp {
-  from { transform: scale(0.94); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* =========================================================================
-   RESPONSIVE (MOBILE)
-   ========================================================================= */
 @media (max-width: 1024px) {
-  .navLinks {
-    display: none;
-  }
+  .navLinks { display: none; }
+  .mobileMenuToggleBtn { display: flex; align-items: center; justify-content: center; }
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0.6rem 1rem;
-  }
-
-  .brand-tagline-text {
-    display: none !important;
-  }
-
-  .navPhonePill .phonePillText {
-    display: none;
-  }
-
-  .navPhonePill {
-    padding: 9px;
-    border-radius: 10px;
-  }
-
-  .locBtnLabel {
-    display: none;
-  }
-
-  .locationNavBtn {
-    padding: 9px;
-    border-radius: 10px;
-  }
-
-  .mobileCatalogBtn {
-    display: flex;
-    align-items: center;
-    padding: 7px 11px;
-    font-size: 0.78rem;
-    border-radius: 10px;
-  }
-  
-  .cartBtn {
-    padding: 9px;
-    border-radius: 10px;
-  }
+  .navbar { padding: 0.6rem 1rem; }
+  .brand-tagline-text { display: none !important; }
+  .navPhonePill .phonePillText { display: none; }
+  .navPhonePill { padding: 9px; border-radius: 10px; }
+  .locBtnLabel { display: none; }
+  .locationNavBtn { padding: 9px; border-radius: 10px; }
+  .cartBtn { padding: 9px; border-radius: 10px; }
 }

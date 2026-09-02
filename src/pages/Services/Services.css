@@ -1,0 +1,287 @@
+.servicesPage {
+  background-color: #0a0c10;
+  color: #ffffff;
+  padding-bottom: 5rem;
+}
+
+.servicesHero {
+  padding: 5rem 0 3.5rem;
+  background: radial-gradient(circle at 80% 20%, rgba(238, 27, 36, 0.16) 0%, transparent 60%), #0d0f16;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.servicesHeroContent {
+  max-width: 840px;
+}
+
+.servicesHero h1 {
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem 0;
+}
+
+.servicesHeroActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* TRUST BAR */
+.servicesTrustBar {
+  padding: 2rem 0;
+  background: #0f1118;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.trustBarGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.trustItem strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.trustItem span {
+  display: block;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+/* SERVICES GRID */
+.servicesListSection {
+  padding: 4.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.serviceDetailCard {
+  background: #11131a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.serviceDetailCard:hover {
+  border-color: rgba(238, 27, 36, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(238, 27, 36, 0.15);
+}
+
+.serviceCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.serviceIconWrapper {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: rgba(238, 27, 36, 0.12);
+  border: 1px solid rgba(238, 27, 36, 0.35);
+  color: #ee1b24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serviceNumber {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.15);
+  font-family: monospace;
+}
+
+.serviceDetailCard h3 {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+.serviceSubtitle {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #ee1b24;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
+.serviceDesc {
+  font-size: 0.94rem;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.serviceBenefits {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.75rem;
+  margin-top: auto;
+}
+
+.serviceBenefits strong {
+  display: block;
+  font-size: 0.78rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.serviceBenefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.serviceBenefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.serviceWhatsAppBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(238, 27, 36, 0.12);
+  border: 1.5px solid rgba(238, 27, 36, 0.45);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  transition: all 0.25s ease;
+}
+
+.serviceWhatsAppBtn:hover {
+  background: #ee1b24;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.4);
+}
+
+/* PROCESO */
+.servicesProcessSection {
+  padding: 4.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.processStepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.stepCard {
+  background: #11131a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.75rem;
+  position: relative;
+}
+
+.stepBadge {
+  display: inline-block;
+  background: #ee1b24;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.stepCard h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.stepCard p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* CTA FOOTER */
+.servicesCtaSection {
+  padding: 2.5rem 0;
+}
+
+.servicesCtaCard {
+  background: radial-gradient(circle at 20% 50%, rgba(238, 27, 36, 0.2) 0%, transparent 60%), #141722;
+  border: 1.5px solid rgba(238, 27, 36, 0.4);
+  border-radius: 20px;
+  padding: 3.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.servicesCtaCard h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0.85rem;
+}
+
+.servicesCtaCard p {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+@media (max-width: 1024px) {
+  .servicesGrid { grid-template-columns: 1fr; }
+  .trustBarGrid { grid-template-columns: 1fr; gap: 1rem; }
+  .processStepsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .servicesHero { padding: 3rem 0 2rem; }
+  .processStepsGrid { grid-template-columns: 1fr; }
+  .serviceDetailCard { padding: 1.5rem; }
+  .servicesCtaCard { padding: 2rem 1rem; }
+  .servicesHeroActions .btnRedPill { width: 100%; justify-content: center; }
+}

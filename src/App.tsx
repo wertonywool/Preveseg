@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
+import About from './pages/About/About';
+import Services from './pages/Services/Services';
+import Contact from './pages/Contact/Contact';
 import Login from './pages/Login/Login';
 import Admin from './pages/Admin/Admin';
 import Inventory from './pages/Admin/Inventory';
@@ -21,6 +24,9 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/nosotros" element={<About />} />
+              <Route path="/servicios" element={<Services />} />
+              <Route path="/contacto" element={<Contact />} />
               <Route path="/productos" element={<Products />} />
               <Route path="/producto/:id" element={<ProductDetail />} />
               <Route path="/login" element={<Login />} />

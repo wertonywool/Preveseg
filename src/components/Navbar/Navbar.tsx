@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown } from 'lucide-react';
+import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown, Menu } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../Cart/Cart';
 import PrevesegLogo from './PrevesegLogo';
@@ -10,39 +10,32 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { itemCount } = useCart();
   const location = useLocation();
 
-  const handleNavScroll = (elementId: string) => {
-    if (location.pathname !== '/') {
-      window.location.href = '/#' + elementId;
-      return;
-    }
-    const el = document.getElementById(elementId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <>
       <nav className="navbar">
         <div className="navbarContainer">
           {/* LOGO */}
-          <Link to="/" className="logoLink" aria-label="Preveseg Inicio">
+          <Link to="/" className="logoLink" aria-label="Preveseg Inicio" onClick={closeMobileMenu}>
             <PrevesegLogo showTagline={true} tagline="SOLUCIONES QUE PROTEGEN" size="md" />
           </Link>
 
-          {/* MAIN NAV LINKS */}
+          {/* DESKTOP NAV LINKS */}
           <div className="navLinks">
             <Link to="/" className={`navLink ${location.pathname === '/' ? 'active' : ''}`}>
               INICIO
               {location.pathname === '/' && <span className="activeIndicator"></span>}
             </Link>
 
-            <button onClick={() => handleNavScroll('nosotros')} className="navLink navBtnLink">
+            <Link to="/nosotros" className={`navLink ${location.pathname === '/nosotros' ? 'active' : ''}`}>
               NOSOTROS
-            </button>
+              {location.pathname === '/nosotros' && <span className="activeIndicator"></span>}
+            </Link>
 
             <div 
               className="navDropdownContainer"
@@ -86,18 +79,20 @@ const Navbar = () => {
               )}
             </div>
 
-            <button onClick={() => handleNavScroll('servicios')} className="navLink navBtnLink">
+            <Link to="/servicios" className={`navLink ${location.pathname === '/servicios' ? 'active' : ''}`}>
               SERVICIOS
-            </button>
+              {location.pathname === '/servicios' && <span className="activeIndicator"></span>}
+            </Link>
 
-            <button onClick={() => setIsLocationModalOpen(true)} className="navLink navBtnLink">
+            <Link to="/contacto" className={`navLink ${location.pathname === '/contacto' ? 'active' : ''}`}>
               CONTACTO
-            </button>
+              {location.pathname === '/contacto' && <span className="activeIndicator"></span>}
+            </Link>
           </div>
 
           {/* ACTIONS */}
           <div className="navActions">
-            {/* WHATSAPP PILL BUTTON (LIKE IN MOCKUP) */}
+            {/* WHATSAPP PILL BUTTON */}
             <a 
               href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20o%20cotizaci%C3%B3n." 
               target="_blank" 
@@ -105,12 +100,11 @@ const Navbar = () => {
               className="navPhonePill"
               title="Contactar por WhatsApp"
             >
-              <span className="phonePillDot"></span>
               <MessageCircle size={16} className="phonePillIcon" />
               <span className="phonePillText">304 629 6285</span>
             </a>
 
-            {/* LOCATION BUTTON */}
+            {/* LOCATION BUTTON (OPENS QUICK INFO MODAL) */}
             <button 
               className="locationNavBtn"
               onClick={() => setIsLocationModalOpen(true)}
@@ -120,15 +114,6 @@ const Navbar = () => {
               <MapPin size={18} className="locBtnIcon" />
               <span className="locBtnLabel">Cali</span>
             </button>
-
-            {/* MOBILE CATALOG BUTTON */}
-            <Link 
-              to="/productos" 
-              className={`mobileCatalogBtn ${location.pathname === '/productos' ? 'active' : ''}`} 
-              aria-label="Ver Catálogo"
-            >
-              <span>Catálogo</span>
-            </Link>
             
             {/* QUOTATION LIST CART BUTTON */}
             <button 
@@ -140,8 +125,50 @@ const Navbar = () => {
               <ShoppingBag size={20} />
               {itemCount > 0 && <span className="cartBadge">{itemCount}</span>}
             </button>
+
+            {/* MOBILE MENU TOGGLE */}
+            <button 
+              className="mobileMenuToggleBtn"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menu"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </div>
+
+        {/* MOBILE DRAWER */}
+        {isMobileMenuOpen && (
+          <div className="mobileNavDrawer">
+            <div className="mobileNavLinks">
+              <Link to="/" className={`mobileNavLink ${location.pathname === '/' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                Inicio
+              </Link>
+              <Link to="/nosotros" className={`mobileNavLink ${location.pathname === '/nosotros' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                Nosotros
+              </Link>
+              <Link to="/productos" className={`mobileNavLink ${location.pathname.startsWith('/producto') ? 'active' : ''}`} onClick={closeMobileMenu}>
+                Catálogo de Productos
+              </Link>
+              <Link to="/servicios" className={`mobileNavLink ${location.pathname === '/servicios' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                Servicios & Mantenimiento
+              </Link>
+              <Link to="/contacto" className={`mobileNavLink ${location.pathname === '/contacto' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                Contacto & Sede Cali
+              </Link>
+            </div>
+            <div className="mobileDrawerFooter">
+              <a 
+                href="https://wa.me/573046296285" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mobileWhatsAppBtn"
+              >
+                <Phone size={16} /> Chatear al 304 629 6285
+              </a>
+            </div>
+          </div>
+        )}
       </nav>
       
       {/* MODAL DE UBICACIÓN & HORARIOS */}
@@ -212,14 +239,13 @@ const Navbar = () => {
                 >
                   <Navigation size={17} /> Cómo Llegar en Google Maps
                 </a>
-                <a 
-                  href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20quisiera%20consultar%20sobre%20la%20atenci%C3%B3n%20en%20sede%20Cra%2028D%2072f-79." 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="locWhatsAppBtn"
+                <Link 
+                  to="/contacto" 
+                  className="locWhatsAppBtn" 
+                  onClick={() => setIsLocationModalOpen(false)}
                 >
-                  <MessageCircle size={17} /> Contactar por WhatsApp
-                </a>
+                  Ir a Página de Contacto →
+                </Link>
               </div>
             </div>
           </div>
