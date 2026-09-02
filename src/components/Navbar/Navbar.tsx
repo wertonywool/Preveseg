@@ -1,56 +1,116 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, ShieldCheck, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation } from 'lucide-react';
+import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../Cart/Cart';
+import PrevesegLogo from './PrevesegLogo';
 import './Navbar.css';
-
-import logoImgFile from '../../assets/logo.png';
 
 const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
   const { itemCount } = useCart();
   const location = useLocation();
+
+  const handleNavScroll = (elementId: string) => {
+    if (location.pathname !== '/') {
+      window.location.href = '/#' + elementId;
+      return;
+    }
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
       <nav className="navbar">
         <div className="navbarContainer">
-          <Link to="/" className="logo" aria-label="Preveseg Inicio">
-            <div className="logoIconWrapper">
-              <img 
-                src={logoImgFile} 
-                alt="Preveseg Logo" 
-                className="logoImg" 
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-              />
-            </div>
-            <div className="logoText">
-              <span className="logoMain">PREVESEG</span>
-              <span className="logoSubtitle"><ShieldCheck size={11} className="inline-icon" /> SEGURIDAD INDUSTRIAL • CALI</span>
-            </div>
+          {/* LOGO */}
+          <Link to="/" className="logoLink" aria-label="Preveseg Inicio">
+            <PrevesegLogo showTagline={true} tagline="SOLUCIONES QUE PROTEGEN" size="md" />
           </Link>
 
+          {/* MAIN NAV LINKS */}
           <div className="navLinks">
             <Link to="/" className={`navLink ${location.pathname === '/' ? 'active' : ''}`}>
-              Inicio
+              INICIO
+              {location.pathname === '/' && <span className="activeIndicator"></span>}
             </Link>
-            <Link to="/productos" className={`navLink ${location.pathname === '/productos' ? 'active' : ''}`}>
-              Catálogo de Equipos
-            </Link>
-            <a 
-              href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20asesor%C3%ADa%20y%20cotizaci%C3%B3n." 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="navSupportLink"
+
+            <button onClick={() => handleNavScroll('nosotros')} className="navLink navBtnLink">
+              NOSOTROS
+            </button>
+
+            <div 
+              className="navDropdownContainer"
+              onMouseEnter={() => setIsProductsDropdownOpen(true)}
+              onMouseLeave={() => setIsProductsDropdownOpen(false)}
             >
-              <MessageCircle size={15} /> Cotizar por WhatsApp
-            </a>
+              <Link to="/productos" className={`navLink ${location.pathname.startsWith('/producto') ? 'active' : ''}`}>
+                <span>PRODUCTOS</span>
+                <ChevronDown size={14} className="dropdownChevron" />
+                {location.pathname.startsWith('/producto') && <span className="activeIndicator"></span>}
+              </Link>
+
+              {isProductsDropdownOpen && (
+                <div className="navDropdownMenu">
+                  <Link to="/productos?categoria=Extintores y Equipos Contra Incendio" className="dropdownItem">
+                    Extintores y Equipos Contra Incendio
+                  </Link>
+                  <Link to="/productos?categoria=Camillas y Botiquines" className="dropdownItem">
+                    Camillas y Botiquines
+                  </Link>
+                  <Link to="/productos?categoria=Kits de Carretera y Vehiculares" className="dropdownItem">
+                    Kits de Carretera y Vehiculares
+                  </Link>
+                  <Link to="/productos?categoria=Conos y Seguridad Vial" className="dropdownItem">
+                    Conos y Seguridad Vial
+                  </Link>
+                  <Link to="/productos?categoria=Señalización Industrial" className="dropdownItem">
+                    Señalización Industrial
+                  </Link>
+                  <Link to="/productos?categoria=EPP (Protección Personal)" className="dropdownItem">
+                    EPP (Protección Personal)
+                  </Link>
+                  <Link to="/productos?categoria=Kits %26 Combos de Seguridad" className="dropdownItem">
+                    Kits & Combos de Seguridad
+                  </Link>
+                  <div className="dropdownDivider"></div>
+                  <Link to="/productos" className="dropdownItem highlight">
+                    Ver Catálogo Completo →
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <button onClick={() => handleNavScroll('servicios')} className="navLink navBtnLink">
+              SERVICIOS
+            </button>
+
+            <button onClick={() => setIsLocationModalOpen(true)} className="navLink navBtnLink">
+              CONTACTO
+            </button>
           </div>
 
+          {/* ACTIONS */}
           <div className="navActions">
-            {/* BOTÓN DE UBICACIÓN CALI */}
+            {/* WHATSAPP PILL BUTTON (LIKE IN MOCKUP) */}
+            <a 
+              href="https://wa.me/573046296285?text=Hola%20Preveseg%2C%20quisiera%20solicitar%20asesor%C3%ADa%20o%20cotizaci%C3%B3n." 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="navPhonePill"
+              title="Contactar por WhatsApp"
+            >
+              <span className="phonePillDot"></span>
+              <MessageCircle size={16} className="phonePillIcon" />
+              <span className="phonePillText">304 629 6285</span>
+            </a>
+
+            {/* LOCATION BUTTON */}
             <button 
               className="locationNavBtn"
               onClick={() => setIsLocationModalOpen(true)}
@@ -58,9 +118,10 @@ const Navbar = () => {
               aria-label="Ver Ubicación en Cali"
             >
               <MapPin size={18} className="locBtnIcon" />
-              <span className="locBtnLabel">Sede Cali</span>
+              <span className="locBtnLabel">Cali</span>
             </button>
 
+            {/* MOBILE CATALOG BUTTON */}
             <Link 
               to="/productos" 
               className={`mobileCatalogBtn ${location.pathname === '/productos' ? 'active' : ''}`} 
@@ -69,6 +130,7 @@ const Navbar = () => {
               <span>Catálogo</span>
             </Link>
             
+            {/* QUOTATION LIST CART BUTTON */}
             <button 
               className="cartBtn" 
               onClick={() => setIsCartOpen(true)} 

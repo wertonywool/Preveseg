@@ -1,15 +1,15 @@
 .navbar {
-  background-color: rgba(6, 9, 19, 0.88);
+  background-color: #0b0c10;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 0.85rem 1.5rem;
+  padding: 0.85rem 2rem;
   display: flex;
   justify-content: center;
   position: sticky;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
   transition: all 0.3s ease;
 }
 
@@ -18,152 +18,191 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1440px;
 }
 
-.logo {
+.logoLink {
   text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================================
+   NAV LINKS (INICIO, NOSOTROS, PRODUCTOS, SERVICIOS, CONTACTO)
+   ========================================================================= */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navLink {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 4px;
+  position: relative;
+  transition: color 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navLink:hover {
+  color: #ee1b24;
+}
+
+.navLink.active {
+  color: #ffffff;
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #ee1b24;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(238, 27, 36, 0.8);
+}
+
+.dropdownChevron {
+  transition: transform 0.2s ease;
+  color: #94a3b8;
+}
+
+.navDropdownContainer {
+  position: relative;
+}
+
+.navDropdownContainer:hover .dropdownChevron {
+  transform: rotate(180deg);
+  color: #ee1b24;
+}
+
+.navDropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 280px;
+  background: #0e1117;
+  border: 1px solid rgba(238, 27, 36, 0.3);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(238, 27, 36, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: dropdownFade 0.2s ease-out;
+  z-index: 100;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownItem {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 9px 12px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.dropdownItem:hover {
+  background: rgba(238, 27, 36, 0.12);
+  color: #ffffff;
+  padding-left: 16px;
+}
+
+.dropdownItem.highlight {
+  color: #ff6b6b;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
+/* =========================================================================
+   NAV ACTIONS (WHATSAPP PILL, LOCATION, CART)
+   ========================================================================= */
+.navActions {
   display: flex;
   align-items: center;
   gap: 0.85rem;
 }
 
-.logoIconWrapper {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.25) 0%, rgba(15, 23, 42, 0.8) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  border: 1px solid rgba(0, 102, 255, 0.35);
-  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.25);
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-}
-
-.logo:hover .logoIconWrapper {
-  transform: scale(1.06);
-  border-color: var(--safety-blue);
-  box-shadow: 0 0 20px rgba(0, 102, 255, 0.45);
-}
-
-.logoImg {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-}
-
-.logoText {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.logoMain {
-  color: #ffffff;
-  font-weight: 900;
-  font-size: 1.3rem;
-  letter-spacing: -0.02em;
-}
-
-.logoSubtitle {
-  font-size: 0.62rem;
-  font-weight: 800;
-  color: #60a5fa;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.inline-icon {
-  color: #ee1b24;
-}
-
-.navLinks {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.navLink {
-  color: #94a3b8;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  transition: all 0.25s ease;
-  position: relative;
-}
-
-.navLink:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.navLink.active {
-  color: #60a5fa;
-  background: rgba(0, 102, 255, 0.12);
-  border: 1px solid rgba(0, 102, 255, 0.35);
-  box-shadow: 0 0 15px rgba(0, 102, 255, 0.15);
-}
-
-.navSupportLink {
+/* WHATSAPP PILL BUTTON (OFFICIAL DESIGN) */
+.navPhonePill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(16, 185, 129, 0.12);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
-  font-size: 0.84rem;
-  font-weight: 700;
-  transition: all 0.25s ease;
-}
-
-.navSupportLink:hover {
-  background: #10b981;
+  gap: 8px;
+  background: #108e45; /* Darker emerald for high contrast */
   color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 14px rgba(16, 142, 69, 0.4);
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.navActions {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.navPhonePill:hover {
+  background: #0d7539;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 142, 69, 0.6);
+}
+
+.phonePillIcon {
+  color: #ffffff;
+  flex-shrink: 0;
 }
 
 /* BOTÓN DE UBICACIÓN */
 .locationNavBtn {
-  background: rgba(238, 27, 36, 0.12);
-  border: 1px solid rgba(238, 27, 36, 0.35);
-  color: #ff6b6b;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   font-size: 0.82rem;
   font-weight: 800;
   transition: all 0.25s ease;
 }
 
 .locationNavBtn:hover {
-  background: #ee1b24;
-  color: #ffffff;
-  border-color: #ee1b24;
-  box-shadow: 0 0 14px rgba(238, 27, 36, 0.5);
+  background: rgba(238, 27, 36, 0.18);
+  color: #ff6b6b;
+  border-color: rgba(238, 27, 36, 0.5);
+  box-shadow: 0 0 14px rgba(238, 27, 36, 0.35);
   transform: translateY(-1px);
 }
 
 .locBtnIcon {
+  color: #ee1b24;
   flex-shrink: 0;
 }
 
@@ -175,20 +214,20 @@
   font-size: 0.8rem;
   font-weight: 700;
   padding: 8px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .mobileCatalogBtn.active {
-  background: rgba(0, 102, 255, 0.18);
-  color: #60a5fa;
-  border-color: rgba(0, 102, 255, 0.4);
+  background: #ee1b24;
+  color: #ffffff;
+  border-color: #ee1b24;
 }
 
 .cartBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #ffffff;
   cursor: pointer;
   position: relative;
@@ -196,32 +235,32 @@
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   transition: all 0.25s ease;
 }
 
 .cartBtn:hover {
-  background: rgba(0, 102, 255, 0.15);
-  color: #60a5fa;
-  border-color: rgba(0, 102, 255, 0.45);
-  box-shadow: 0 0 15px rgba(0, 102, 255, 0.25);
+  background: rgba(238, 27, 36, 0.18);
+  color: #ff6b6b;
+  border-color: rgba(238, 27, 36, 0.45);
+  box-shadow: 0 0 15px rgba(238, 27, 36, 0.3);
 }
 
 .cartBadge {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
+  background: #ee1b24;
   color: white;
   font-size: 0.68rem;
   font-weight: 900;
   min-width: 20px;
   height: 20px;
-  border-radius: var(--radius-full);
+  border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #060913;
+  border: 2px solid #0b0c10;
   box-shadow: 0 2px 8px rgba(238, 27, 36, 0.6);
   animation: pulseBadge 2s infinite;
 }
@@ -232,14 +271,14 @@
 }
 
 /* =========================================================================
-   MODAL DE UBICACIÓN & HORARIOS PREVESEG
+   LOCATION MODAL STYLES
    ========================================================================= */
 .locationModalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 8, 16, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(5, 8, 16, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -249,19 +288,19 @@
 }
 
 .locationModalCard {
-  background: #0b1120;
-  border: 1.5px solid rgba(0, 102, 255, 0.4);
+  background: #0f1118;
+  border: 1.5px solid rgba(238, 27, 36, 0.4);
   border-radius: 20px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 102, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(238, 27, 36, 0.2);
   overflow: hidden;
   animation: scaleUp 0.25s ease-out;
 }
 
 .locationModalHeader {
   padding: 1.25rem 1.4rem;
-  background: radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.2) 0%, transparent 60%), #0d1527;
+  background: #141722;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
@@ -279,7 +318,7 @@
   height: 44px;
   border-radius: 12px;
   background: rgba(238, 27, 36, 0.15);
-  border: 1px solid rgba(238, 27, 36, 0.35);
+  border: 1px solid rgba(238, 27, 36, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -300,7 +339,7 @@
 
 .locCityTag {
   font-size: 0.74rem;
-  color: #60a5fa;
+  color: #ff6b6b;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -361,7 +400,7 @@
 .locRowContent strong {
   display: block;
   font-size: 0.76rem;
-  color: #60a5fa;
+  color: #ff6b6b;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 2px;
@@ -389,7 +428,7 @@
 }
 
 .locMapBtn {
-  background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%);
+  background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%);
   color: white;
   padding: 13px 18px;
   border-radius: 12px;
@@ -400,14 +439,14 @@
   justify-content: center;
   gap: 8px;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(238, 27, 36, 0.35);
   transition: all 0.2s ease;
 }
 
 .locMapBtn:hover {
-  background: linear-gradient(135deg, #0052cc 0%, #003db3 100%);
+  background: linear-gradient(135deg, #dc141d 0%, #a80a10 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.5);
 }
 
 .locWhatsAppBtn {
@@ -444,27 +483,30 @@
 }
 
 /* =========================================================================
-   MEDIA QUERIES (TELÉFONO / MOBILE)
+   RESPONSIVE (MOBILE)
    ========================================================================= */
+@media (max-width: 1024px) {
+  .navLinks {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.55rem 0.85rem;
+    padding: 0.6rem 1rem;
   }
 
-  /* EN MODO TELÉFONO: SOLO EL LOGO */
-  .logoText {
+  .brand-tagline-text {
     display: none !important;
   }
 
-  .logoIconWrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    padding: 4px;
+  .navPhonePill .phonePillText {
+    display: none;
   }
 
-  .navLinks {
-    display: none;
+  .navPhonePill {
+    padding: 9px;
+    border-radius: 10px;
   }
 
   .locBtnLabel {
