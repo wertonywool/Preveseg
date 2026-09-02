@@ -17,7 +17,9 @@ import {
   Sparkles, 
   Zap, 
   HardHat, 
-  Compass 
+  Compass,
+  HelpCircle,
+  Shield
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroProductsImg from '../../assets/hero-products.jpg';
@@ -31,15 +33,15 @@ interface FaqItem {
 const faqs: FaqItem[] = [
   {
     q: '¿Cada cuánto tiempo se debe recargar un extintor en Colombia?',
-    a: 'De acuerdo con la norma técnica NTC 2885 y las directrices de los Cuerpos de Bomberos en Colombia, los extintores deben someterse a inspección y recarga obligatoria una vez al año (cada 12 meses), incluso si no han sido percutados o descargados, para garantizar la presurización y calidad del agente químico.'
+    a: 'De acuerdo con la norma técnica NTC 2885 y las directrices de los Cuerpos de Bomberos en Colombia, los extintores deben someterse a inspección y recarga obligatoria una vez al año (cada 12 meses), incluso si no han sido percutados o descargados, para certificar la presión y calidad del agente químico.'
   },
   {
     q: '¿Preveseg entrega certificado válido para el SG-SST y Bomberos?',
-    a: 'Sí, absolutamente. Con cada servicio de venta, recarga o mantenimiento emitimos el Certificado Oficial de Inspección y Recarga con fecha de ejecución, vigencia, número de collarín reglamentario y registro técnico, 100% válido ante inspecciones de la Secretaría de Salud, Bomberos Cali y auditores de SG-SST.'
+    a: 'Sí, absolutamente. Con cada servicio de venta, recarga o mantenimiento emitimos el Certificado Oficial de Inspección y Recarga con fecha de ejecución, vigencia, número de collarín reglamentario y registro técnico, 100% válido ante inspecciones de la Secretaría de Salud, Bomberos Cali y auditores del SG-SST.'
   },
   {
     q: '¿Prestan extintores de respaldo mientras se realiza la recarga de nuestros equipos?',
-    a: 'Sí. Ofrecemos servicio de extintores de respaldo temporal para que las instalaciones de tu empresa, obra o comercio nunca queden desprotegidas durante el tiempo que toma el proceso técnico en nuestro taller.'
+    a: 'Sí. Ofrecemos servicio de extintores de préstamo temporal para que las instalaciones de tu empresa, obra o comercio nunca queden desprotegidas durante el tiempo que toma el proceso técnico en nuestro taller.'
   },
   {
     q: '¿Realizan visitas de inspección técnica en empresas de Cali y alrededores?',
@@ -59,30 +61,30 @@ const About = () => {
   };
 
   return (
-    <div className="aboutPageUnified page-transition">
+    <div className="aboutPageBalanced page-transition">
       {/* =========================================================================
-          1. HERO EXPANSIVO CORPORATIVO
+          1. HERO CORPORATIVO LUMINOSO (BLANCO, GRIS CLARO Y ROJO)
          ========================================================================= */}
-      <section className="aboutHeroUnified">
+      <section className="aboutHeroLight">
         <div className="container">
           <div className="aboutHeroGrid">
             <div className="aboutHeroText">
               <div className="aboutHeroBadge">
-                <span className="badgeDotPulse"></span>
+                <span className="badgeDotRed"></span>
                 <span>EMPRESA LÍDER EN SEGURIDAD INDUSTRIAL Y EXTINTORES</span>
               </div>
               
               <h1>
                 Más que equipos, <br />
-                <span className="textRedGlow">Protegemos Vidas</span> e Instalaciones
+                <span className="textRed">Protegemos Vidas</span> e Instalaciones
               </h1>
 
               <p className="heroLeadText">
-                En <strong>PREVESEG</strong> somos especialistas en la venta, mantenimiento certificado y recarga de equipos contra incendio, seguridad industrial, dotaciones EPP y rescate. Con sede principal en Cali, brindamos respaldo normativo y tranquilidad a más de 500 empresas de la región.
+                En <strong>PREVESEG</strong> somos una empresa colombiana especializada en la venta, mantenimiento certificado y recarga de equipos contra incendio, dotaciones EPP y seguridad vial. Con sede principal en Cali, brindamos respaldo normativo y tranquilidad a más de 500 empresas de la región.
               </p>
 
               <div className="aboutHeroChips">
-                <div className="heroChip"><MapPin size={15} className="chipIconRed" /> Cra 28D 72f-79, Cali</div>
+                <div className="heroChip"><MapPin size={15} className="chipIconRed" /> Sede Cali: Cra 28D 72f-79</div>
                 <div className="heroChip"><Award size={15} className="chipIconRed" /> +10 Años de Experiencia</div>
                 <div className="heroChip"><ShieldCheck size={15} className="chipIconRed" /> Normas NTC 2885 & NFPA 10</div>
               </div>
@@ -94,10 +96,10 @@ const About = () => {
                   rel="noopener noreferrer" 
                   className="btnRedPillSolid"
                 >
-                  <Phone size={17} /> Hablar con un Asesor Técnico
+                  <Phone size={17} /> Hablar con un Asesor (304 629 6285)
                 </a>
-                <Link to="/servicios" className="btnOutlinePillGlass">
-                  Conocer Servicios <ArrowRight size={16} />
+                <Link to="/servicios" className="btnGrayOutline">
+                  Ver Portafolio de Servicios <ArrowRight size={16} />
                 </Link>
               </div>
             </div>
@@ -109,8 +111,8 @@ const About = () => {
                   <div className="overlayBadge">
                     <CheckCircle2 size={18} className="textRed" />
                     <div>
-                      <strong>Taller Autorizado en Cali</strong>
-                      <span>Inspección, recargas y pruebas hidrostáticas</span>
+                      <strong>Taller Técnico Autorizado en Cali</strong>
+                      <span>Inspección, recargas reglamentarias y pruebas de presión</span>
                     </div>
                   </div>
                 </div>
@@ -121,7 +123,7 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          2. MÉTRICAS CLAVE / STATS BAR
+          2. MÉTRICAS CLAVE / STATS BAR (TARJETAS BLANCAS CON SOMBRA SUAVE)
          ========================================================================= */}
       <section className="aboutMetricsSection">
         <div className="container">
@@ -143,7 +145,7 @@ const About = () => {
             </div>
             <div className="metricCard">
               <span className="metricNum">24/48h</span>
-              <span className="metricTitle">Tiempo de Entrega</span>
+              <span className="metricTitle">Tiempos de Entrega</span>
               <p>Despachos ágiles en Cali y cobertura con extintores de préstamo temporal.</p>
             </div>
           </div>
@@ -151,51 +153,49 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          3. NUESTRA HISTORIA & EVOLUCIÓN
+          3. NUESTRA HISTORIA & EVOLUCIÓN (FONDO BLANCO)
          ========================================================================= */}
       <section className="aboutStorySection">
         <div className="container">
-          <div className="storyContainer">
-            <div className="storyHeader center">
-              <span className="sectionPreTitle">— TRAYECTORIA Y COMPROMISO</span>
-              <h2>Nuestra Evolución <span className="textRed">en Cali</span></h2>
-              <p className="storyIntro">
-                Nacimos con la convicción de que la seguridad contra incendios no debe ser un simple trámite, sino una garantía real de protección para el patrimonio y la vida de las personas.
-              </p>
-              <div className="headerDivider"></div>
+          <div className="storyHeader center">
+            <span className="sectionPreTitle">— TRAYECTORIA Y COMPROMISO</span>
+            <h2>Nuestra Evolución <span className="textRed">en Cali</span></h2>
+            <p className="storyIntro">
+              Nacimos con la convicción de que la seguridad contra incendios no debe ser un simple trámite, sino una garantía real de protección para el patrimonio y la vida de las personas.
+            </p>
+            <div className="redDivider"></div>
+          </div>
+
+          <div className="timelineGrid">
+            <div className="timelineItem">
+              <div className="timelineYear">2014</div>
+              <div className="timelineContent">
+                <h4>Fundación y Primer Taller Técnico</h4>
+                <p>Iniciamos operaciones en Cali con servicio especializado en recarga y mantenimiento de extintores de Polvo Químico Seco (PQS) y CO₂ para el sector comercial.</p>
+              </div>
             </div>
 
-            <div className="timelineGrid">
-              <div className="timelineItem">
-                <div className="timelineYear">2014</div>
-                <div className="timelineContent">
-                  <h4>Fundación y Primer Taller Técnico</h4>
-                  <p>Iniciamos operaciones en Cali con servicio especializado en recarga y mantenimiento de extintores de Polvo Químico Seco (PQS) y CO₂ para el sector comercial.</p>
-                </div>
+            <div className="timelineItem">
+              <div className="timelineYear">2018</div>
+              <div className="timelineContent">
+                <h4>Expansión a Seguridad Industrial</h4>
+                <p>Ampliamos nuestro catálogo a camillas rígidas de inmovilización, botiquines reglamentarios tipo trauma, señalización fotoluminiscente y elementos de protección personal (EPP).</p>
               </div>
+            </div>
 
-              <div className="timelineItem">
-                <div className="timelineYear">2018</div>
-                <div className="timelineContent">
-                  <h4>Expansión a Seguridad Industrial</h4>
-                  <p>Ampliamos nuestro catálogo a camillas rígidas de inmovilización, botiquines reglamentarios tipo trauma, señalización fotoluminiscente y elementos de protección personal (EPP).</p>
-                </div>
+            <div className="timelineItem">
+              <div className="timelineYear">2021</div>
+              <div className="timelineContent">
+                <h4>Laboratorio de Pruebas Hidrostáticas</h4>
+                <p>Implementamos banco de pruebas hidrostáticas de alta y baja presión y tolva neumática de llenado automatizado para garantizar agentes extintores libres de humedad.</p>
               </div>
+            </div>
 
-              <div className="timelineItem">
-                <div className="timelineYear">2021</div>
-                <div className="timelineContent">
-                  <h4>Laboratorio de Pruebas Hidrostáticas</h4>
-                  <p>Implementamos banco de pruebas hidrostáticas de alta y baja presión y tolva neumática de llenado automatizado para garantizar agentes extintores libres de humedad.</p>
-                </div>
-              </div>
-
-              <div className="timelineItem">
-                <div className="timelineYear">HOY</div>
-                <div className="timelineContent">
-                  <h4>Aliado Estratégico Integral</h4>
-                  <p>Consolidados como referente en Cali y el Valle del Cauca, capacitando brigadas y abasteciendo a industrias con asesoría normativa continua.</p>
-                </div>
+            <div className="timelineItem">
+              <div className="timelineYear">HOY</div>
+              <div className="timelineContent">
+                <h4>Aliado Estratégico Integral</h4>
+                <p>Consolidados como referente en Cali y el Valle del Cauca, capacitando brigadas y abasteciendo a industrias con asesoría normativa continua.</p>
               </div>
             </div>
           </div>
@@ -203,7 +203,7 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          4. MISIÓN, VISIÓN Y PILARES ESTRATÉGICOS
+          4. MISIÓN, VISIÓN Y PILARES ESTRATÉGICOS (FONDO GRIS CLARO)
          ========================================================================= */}
       <section className="missionVisionSection">
         <div className="container">
@@ -236,14 +236,14 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          5. VALORES CORPORATIVOS
+          5. VALORES CORPORATIVOS (FONDO BLANCO)
          ========================================================================= */}
       <section className="aboutValuesSection">
         <div className="container">
-          <div className="sectionHeaderUnified center">
+          <div className="sectionHeaderCenter">
             <span className="sectionPreTitle">— CÓDIGO DE TRABAJO</span>
             <h2>Nuestros Valores <span className="textRed">Fundamentales</span></h2>
-            <div className="headerDivider"></div>
+            <div className="redDivider"></div>
           </div>
 
           <div className="valuesFourGrid">
@@ -275,11 +275,11 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          6. SECTORES QUE PROTEGEMOS
+          6. SECTORES QUE PROTEGEMOS (FONDO GRIS CLARO)
          ========================================================================= */}
       <section className="sectorsSection">
         <div className="container">
-          <div className="sectionHeaderUnified">
+          <div className="sectionHeaderFlex">
             <div>
               <span className="sectionPreTitle">— COBERTURA SECTORIAL</span>
               <h2>Soluciones a Medida para <span className="textRed">Cada Sector</span></h2>
@@ -318,12 +318,15 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          7. MARCO NORMATIVO Y CERTIFICACIONES
+          7. MARCO NORMATIVO Y CERTIFICACIONES (TARJETA BLANCA CON BORDE GRIS)
          ========================================================================= */}
       <section className="normativeFrameworkSection">
         <div className="container">
-          <div className="normativeCard">
+          <div className="normativeCardWhite">
             <div className="normativeLeft">
+              <div className="normativeIconBadge">
+                <Shield size={28} className="textRed" />
+              </div>
               <span className="sectionPreTitle">— RESPALDO TÉCNICO</span>
               <h2>Certificación y Cumplimiento de <span className="textRed">Normas Oficiales</span></h2>
               <p>
@@ -369,26 +372,29 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          8. PREGUNTAS FRECUENTES (FAQ ACORDEÓN)
+          8. PREGUNTAS FRECUENTES (FAQ ACORDEÓN EN FONDO GRIS CLARO)
          ========================================================================= */}
       <section className="aboutFaqSection">
         <div className="container">
-          <div className="sectionHeaderUnified center">
+          <div className="sectionHeaderCenter">
             <span className="sectionPreTitle">— RESOLVEMOS TUS DUDAS</span>
             <h2>Preguntas Frecuentes <span className="textRed">sobre Preveseg</span></h2>
-            <div className="headerDivider"></div>
+            <div className="redDivider"></div>
           </div>
 
           <div className="faqListWrapper">
             {faqs.map((item, idx) => (
               <div 
                 key={idx} 
-                className={`faqItemCard ${openFaq === idx ? 'open' : ''}`}
+                className={`faqItemCardWhite ${openFaq === idx ? 'open' : ''}`}
                 onClick={() => toggleFaq(idx)}
               >
                 <div className="faqQuestionRow">
-                  <h4>{item.q}</h4>
-                  <ChevronDown size={20} className="faqChevron" />
+                  <div className="faqQTitle">
+                    <HelpCircle size={18} className="textRed" />
+                    <h4>{item.q}</h4>
+                  </div>
+                  <ChevronDown size={18} className="faqChevron" />
                 </div>
                 {openFaq === idx && (
                   <div className="faqAnswerContent">
@@ -402,7 +408,7 @@ const About = () => {
       </section>
 
       {/* =========================================================================
-          9. CTA FINAL CON INVITACIÓN A SEDE
+          9. CTA FINAL (BLOQUE ELEGANTE EN FONDO OSCURO INDUSTRIAL)
          ========================================================================= */}
       <section className="aboutFinalCtaSection">
         <div className="container">
@@ -427,7 +433,7 @@ const About = () => {
               >
                 <Phone size={18} /> Chatear al 304 629 6285
               </a>
-              <Link to="/contacto" className="btnOutlinePillGlass">
+              <Link to="/contacto" className="btnDarkOutline">
                 Ver Mapa y Formulario
               </Link>
             </div>

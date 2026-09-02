@@ -1,7 +1,8 @@
-.aboutPageUnified {
-  background-color: #0a0c10;
-  color: #ffffff;
+.aboutPageBalanced {
+  background-color: #f8fafc;
+  color: #0f172a;
   overflow-x: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   padding-bottom: 5rem;
 }
 
@@ -18,19 +19,14 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .textRed {
   color: #ee1b24;
 }
 
-.textRedGlow {
-  color: #ee1b24;
-  text-shadow: 0 0 35px rgba(238, 27, 36, 0.45);
-}
-
-.headerDivider {
+.redDivider {
   width: 50px;
   height: 3px;
   background: #ee1b24;
@@ -38,25 +34,36 @@
   margin: 1.25rem auto 0;
 }
 
-.sectionHeaderUnified {
+.sectionHeaderCenter {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 3rem;
+}
+
+.sectionHeaderCenter h2 {
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sectionHeaderFlex {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
-.sectionHeaderUnified.center {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.sectionHeaderUnified h2 {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
+.sectionHeaderFlex h2 {
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
   font-weight: 900;
+  color: #0f172a;
   margin: 0;
   letter-spacing: -0.02em;
-  line-height: 1.15;
 }
 
 .sectionLinkAction {
@@ -76,15 +83,14 @@
 }
 
 /* =========================================================================
-   1. HERO EXPANSIVO CORPORATIVO
+   1. HERO CORPORATIVO LUMINOSO (BLANCO, GRIS CLARO Y ROJO)
    ========================================================================= */
-.aboutHeroUnified {
-  padding: 4.5rem 0 4rem;
+.aboutHeroLight {
   background: 
-    radial-gradient(circle at 75% 20%, rgba(238, 27, 36, 0.16) 0%, transparent 55%),
-    radial-gradient(circle at 10% 80%, rgba(238, 27, 36, 0.05) 0%, transparent 45%),
-    linear-gradient(135deg, #090a0d 0%, #0d0f16 50%, #11131c 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    radial-gradient(circle at 85% 20%, rgba(238, 27, 36, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%);
+  padding: 4.5rem 0 4rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .aboutHeroGrid {
@@ -103,38 +109,38 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(238, 27, 36, 0.1);
-  border: 1px solid rgba(238, 27, 36, 0.35);
+  background: rgba(238, 27, 36, 0.08);
+  border: 1px solid rgba(238, 27, 36, 0.25);
   padding: 6px 14px;
   border-radius: 9999px;
   font-size: 0.76rem;
   font-weight: 800;
-  color: #ff6b6b;
+  color: #ee1b24;
   letter-spacing: 0.06em;
   margin-bottom: 1.25rem;
   width: fit-content;
 }
 
-.badgeDotPulse {
+.badgeDotRed {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #ee1b24;
-  box-shadow: 0 0 8px #ee1b24;
 }
 
 .aboutHeroText h1 {
-  font-size: clamp(2.5rem, 4.5vw, 3.9rem);
+  font-size: clamp(2.4rem, 4.3vw, 3.8rem);
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -0.025em;
+  color: #0f172a;
   margin: 0 0 1.25rem 0;
   text-transform: uppercase;
 }
 
 .heroLeadText {
   font-size: 1.05rem;
-  color: #cbd5e1;
+  color: #334155;
   line-height: 1.65;
   margin-bottom: 1.75rem;
 }
@@ -150,13 +156,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #11131b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 7px 13px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 7px 14px;
   border-radius: 9999px;
   font-size: 0.8rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: #1e293b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .chipIconRed {
@@ -182,7 +189,7 @@
   font-size: 0.94rem;
   font-weight: 900;
   letter-spacing: 0.02em;
-  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.4);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.35);
   border: 1.5px solid #ee1b24;
   transition: all 0.25s ease;
 }
@@ -190,26 +197,25 @@
 .btnRedPillSolid:hover {
   background: #dc141d;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(238, 27, 36, 0.6);
+  box-shadow: 0 10px 25px rgba(238, 27, 36, 0.5);
 }
 
-.btnOutlinePillGlass {
+.btnGrayOutline {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
+  background: #ffffff;
+  color: #1e293b;
   text-decoration: none;
-  padding: 13px 24px;
+  padding: 13px 22px;
   border-radius: 9999px;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
-  letter-spacing: 0.03em;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid #cbd5e1;
   transition: all 0.25s ease;
 }
 
-.btnOutlinePillGlass:hover {
+.btnGrayOutline:hover {
   border-color: #ee1b24;
   color: #ee1b24;
   transform: translateY(-2px);
@@ -220,9 +226,9 @@
   width: 100%;
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(238, 27, 36, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #0f1118;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
 }
 
 .aboutHeroImg {
@@ -241,36 +247,37 @@
 }
 
 .overlayBadge {
-  background: rgba(11, 12, 18, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid #e2e8f0;
   padding: 12px 18px;
   border-radius: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .overlayBadge strong {
   display: block;
   font-size: 0.84rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .overlayBadge span {
   display: block;
   font-size: 0.74rem;
-  color: #94a3b8;
+  color: #64748b;
 }
 
 /* =========================================================================
-   2. STATS BAR
+   2. STATS BAR (TARJETAS BLANCAS CON SOMBRA)
    ========================================================================= */
 .aboutMetricsSection {
-  padding: 3.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0d0f15;
+  padding: 4rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
 .metricsGrid {
@@ -280,17 +287,17 @@
 }
 
 .metricCard {
-  background: #11131a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 18px;
   padding: 2rem;
   transition: all 0.25s ease;
 }
 
 .metricCard:hover {
-  border-color: rgba(238, 27, 36, 0.45);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  border-color: #ee1b24;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
 }
 
 .metricNum {
@@ -300,30 +307,30 @@
   line-height: 1;
   display: block;
   margin-bottom: 6px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .metricTitle {
   font-size: 1.05rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #0f172a;
   display: block;
   margin-bottom: 8px;
 }
 
 .metricCard p {
   font-size: 0.86rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.5;
   margin: 0;
 }
 
 /* =========================================================================
-   3. NUESTRA HISTORIA
+   3. NUESTRA HISTORIA (FONDO BLANCO)
    ========================================================================= */
 .aboutStorySection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
 .storyHeader {
@@ -332,15 +339,9 @@
   text-align: center;
 }
 
-.storyHeader h2 {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 900;
-  margin: 0 0 1rem 0;
-}
-
 .storyIntro {
   font-size: 1.05rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.6;
 }
 
@@ -351,20 +352,19 @@
 }
 
 .timelineItem {
-  background: #11131a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 18px;
   padding: 2rem;
-  position: relative;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
 .timelineItem:hover {
-  border-color: rgba(238, 27, 36, 0.45);
+  border-color: #ee1b24;
   transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
 }
 
 .timelineYear {
@@ -382,24 +382,25 @@
 .timelineContent h4 {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 0.5rem;
   line-height: 1.25;
 }
 
 .timelineContent p {
   font-size: 0.88rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.5;
   margin: 0;
 }
 
 /* =========================================================================
-   4. MISIÓN Y VISIÓN
+   4. MISIÓN Y VISIÓN (FONDO GRIS CLARO)
    ========================================================================= */
 .missionVisionSection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5f9;
 }
 
 .mvGridUnified {
@@ -409,26 +410,27 @@
 }
 
 .mvCardUnified {
-  background: #11131a;
-  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
   border-radius: 22px;
   padding: 3rem;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
 }
 
 .mvCardUnified:hover {
-  border-color: rgba(238, 27, 36, 0.4);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  border-color: #ee1b24;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
 }
 
 .mvIconBadge {
   width: 58px;
   height: 58px;
   border-radius: 14px;
-  background: rgba(238, 27, 36, 0.12);
-  border: 1px solid rgba(238, 27, 36, 0.35);
+  background: rgba(238, 27, 36, 0.08);
+  border: 1px solid rgba(238, 27, 36, 0.25);
   color: #ee1b24;
   display: flex;
   align-items: center;
@@ -439,13 +441,13 @@
 .mvCardUnified h3 {
   font-size: 1.75rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 1rem;
 }
 
 .mvCardUnified p {
   font-size: 1.02rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.65;
   margin-bottom: 2rem;
 }
@@ -455,21 +457,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   padding: 12px 16px;
   border-radius: 10px;
   font-size: 0.84rem;
-  color: #cbd5e1;
+  color: #1e293b;
   font-weight: 700;
 }
 
 /* =========================================================================
-   5. VALORES CORPORATIVOS
+   5. VALORES CORPORATIVOS (FONDO BLANCO)
    ========================================================================= */
 .aboutValuesSection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
 .valuesFourGrid {
@@ -480,24 +483,24 @@
 }
 
 .valueBox {
-  background: #11131a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 18px;
   padding: 2rem;
   transition: all 0.3s ease;
 }
 
 .valueBox:hover {
-  border-color: rgba(238, 27, 36, 0.45);
+  border-color: #ee1b24;
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
 }
 
 .valueBoxIcon {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: rgba(238, 27, 36, 0.12);
+  background: rgba(238, 27, 36, 0.08);
   color: #ee1b24;
   display: flex;
   align-items: center;
@@ -508,23 +511,24 @@
 .valueBox h4 {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 0.6rem;
 }
 
 .valueBox p {
   font-size: 0.88rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.5;
   margin: 0;
 }
 
 /* =========================================================================
-   6. SECTORES QUE PROTEGEMOS
+   6. SECTORES QUE PROTEGEMOS (FONDO GRIS CLARO)
    ========================================================================= */
 .sectorsSection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5f9;
 }
 
 .sectorsGrid {
@@ -534,25 +538,26 @@
 }
 
 .sectorCard {
-  background: #11131a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 18px;
   padding: 2rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
   transition: all 0.3s ease;
 }
 
 .sectorCard:hover {
-  border-color: rgba(238, 27, 36, 0.45);
+  border-color: #ee1b24;
   transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
 }
 
 .sectorIconBox {
   width: 52px;
   height: 52px;
   border-radius: 12px;
-  background: rgba(238, 27, 36, 0.12);
-  border: 1px solid rgba(238, 27, 36, 0.3);
+  background: rgba(238, 27, 36, 0.08);
+  border: 1px solid rgba(238, 27, 36, 0.2);
   color: #ee1b24;
   display: flex;
   align-items: center;
@@ -563,28 +568,29 @@
 .sectorCard h4 {
   font-size: 1.18rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 0.5rem;
 }
 
 .sectorCard p {
   font-size: 0.86rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.55;
   margin: 0;
 }
 
 /* =========================================================================
-   7. MARCO NORMATIVO
+   7. MARCO NORMATIVO (TARJETA BLANCA)
    ========================================================================= */
 .normativeFrameworkSection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
-.normativeCard {
-  background: radial-gradient(circle at 80% 50%, rgba(238, 27, 36, 0.18) 0%, transparent 60%), #11131a;
-  border: 1.5px solid rgba(238, 27, 36, 0.35);
+.normativeCardWhite {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
   border-radius: 22px;
   padding: 3.5rem;
   display: grid;
@@ -593,16 +599,28 @@
   align-items: center;
 }
 
+.normativeIconBadge {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(238, 27, 36, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
 .normativeLeft h2 {
-  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-size: clamp(2rem, 3.4vw, 2.6rem);
   font-weight: 900;
+  color: #0f172a;
   margin: 0 0 1rem 0;
   line-height: 1.15;
 }
 
 .normativeLeft p {
   font-size: 1rem;
-  color: #cbd5e1;
+  color: #475569;
   line-height: 1.6;
   margin: 0;
 }
@@ -617,33 +635,35 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 1rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 1.15rem 1.25rem;
   border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .nBadgeItem strong {
   display: block;
   font-size: 0.95rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 2px;
 }
 
 .nBadgeItem span {
   display: block;
   font-size: 0.84rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.4;
 }
 
 /* =========================================================================
-   8. FAQ ACORDEÓN
+   8. FAQ ACORDEÓN (FONDO GRIS CLARO)
    ========================================================================= */
 .aboutFaqSection {
   padding: 5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5f9;
 }
 
 .faqListWrapper {
@@ -654,22 +674,23 @@
   gap: 1rem;
 }
 
-.faqItemCard {
-  background: #11131a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.faqItemCardWhite {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 14px;
   padding: 1.25rem 1.75rem;
   cursor: pointer;
   transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-.faqItemCard:hover {
-  border-color: rgba(238, 27, 36, 0.4);
-}
-
-.faqItemCard.open {
+.faqItemCardWhite:hover {
   border-color: #ee1b24;
-  background: #141722;
+}
+
+.faqItemCardWhite.open {
+  border-color: #ee1b24;
+  box-shadow: 0 8px 24px rgba(238, 27, 36, 0.12);
 }
 
 .faqQuestionRow {
@@ -679,10 +700,16 @@
   gap: 1rem;
 }
 
-.faqQuestionRow h4 {
+.faqQTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.faqQTitle h4 {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -692,40 +719,44 @@
   flex-shrink: 0;
 }
 
-.faqItemCard.open .faqChevron {
+.faqItemCardWhite.open .faqChevron {
   transform: rotate(180deg);
 }
 
 .faqAnswerContent {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #f1f5f9;
 }
 
 .faqAnswerContent p {
   font-size: 0.94rem;
-  color: #cbd5e1;
+  color: #475569;
   line-height: 1.6;
   margin: 0;
+  padding-left: 28px;
 }
 
 /* =========================================================================
-   9. CTA FINAL
+   9. CTA FINAL (BLOQUE ELEGANTE)
    ========================================================================= */
 .aboutFinalCtaSection {
+  background: #ffffff;
   padding: 4.5rem 0 1rem;
 }
 
 .aboutFinalCtaCard {
-  background: radial-gradient(circle at 20% 50%, rgba(238, 27, 36, 0.22) 0%, transparent 60%), #12141c;
-  border: 1.5px solid rgba(238, 27, 36, 0.4);
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(238, 27, 36, 0.12) 0%, transparent 50%),
+    #0f172a;
   border-radius: 22px;
   padding: 3.5rem;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 3rem;
   align-items: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  color: #ffffff;
 }
 
 .ctaLeftContent h2 {
@@ -754,7 +785,7 @@
   gap: 8px;
   font-size: 0.88rem;
   font-weight: 700;
-  color: #e2e8f0;
+  color: #f1f5f9;
 }
 
 .ctaRightActions {
@@ -765,11 +796,32 @@
   justify-content: center;
 }
 
-.ctaRightActions .btnRedPillSolid,
-.ctaRightActions .btnOutlinePillGlass {
+.ctaRightActions .btnRedPillSolid {
   width: 100%;
   max-width: 320px;
   justify-content: center;
+}
+
+.btnDarkOutline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 13px 22px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.25s ease;
+}
+
+.btnDarkOutline:hover {
+  border-color: #ee1b24;
+  color: #ee1b24;
 }
 
 /* =========================================================================
@@ -786,23 +838,24 @@
   .mvGridUnified { grid-template-columns: 1fr; }
   .valuesFourGrid { grid-template-columns: repeat(2, 1fr); }
   .sectorsGrid { grid-template-columns: repeat(2, 1fr); }
-  .normativeCard { grid-template-columns: 1fr; }
-  .aboutFinalCtaCard { grid-template-columns: 1fr; }
+  .normativeCardWhite { grid-template-columns: 1fr; padding: 2.5rem; }
+  .aboutFinalCtaCard { grid-template-columns: 1fr; padding: 2.5rem; }
   .ctaRightActions { align-items: stretch; }
   .ctaRightActions .btnRedPillSolid,
-  .ctaRightActions .btnOutlinePillGlass { max-width: none; }
+  .ctaRightActions .btnDarkOutline { max-width: none; }
 }
 
 @media (max-width: 768px) {
-  .aboutHeroUnified { padding: 3rem 0 2rem; }
+  .aboutHeroLight { padding: 3rem 0 2rem; }
   .aboutHeroText h1 { font-size: 2.1rem; }
   .metricsGrid { grid-template-columns: 1fr; }
   .timelineGrid { grid-template-columns: 1fr; }
   .valuesFourGrid { grid-template-columns: 1fr; }
   .sectorsGrid { grid-template-columns: 1fr; }
   .mvCardUnified { padding: 2rem 1.5rem; }
-  .normativeCard { padding: 2rem 1.5rem; }
-  .aboutFinalCtaCard { padding: 2rem 1.5rem; }
+  .normativeCardWhite { padding: 2rem 1.25rem; }
+  .aboutFinalCtaCard { padding: 2rem 1.25rem; }
   .aboutHeroActions { flex-direction: column; width: 100%; }
-  .btnRedPillSolid, .btnOutlinePillGlass { width: 100%; justify-content: center; }
+  .btnRedPillSolid, .btnGrayOutline { width: 100%; justify-content: center; }
+  .faqAnswerContent p { padding-left: 0; }
 }
