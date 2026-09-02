@@ -11,7 +11,8 @@ import {
   FileCheck2, 
   Truck,
   MapPin,
-  Clock
+  Clock,
+  Shield
 } from 'lucide-react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import ProductSkeleton from '../../components/ProductCard/ProductSkeleton';
@@ -23,79 +24,84 @@ const Home = () => {
   const { featuredProducts, loading } = useHome();
 
   return (
-    <div className="homePageUnified page-transition">
+    <div className="homePageBalanced page-transition">
       {/* =========================================================================
-          1. HERO EXPANSIVO FULL-WIDTH (DARK INDUSTRIAL & FIRE RED)
+          1. HERO LUMINOSO CORPORATIVO (BLANCO, GRIS PERLA Y ROJO FUEGO)
          ========================================================================= */}
-      <section className="heroFullWidthSection">
-        <div className="heroFullWidthContainer">
-          {/* LEFT: TEXT CONTENT */}
-          <div className="heroLeftCol">
-            <div className="heroTagLine">
-              <span className="tagLineRedDash"></span>
-              <span>SEGURIDAD QUE PROTEGE VIDAS</span>
+      <section className="heroBalancedSection">
+        <div className="container">
+          <div className="heroBalancedGrid">
+            {/* LEFT: TEXT CONTENT */}
+            <div className="heroLeftCol">
+              <div className="heroTagLine">
+                <span className="tagLineRedDash"></span>
+                <span>SEGURIDAD QUE PROTEGE VIDAS • CALI</span>
+              </div>
+
+              <h1 className="heroTitleBalanced">
+                PROTEGEMOS<br />
+                LO QUE <span className="textRed">IMPORTA</span>
+              </h1>
+
+              <p className="heroSubTextBalanced">
+                Venta, recarga certificada y mantenimiento de extintores y equipos contra incendio. Atención directa a empresas, obras, centros comerciales y conjuntos residenciales en Cali.
+              </p>
+
+              {/* 4 REFINED CHIP PILLS */}
+              <div className="heroChipsRow">
+                <div className="heroChipItem">
+                  <ShieldCheck size={16} className="chipIcon" />
+                  <span>Normas NTC & NFPA</span>
+                </div>
+                <div className="heroChipItem">
+                  <Wrench size={16} className="chipIcon" />
+                  <span>Taller Autorizado</span>
+                </div>
+                <div className="heroChipItem">
+                  <Truck size={16} className="chipIcon" />
+                  <span>Despachos Rápidos</span>
+                </div>
+                <div className="heroChipItem">
+                  <FileCheck2 size={16} className="chipIcon" />
+                  <span>Asesoría SG-SST</span>
+                </div>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="heroButtonsRow">
+                <a 
+                  href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20una%20cotizaci%C3%B3n%20para%20mi%20empresa." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btnRedPillSolid"
+                  title="Cotizar por WhatsApp"
+                >
+                  <Phone size={17} />
+                  <span>304 629 6285</span>
+                </a>
+
+                <Link to="/productos" className="btnGrayOutlinePill">
+                  <span>VER PRODUCTOS</span>
+                  <ChevronRight size={17} />
+                </Link>
+              </div>
             </div>
 
-            <h1 className="heroTitleUnified">
-              PROTEGEMOS<br />
-              LO QUE <span className="textRedGlow">IMPORTA</span>
-            </h1>
-
-            <p className="heroSubTextUnified">
-              Venta, recarga certificada y mantenimiento de extintores y equipos contra incendio. Atención directa a empresas, obras y comercios en Cali.
-            </p>
-
-            {/* 4 REFINED CHIP PILLS */}
-            <div className="heroChipsRow">
-              <div className="heroChipItem">
-                <ShieldCheck size={16} className="chipIcon" />
-                <span>Normas NTC & NFPA</span>
-              </div>
-              <div className="heroChipItem">
-                <Wrench size={16} className="chipIcon" />
-                <span>Taller Autorizado</span>
-              </div>
-              <div className="heroChipItem">
-                <Truck size={16} className="chipIcon" />
-                <span>Despachos Rápidos</span>
-              </div>
-              <div className="heroChipItem">
-                <FileCheck2 size={16} className="chipIcon" />
-                <span>Asesoría SG-SST</span>
-              </div>
-            </div>
-
-            {/* ACTION BUTTONS */}
-            <div className="heroButtonsRow">
-              <a 
-                href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20una%20cotizaci%C3%B3n%20para%20mi%20empresa." 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="btnRedPillSolid"
-                title="Cotizar por WhatsApp"
-              >
-                <Phone size={17} />
-                <span>304 629 6285</span>
-              </a>
-
-              <Link to="/productos" className="btnOutlinePillGlass">
-                <span>VER PRODUCTOS</span>
-                <ChevronRight size={17} />
-              </Link>
-            </div>
-          </div>
-
-          {/* RIGHT: REAL PRODUCTS PHOTOGRAPH */}
-          <div className="heroRightCol">
-            <div className="heroProductsDisplay">
-              <img 
-                src={heroProductsImg} 
-                alt="Equipos contra incendio y seguridad industrial Preveseg" 
-                className="heroProductsImage"
-              />
-              <div className="productsFloatingBadge">
-                <span className="floatingBadgeDot"></span>
-                <span>Equipos 100% Nuevos & Certificados</span>
+            {/* RIGHT: REAL PRODUCTS PHOTOGRAPH */}
+            <div className="heroRightCol">
+              <div className="heroProductsDisplay">
+                <img 
+                  src={heroProductsImg} 
+                  alt="Equipos contra incendio y seguridad industrial Preveseg" 
+                  className="heroProductsImage"
+                />
+                <div className="productsFloatingBadgeWhite">
+                  <span className="floatingBadgeDot"></span>
+                  <div>
+                    <strong>Equipos 100% Nuevos & Certificados</strong>
+                    <span>Extintores, camillas, botiquines y kits viales</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -103,11 +109,11 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          2. RESUMEN DE SERVICIOS (TARJETAS OSCURAS CON ENLACE A /servicios)
+          2. RESUMEN DE SERVICIOS (FONDO GRIS CLARO + CARDS BLANCAS)
          ========================================================================= */}
-      <section className="servicesSummarySection">
+      <section className="servicesSummarySectionLight">
         <div className="container">
-          <div className="sectionHeaderUnified">
+          <div className="sectionHeaderBalanced">
             <div>
               <span className="sectionPreTitle">— COBERTURA INTEGRAL</span>
               <h2>Nuestros <span className="textRed">Servicios Especializados</span></h2>
@@ -117,9 +123,9 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="servicesSummaryGrid">
-            <div className="serviceSummaryCard">
-              <div className="serviceSummaryIconBox">
+          <div className="servicesSummaryGridLight">
+            <div className="serviceSummaryCardWhite">
+              <div className="serviceSummaryIconBoxRed">
                 <Flame size={24} />
               </div>
               <h3>Recarga de Extintores</h3>
@@ -129,8 +135,8 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="serviceSummaryCard">
-              <div className="serviceSummaryIconBox">
+            <div className="serviceSummaryCardWhite">
+              <div className="serviceSummaryIconBoxRed">
                 <Wrench size={24} />
               </div>
               <h3>Mantenimiento Técnico</h3>
@@ -140,8 +146,8 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="serviceSummaryCard">
-              <div className="serviceSummaryIconBox">
+            <div className="serviceSummaryCardWhite">
+              <div className="serviceSummaryIconBoxRed">
                 <HardHat size={24} />
               </div>
               <h3>Dotaciones y EPP</h3>
@@ -151,8 +157,8 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="serviceSummaryCard">
-              <div className="serviceSummaryIconBox">
+            <div className="serviceSummaryCardWhite">
+              <div className="serviceSummaryIconBoxRed">
                 <FileCheck2 size={24} />
               </div>
               <h3>Asesoría y Capacitación</h3>
@@ -166,11 +172,11 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          3. EQUIPOS DESTACADOS PARA COTIZACIÓN (ENLACE A /productos)
+          3. EQUIPOS DESTACADOS PARA COTIZACIÓN (FONDO BLANCO)
          ========================================================================= */}
-      <section className="featuredProductsSection">
+      <section className="featuredProductsSectionLight">
         <div className="container">
-          <div className="sectionHeaderUnified">
+          <div className="sectionHeaderBalanced">
             <div>
               <span className="sectionPreTitle">— CATÁLOGO PARA COTIZAR</span>
               <h2>Equipos <span className="textRed">Destacados</span></h2>
@@ -181,11 +187,11 @@ const Home = () => {
           </div>
 
           {loading ? (
-            <div className="productGridUnified">
+            <div className="productGridBalanced">
               {[1, 2, 3, 4].map(i => <ProductSkeleton key={i} />)}
             </div>
           ) : featuredProducts.length > 0 ? (
-            <div className="productGridUnified">
+            <div className="productGridBalanced">
               {featuredProducts.slice(0, 4).map((product) => (
                 <ProductCard
                   key={product.id}
@@ -203,11 +209,11 @@ const Home = () => {
               ))}
             </div>
           ) : (
-            <div className="emptyCatalogCard">
+            <div className="emptyCatalogCardWhite">
               <ShoppingBag size={40} className="emptyIcon" />
               <h3>Catálogo de Equipos Disponibles</h3>
               <p>Solicita la cotización formal de extintores, camillas, botiquines o kits de seguridad directamente por WhatsApp.</p>
-              <Link to="/productos" className="btnRedPillSolid" style={{ marginTop: '1rem', display: 'inline-flex' }}>
+              <Link to="/productos" className="btnRedPillSolid" style={{ marginTop: '1.25rem', display: 'inline-flex' }}>
                 Explorar Catálogo Completo <ArrowRight size={16} />
               </Link>
             </div>
@@ -218,9 +224,9 @@ const Home = () => {
       {/* =========================================================================
           4. BANNER INSTITUCIONAL: SEDE CALI & CONTACTO
          ========================================================================= */}
-      <section className="caliBannerSection">
+      <section className="caliBannerSectionLight">
         <div className="container">
-          <div className="caliBannerCard">
+          <div className="caliBannerCardBalanced">
             <div className="caliBannerText">
               <span className="bannerTag">— PREVESEG CALI</span>
               <h2>Punto de Atención y Taller Técnico en <span className="textRed">Cali</span></h2>
@@ -231,19 +237,31 @@ const Home = () => {
               <div className="bannerDetailsRow">
                 <div className="bannerDetailItem">
                   <MapPin size={18} className="detailIcon" />
-                  <span>Cra 28D 72f-79, Cali</span>
+                  <span>Cra 28D 72f-79, Cali, Colombia</span>
                 </div>
                 <div className="bannerDetailItem">
                   <Clock size={18} className="detailIcon" />
                   <span>Lun - Vie: 8am - 6pm | Sáb: 8am - 4pm</span>
                 </div>
+                <div className="bannerDetailItem">
+                  <Shield size={18} className="detailIcon" />
+                  <span>Certificación NTC 2885 & Bomberos</span>
+                </div>
               </div>
 
               <div className="bannerActions">
-                <Link to="/contacto" className="btnRedPillSolid">
-                  Ver Mapa y Contacto <ArrowRight size={16} />
+                <a 
+                  href="https://wa.me/573046296285?text=Hola%20Preveseg%20Cali%2C%20solicito%20atenci%C3%B3n%20en%20sede." 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btnRedPillSolid"
+                >
+                  <Phone size={17} /> Cotizar por WhatsApp
+                </a>
+                <Link to="/contacto" className="btnDarkOutline">
+                  Ver Mapa de Sede <ArrowRight size={16} />
                 </Link>
-                <Link to="/nosotros" className="btnOutlinePillGlass">
+                <Link to="/nosotros" className="btnDarkOutline">
                   Sobre Nosotros
                 </Link>
               </div>

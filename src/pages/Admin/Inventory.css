@@ -1,10 +1,12 @@
+/* Inventory.css - Preveseg Clean Light Table & Controls */
+
 .inventoryPage {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
-  background-color: var(--tech-bg);
+  background-color: #f8fafc;
   min-height: 100vh;
-  color: white;
+  color: #0f172a;
 }
 
 .inventoryHeader {
@@ -21,298 +23,153 @@
 .headerTop h1 {
   font-size: 2rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #0f172a;
   letter-spacing: -0.025em;
   margin: 0;
 }
 
 .headerTop h1 span {
-  background: linear-gradient(135deg, #60a5fa 0%, #ff4d4d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ee1b24;
 }
 
 .backBtn {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
   padding: 10px 18px;
   border-radius: 12px;
   font-weight: 700;
-  color: #cbd5e1;
+  color: #334155;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .backBtn:hover {
-  background: rgba(0, 102, 255, 0.15);
-  border-color: #0066ff;
-  color: #60a5fa;
+  border-color: #ee1b24;
+  color: #ee1b24;
   transform: translateX(-2px);
 }
 
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+.controlsBar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
   margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  flex-wrap: wrap;
 }
 
-.statCard {
-  background: #0d1527;
-  padding: 1.5rem;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.2s;
-}
-
-.statCard:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0, 102, 255, 0.35);
-}
-
-.statInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.statLabel {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #94a3b8;
-  letter-spacing: 0.06em;
-}
-
-.statValue {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: #ffffff;
-}
-
-.searchBarContainer {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.searchBox {
+.searchInputWrapper {
   position: relative;
-  flex: 1;
-}
-
-.searchBox input {
-  width: 100%;
-  padding: 14px 20px 14px 45px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
-  background: #070b14;
-  color: white;
-  font-size: 0.95rem;
-  transition: all 0.25s;
-}
-
-.searchBox input:focus {
-  outline: none;
-  border-color: #0066ff;
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.25);
+  flex-grow: 1;
 }
 
 .searchIcon {
   position: absolute;
-  left: 15px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #64748b;
+  color: #94a3b8;
 }
 
-.addNewBtn {
-  background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  font-weight: 800;
-  font-size: 0.92rem;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(0, 102, 255, 0.4);
-  transition: all 0.25s;
+.searchInput {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #0f172a;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
-.addNewBtn:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #0052cc 0%, #003db3 100%);
-  box-shadow: 0 6px 22px rgba(0, 102, 255, 0.55);
+.searchInput:focus {
+  border-color: #ee1b24;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(238, 27, 36, 0.1);
 }
 
-.inventoryContainer {
-  background: #0d1527;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+.tableCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .inventoryTable {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  border-collapse: collapse;
 }
 
-.tableHeader {
-  display: flex;
-  background: #070b14;
-  padding: 1.1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 0.74rem;
+.inventoryTable th {
+  background: #f1f5f9;
+  padding: 14px 18px;
+  font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: #94a3b8;
   letter-spacing: 0.06em;
+  color: #475569;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.tableRow {
+.inventoryTable td {
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.inventoryTable tr:hover td {
+  background: #f8fafc;
+}
+
+.productCell {
   display: flex;
   align-items: center;
-  padding: 1.2rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.2s;
+  gap: 12px;
 }
 
-.tableRow:hover {
-  background: #111a30;
+.productThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
 }
 
-.tableRow.is-hidden {
-  opacity: 0.6;
-}
-
-.colProduct { flex: 3; }
-.colCategory { flex: 1.5; }
-.colPrice { flex: 1.2; }
-.colStatus { flex: 2; }
-.colActions { flex: 1.5; text-align: right; }
-
-.productInfo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.productInfo img {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  object-fit: contain;
-  background: #070b14;
-  padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.nameWrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.pName {
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 0.95rem;
-}
-
-.pId {
-  font-size: 0.7rem;
-  color: #64748b;
-  font-family: monospace;
-}
-
-.categoryBadge {
-  background: rgba(0, 102, 255, 0.12);
-  color: #60a5fa;
-  padding: 5px 12px;
-  border-radius: 100px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  border: 1px solid rgba(0, 102, 255, 0.25);
-}
-
-.priceValue {
+.productName {
   font-weight: 800;
-  color: #ffffff;
-  font-size: 1.05rem;
+  color: #0f172a;
 }
 
-.statusBadges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.statusTag {
+.badgeActive {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
   padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.7rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
   font-weight: 800;
-  text-transform: uppercase;
 }
 
-.statusTag.visible { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25); }
-.statusTag.hidden { background: rgba(238, 27, 36, 0.15); color: #ff6b6b; border: 1px solid rgba(238, 27, 36, 0.25); }
-.statusTag.featured { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.25); }
-
-.btnGroup {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+.badgeInactive {
+  background: rgba(238, 27, 36, 0.1);
+  color: #ee1b24;
+  border: 1px solid rgba(238, 27, 36, 0.25);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
 }
-
-.actionBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #070b14;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #94a3b8;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.actionBtn:hover { transform: translateY(-2px); color: white; border-color: rgba(255, 255, 255, 0.25); }
-.actionBtn.star.active { color: #f59e0b; background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); }
-.actionBtn.eye.active { color: #10b981; background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); }
-.actionBtn.edit:hover { background: rgba(0, 102, 255, 0.15); color: #60a5fa; border-color: #0066ff; }
-.actionBtn.delete:hover { background: rgba(238, 27, 36, 0.15); color: #ff6b6b; border-color: #ee1b24; }
-
-.loadingState, .emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem;
-  gap: 1rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-@media (max-width: 900px) {
-  .colCategory, .colStatus { display: none; }
-  .tableHeader .colCategory, .tableHeader .colStatus { display: none; }
-  .colProduct { flex: 2; }
-}
-
-@media (max-width: 600px) {
-  .headerTop { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .searchBarContainer { flex-direction: column; align-items: stretch; }
-  .addNewBtn { order: -1; }
-  .statsGrid { grid-template-columns: 1fr; }
-}
-
