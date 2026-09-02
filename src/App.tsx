@@ -19,9 +19,9 @@ const MainLayout = () => {
   const isBackoffice = path.startsWith('/admin') || path === '/login';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#0f172a] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#0f172a]">
       {!isBackoffice && <Navbar />}
-      <main className="flex-grow">
+      <main className={`flex-grow ${!isBackoffice ? "pt-[68px] md:pt-[74px]" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/nosotros" element={<About />} />

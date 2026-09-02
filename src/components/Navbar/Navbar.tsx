@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, MessageCircle, MapPin, X, Clock, Phone, Mail, Navigation, ChevronDown, Menu } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
@@ -10,7 +10,16 @@ const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const { itemCount } = useCart();
   const location = useLocation();
 
@@ -18,7 +27,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="navbarContainer">
           {/* LOGO */}
           <Link to="/" className="logoLink" aria-label="Preveseg Inicio" onClick={closeMobileMenu}>
