@@ -611,35 +611,33 @@ const ProductDetail = () => {
       </div>
 
       {/* =========================================================================
-          3. BARRA INFERIOR FIJA MÓVIL (PREVESEG BRANDED)
+          3. BARRA INFERIOR FIJA MÓVIL (PREVESEG BRANDED - PORTAL TO BODY)
          ========================================================================= */}
-      <div className="mobileBottomActionBar">
-        <div className="mobilePriceBlock">
-          <span className="mobilePriceLabel">Cotización Directa</span>
-          <span className="mobilePriceAmount">Preveseg Cali</span>
-        </div>
-
-        <div className="mobileButtonsGroup">
-          <button 
-            type="button" 
-            className="mobileCartButton" 
-            onClick={handleCustomAddToCart} 
-            title="Añadir al carrito"
-            aria-label="Añadir al carrito"
-          >
-            <ShoppingCart size={20} />
-          </button>
-          
-          <button 
-            type="button" 
-            className="mobileWhatsAppButton" 
-            onClick={handleCustomWhatsApp}
-          >
-            <MessageCircle size={18} />
-            <span>Cotizar por WhatsApp</span>
-          </button>
-        </div>
-      </div>
+      {typeof document !== 'undefined' && createPortal(
+        <div className="mobileBottomActionBar">
+          <div className="mobileButtonsGroup">
+            <button 
+              type="button" 
+              className="mobileCartButton" 
+              onClick={handleCustomAddToCart} 
+              title="Añadir a mi Cotización"
+              aria-label="Añadir a mi Cotización"
+            >
+              <ShoppingCart size={20} />
+            </button>
+            
+            <button 
+              type="button" 
+              className="mobileWhatsAppButton" 
+              onClick={handleCustomWhatsApp}
+            >
+              <MessageCircle size={18} />
+              <span>Cotizar por WhatsApp</span>
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
 
       {/* TOAST NOTIFICATION */}
       {toast.show && (

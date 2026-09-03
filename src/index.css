@@ -133,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: none; }
 }
 
 .fade-in {
@@ -142,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Skeleton Loading Animation */
