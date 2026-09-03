@@ -21,7 +21,7 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#0f172a]">
       {!isBackoffice && <Navbar />}
-      <main className={`flex-grow ${!isBackoffice ? "pt-[68px] md:pt-[74px]" : ""}`}>
+      <main className={`appMainContent ${isBackoffice ? "isBackoffice" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/nosotros" element={<About />} />

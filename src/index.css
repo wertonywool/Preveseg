@@ -235,3 +235,25 @@ a {
     display: none !important;
   }
 }
+
+
+/* =========================================================================
+   UNIVERSAL TOP OFFSET FOR FIXED HEADER
+   ========================================================================= */
+.appMainContent {
+  flex-grow: 1;
+  padding-top: 76px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.appMainContent.isBackoffice {
+  padding-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .appMainContent {
+    padding-top: 66px;
+  }
+}
