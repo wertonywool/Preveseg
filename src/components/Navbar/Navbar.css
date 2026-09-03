@@ -480,3 +480,234 @@
     flex-shrink: 0;
   }
 }
+
+
+/* =========================================================================
+   LOCATION & SCHEDULE MODAL (CALI)
+   ========================================================================= */
+.locationModalOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.locationModalCard {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.locationModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.locHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.locIconBadge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(238, 27, 36, 0.1);
+  color: #ee1b24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.locHeaderTitle h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+}
+
+.locCityTag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #ee1b24;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.locCloseBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.locCloseBtn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #ee1b24;
+  transform: rotate(90deg);
+}
+
+.locationModalBody {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.locInfoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+
+.locInfoRow:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.locRowIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.locRowIcon.red { background: rgba(238, 27, 36, 0.1); color: #ee1b24; }
+.locRowIcon.blue { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
+.locRowIcon.green { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
+.locRowIcon.navy { background: rgba(15, 23, 42, 0.08); color: #0f172a; }
+
+.locRowContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.locRowContent strong {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.locRowContent p {
+  font-size: 0.88rem;
+  color: #475569;
+  margin: 0;
+  font-weight: 500;
+}
+
+.locRowContent a {
+  font-size: 0.88rem;
+  color: #ee1b24;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.locRowContent a:hover {
+  color: #dc141d;
+  text-decoration: underline;
+}
+
+.locActionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.locMapBtn {
+  flex: 1;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.locMapBtn:hover {
+  background: #1e293b;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.locWhatsAppBtn {
+  flex: 1;
+  background: #ee1b24;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(238, 27, 36, 0.3);
+}
+
+.locWhatsAppBtn:hover {
+  background: #dc141d;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
