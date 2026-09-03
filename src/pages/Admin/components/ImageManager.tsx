@@ -78,20 +78,20 @@ const ImageManager = ({ existingImages, newPreviews, onRemoveExisting, onRemoveN
         .uploadZone { width: 100%; }
         .uploadLabel { 
           display: flex; align-items: center; gap: 18px; 
-          padding: 22px; background: rgba(0, 102, 255, 0.08); 
-          border: 2px dashed rgba(0, 102, 255, 0.35); 
-          border-radius: 16px; cursor: pointer; transition: all 0.25s;
+          padding: 22px; background: #f8fafc; 
+          border: 2px dashed #cbd5e1; 
+          border-radius: 16px; cursor: pointer; transition: all 0.2s;
         }
-        .uploadLabel:hover { background: rgba(0, 102, 255, 0.12); border-color: #0066ff; }
+        .uploadLabel:hover { background: #fff5f5; border-color: #ee1b24; }
         .uploadIconBox { 
-          width: 52px; height: 52px; background: linear-gradient(135deg, #0066ff 0%, #ee1b24 100%); 
+          width: 50px; height: 50px; background: #ee1b24; 
           border-radius: 14px; display: flex; align-items: center; 
-          justify-content: center; color: white; box-shadow: 0 4px 15px rgba(0, 102, 255, 0.35);
+          justify-content: center; color: white; box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35);
           flex-shrink: 0;
         }
         .uploadText { display: flex; flex-direction: column; }
-        .uploadText .mainText { font-weight: 800; color: white; font-size: 1rem; }
-        .uploadText .subText { font-size: 0.8rem; color: #94a3b8; margin-top: 2px; }
+        .uploadText .mainText { font-weight: 800; color: #0f172a; font-size: 1rem; }
+        .uploadText .subText { font-size: 0.84rem; color: #64748b; margin-top: 2px; font-weight: 500; }
 
         .imagesGrid { 
           display: grid; 
@@ -101,56 +101,52 @@ const ImageManager = ({ existingImages, newPreviews, onRemoveExisting, onRemoveN
         
         .imgThumbCard { 
           position: relative; aspect-ratio: 1/1; 
-          background: #070b14; border-radius: 14px; 
-          border: 1.5px solid rgba(255,255,255,0.08); 
+          background: #ffffff; border-radius: 14px; 
+          border: 1.5px solid #e2e8f0; 
           overflow: hidden; transition: transform 0.2s;
         }
-        .imgThumbCard:hover { transform: scale(1.02); z-index: 10; border-color: rgba(0, 102, 255, 0.4); }
-        .imgThumbCard.is-new { border: 2px dashed #0066ff; }
+        .imgThumbCard:hover { transform: scale(1.02); z-index: 10; border-color: #ee1b24; box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+        .imgThumbCard.is-new { border: 2px dashed #ee1b24; }
         
-        .imgWrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #070b14; }
+        .imgWrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #ffffff; }
         .imgWrapper img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
         
         .dragHandle { 
           position: absolute; top: 6px; left: 6px; 
-          background: rgba(0,0,0,0.6); color: white; 
+          background: rgba(15, 23, 42, 0.7); color: white; 
           padding: 4px; border-radius: 6px; cursor: grab; opacity: 0.8; transition: opacity 0.2s;
         }
         
         .deleteImgBtn { 
           position: absolute; top: 6px; right: 6px; 
-          background: #ee1b24; color: white; border: none; 
+          background: #fee2e2; color: #ee1b24; border: 1px solid #fecaca; 
           width: 28px; height: 28px; border-radius: 50%; 
           display: flex; align-items: center; justify-content: center; 
           cursor: pointer; opacity: 1; transition: all 0.2s;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
           z-index: 5;
         }
-        .deleteImgBtn:hover { background: #dc141d; transform: scale(1.15); }
+        .deleteImgBtn:hover { background: #ee1b24; color: white; transform: scale(1.1); }
         
         .mainBadge { 
           position: absolute; bottom: 0; left: 0; width: 100%; 
-          background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%); color: white; 
-          font-size: 0.64rem; font-weight: 900; text-align: center; padding: 4px 0;
+          background: #0f172a; color: white; 
+          font-size: 0.65rem; font-weight: 900; text-align: center; padding: 4px 0;
           letter-spacing: 0.05em;
         }
         .newBadge { 
           position: absolute; bottom: 0; left: 0; width: 100%; 
-          background: linear-gradient(135deg, #ee1b24 0%, #c41018 100%); color: white; 
-          font-size: 0.64rem; font-weight: 900; text-align: center; padding: 4px 0;
+          background: #ee1b24; color: white; 
+          font-size: 0.65rem; font-weight: 900; text-align: center; padding: 4px 0;
           letter-spacing: 0.05em;
         }
         
         .emptyGridPlaceholder { 
-          grid-column: 1 / -1; padding: 40px 20px; text-align: center; 
-          color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 10px;
-          background: rgba(255,255,255,0.015); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.08);
-        }
-        .emptyGridPlaceholder p { font-size: 0.9rem; margin: 0; }
-
-        @media (max-width: 640px) {
-          .imagesGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-          .uploadLabel { padding: 16px; }
+          grid-column: 1 / -1; padding: 3rem 1.5rem; 
+          display: flex; flex-direction: column; align-items: center; 
+          justify-content: center; gap: 10px; color: #64748b; 
+          background: #f8fafc; border-radius: 16px; border: 1.5px dashed #cbd5e1;
+          font-weight: 600; font-size: 0.9rem;
         }
       `}</style>
     </div>

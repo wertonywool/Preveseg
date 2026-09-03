@@ -116,55 +116,55 @@ const VariantsSection = ({
               <style>{`
                 .variantsManager { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; }
                 .sectionHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; gap: 12px; }
-                .primary-btn { background: linear-gradient(135deg, #0066ff 0%, #0047cc 100%); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35); }
-                .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 102, 255, 0.5); }
+                .primary-btn { background: #ee1b24; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35); font-size: 0.88rem; }
+                .primary-btn:hover { background: #dc141d; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(238, 27, 36, 0.45); }
                 
                 .variantsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
                 
-                .variantCard { background: #070b14; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.08); overflow: hidden; transition: all 0.25s; }
-                .variantCard:hover { border-color: rgba(0, 102, 255, 0.4); }
+                .variantCard { background: #f8fafc; border-radius: 16px; border: 1.5px solid #e2e8f0; overflow: hidden; transition: all 0.2s; }
+                .variantCard:hover { border-color: #ee1b24; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04); }
                 
-                .variantCardHeader { padding: 12px 18px; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
-                .vBadge { display: flex; align-items: center; gap: 6px; background: rgba(0, 102, 255, 0.15); color: #60a5fa; padding: 4px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(0, 102, 255, 0.25); }
+                .variantCardHeader { padding: 12px 18px; background: #ffffff; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+                .vBadge { display: flex; align-items: center; gap: 6px; background: rgba(238, 27, 36, 0.08); color: #ee1b24; padding: 4px 10px; border-radius: 8px; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(238, 27, 36, 0.2); }
                 
-                .deleteVariantBtn { background: rgba(238, 27, 36, 0.1); border: 1px solid rgba(238, 27, 36, 0.25); color: #ff6b6b; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+                .deleteVariantBtn { background: #fee2e2; border: 1px solid #fecaca; color: #ee1b24; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
                 .deleteVariantBtn:hover { background: #ee1b24; color: white; }
                 
-                .variantCardBody { padding: 18px; display: flex; gap: 18px; }
+                .variantCardBody { padding: 18px; display: flex; gap: 18px; background: #f8fafc; }
                 
                 .variantMedia { display: flex; flex-direction: column; gap: 12px; align-items: center; flex-shrink: 0; }
                 .variantThumb { 
-                  width: 90px; height: 90px; background: #0d1527; border-radius: 14px; 
-                  border: 2px dashed rgba(255,255,255,0.12); display: flex; align-items: center; 
+                  width: 90px; height: 90px; background: #ffffff; border-radius: 14px; 
+                  border: 2px dashed #cbd5e1; display: flex; align-items: center; 
                   justify-content: center; position: relative; cursor: pointer; overflow: hidden;
                   transition: all 0.2s;
                 }
-                .variantThumb:hover { border-color: #0066ff; }
+                .variantThumb:hover { border-color: #ee1b24; background: #fff5f5; }
                 .variantThumb img { width: 100%; height: 100%; object-fit: contain; }
                 .noImgIcon { color: #64748b; }
                 .thumbOverlay { 
                   position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-                  background: rgba(0, 102, 255, 0.6); display: flex; align-items: center; 
+                  background: rgba(238, 27, 36, 0.7); display: flex; align-items: center; 
                   justify-content: center; color: white; opacity: 0; transition: opacity 0.2s;
                 }
                 .variantThumb:hover .thumbOverlay { opacity: 1; }
                 
                 .variantColor { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-                .variantColor label { font-size: 0.64rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
-                .varColorPicker { width: 32px; height: 32px; padding: 0; border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; overflow: hidden; background: none; cursor: pointer; }
+                .variantColor label { font-size: 0.68rem; font-weight: 800; color: #475569; text-transform: uppercase; }
+                .varColorPicker { width: 34px; height: 34px; padding: 0; border: 2px solid #cbd5e1; border-radius: 50%; overflow: hidden; background: none; cursor: pointer; }
                 
                 .variantFields { flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
                 .vFieldGroup { display: flex; flex-direction: column; gap: 6px; }
-                .vFieldGroup label { font-size: 0.74rem; font-weight: 700; color: #cbd5e1; display: flex; align-items: center; gap: 6px; }
-                .vFieldGroup input, .vFieldGroup select { background: #0d1527; border: 1.5px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 9px 12px; color: white; font-size: 0.88rem; transition: all 0.2s; }
-                .vFieldGroup input:focus, .vFieldGroup select:focus { border-color: #0066ff; outline: none; background: #0f1a30; }
+                .vFieldGroup label { font-size: 0.76rem; font-weight: 800; color: #334155; display: flex; align-items: center; gap: 6px; }
+                .vFieldGroup input, .vFieldGroup select { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 9px 12px; color: #0f172a; font-size: 0.9rem; font-weight: 600; font-family: inherit; transition: all 0.2s; }
+                .vFieldGroup input:focus, .vFieldGroup select:focus { border-color: #ee1b24; outline: none; box-shadow: 0 0 0 3px rgba(238, 27, 36, 0.1); }
                 
                 .vInputRow { display: flex; gap: 8px; }
                 .vCustomInput { flex: 1; }
                 
                 .vPriceGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
                 
-                .emptyHint { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #64748b; font-style: italic; background: rgba(255,255,255,0.015); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.06); }
+                .emptyHint { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #64748b; font-style: italic; background: #f8fafc; border-radius: 16px; border: 1.5px dashed #cbd5e1; font-weight: 600; }
 
                 @media (max-width: 640px) {
                   .sectionHeader { flex-direction: column; align-items: stretch; }

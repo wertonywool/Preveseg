@@ -108,32 +108,33 @@ const SpecsSection = ({ detalles, onAddDetail, onUpdateDetail, onSetAllDetails, 
         .sectionHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; gap: 10px; }
         .headerActions { display: flex; gap: 8px; flex-wrap: wrap; }
         
-        .bulkBtn { background: rgba(0, 102, 255, 0.12); color: #60a5fa; border: 1px solid rgba(0, 102, 255, 0.25); padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
-        .bulkBtn:hover { background: #0066ff; color: white; }
+        .bulkBtn { background: rgba(238, 27, 36, 0.08); color: #ee1b24; border: 1.5px solid rgba(238, 27, 36, 0.25); padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .bulkBtn:hover { background: #ee1b24; color: white; }
         
-        .addBtn { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255,255,255,0.12); padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
-        .addBtn:hover { border-color: #0066ff; background: rgba(0, 102, 255, 0.15); color: #60a5fa; }
+        .addBtn { background: #f8fafc; color: #334155; border: 1.5px solid #cbd5e1; padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .addBtn:hover { border-color: #ee1b24; color: #ee1b24; background: #ffffff; }
 
-        .bulkImportArea { background: #070b14; padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 12px; }
-        .bulkHint { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #94a3b8; }
-        .bulkImportArea textarea { background: #0d1527; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; color: white; font-family: monospace; font-size: 0.9rem; resize: vertical; }
+        .bulkImportArea { background: #f8fafc; padding: 1.5rem; border-radius: 16px; border: 1.5px solid #e2e8f0; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 12px; }
+        .bulkHint { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #64748b; font-weight: 600; }
+        .bulkImportArea textarea { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 14px; color: #0f172a; font-family: monospace; font-size: 0.9rem; resize: vertical; }
         .bulkActions { display: flex; gap: 10px; }
         
         .processBtn { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .processBtn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .cancelBtn { background: transparent; color: #94a3b8; border: none; cursor: pointer; font-weight: 700; padding: 10px; }
+        .cancelBtn { background: transparent; color: #64748b; border: none; cursor: pointer; font-weight: 700; padding: 10px; }
+        .cancelBtn:hover { color: #ee1b24; }
 
         .detailsGrid { display: flex; flex-direction: column; gap: 10px; }
-        .detailRow { display: flex; gap: 12px; align-items: flex-end; background: #070b14; padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); }
+        .detailRow { display: flex; gap: 12px; align-items: flex-end; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; }
         .dField { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-        .dField label { font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
-        .dField input { background: #0d1527; border: 1.5px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 14px; color: white; font-size: 0.9rem; }
-        .dField input:focus { border-color: #0066ff; outline: none; }
+        .dField label { font-size: 0.74rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
+        .dField input { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 10px 14px; color: #0f172a; font-size: 0.9rem; font-weight: 600; }
+        .dField input:focus { border-color: #ee1b24; outline: none; }
         
-        .removeBtn { background: rgba(238, 27, 36, 0.1); color: #ff6b6b; border: 1px solid rgba(238, 27, 36, 0.25); width: 44px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+        .removeBtn { background: #fee2e2; color: #ee1b24; border: 1px solid #fecaca; width: 44px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
         .removeBtn:hover { background: #ee1b24; color: white; }
         
-        .emptyHint { text-align: center; padding: 35px 20px; color: #64748b; font-style: italic; background: rgba(255,255,255,0.015); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.06); font-size: 0.88rem; }
+        .emptyHint { text-align: center; padding: 35px 20px; color: #64748b; font-style: italic; background: #f8fafc; border-radius: 16px; border: 1.5px dashed #cbd5e1; font-size: 0.88rem; font-weight: 600; }
 
         @media (max-width: 640px) {
           .sectionHeader { flex-direction: column; align-items: stretch; gap: 12px; }

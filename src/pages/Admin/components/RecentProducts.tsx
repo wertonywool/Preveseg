@@ -106,115 +106,19 @@ const RecentProducts = ({
         </div>
 
         <style>{`
-          .fullInventoryWrapper { width: 100%; animation: slideIn 0.4s ease-out; }
-          .tableContainer { 
-            overflow-x: auto; 
-            background: rgba(15, 23, 42, 0.4); 
-            border-radius: 32px; 
-            border: 1.5px solid rgba(255,255,255,0.03);
-            padding: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-          }
-          .inventoryTable { width: 100%; border-collapse: separate; border-spacing: 0 12px; margin-top: -12px; }
-          .inventoryTable th { 
-            text-align: left; 
-            padding: 1.5rem; 
-            color: #94a3b8; 
-            font-size: 0.7rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-weight: 800; 
-            border-bottom: none;
-          }
-          .inventoryTable td { 
-            padding: 1.2rem 1.5rem; 
-            vertical-align: middle; 
-            background: rgba(30, 41, 59, 0.4); 
-            border-top: 1px solid rgba(255,255,255,0.03); 
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          }
-          
-          .inventoryTable tr:hover td {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(0, 174, 239, 0.3);
-            transform: scale(1.002);
-          }
-
-          .inventoryTable td:first-child { border-left: 1px solid rgba(255,255,255,0.03); border-radius: 20px 0 0 20px; }
-          .inventoryTable td:last-child { border-right: 1px solid rgba(255,255,255,0.03); border-radius: 0 20px 20px 0; }
-          
-          .row-hidden td { opacity: 0.4; filter: grayscale(0.6); }
-          .textCenter { text-align: center !important; }
-          .textRight { text-align: right !important; }
-          
-          .productInfoCell { display: flex; align-items: center; gap: 20px; }
-          .pThumb { 
-            width: 58px; height: 58px; border-radius: 16px; overflow: hidden; 
-            background: #020617; display: flex; align-items: center; justify-content: center; 
-            border: 2px solid rgba(255,255,255,0.08);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-          }
-          .pThumb img { width: 100%; height: 100%; object-fit: cover; }
-          .productNames { display: flex; flex-direction: column; gap: 4px; }
-          .pName { font-weight: 800; color: white; font-size: 1rem; letter-spacing: -0.3px; }
-          .pId { font-size: 0.65rem; color: #64748b; font-family: 'JetBrains Mono', monospace; font-weight: 600; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 6px; width: fit-content; }
-          
-          .statusBadge { 
-            border: none; padding: 8px 18px; border-radius: 14px; 
-            font-size: 0.7rem; font-weight: 950; text-transform: uppercase; 
-            cursor: pointer; transition: all 0.3s; letter-spacing: 0.8px;
-          }
-          .statusBadge.active { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
-          .statusBadge.inactive { background: rgba(100, 116, 139, 0.1); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.1); }
-          .statusBadge:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-          
-          .priceCell { display: flex; flex-direction: column; gap: 3px; }
-          .pOffer { font-weight: 950; color: white; font-size: 1.15rem; }
-          .pNormal { font-size: 0.8rem; color: #475569; text-decoration: line-through; font-weight: 700; opacity: 0.7; }
-          
-          .categoryBadge { 
-            background: rgba(0, 102, 255, 0.12); 
-            color: #60a5fa; 
-            padding: 6px 14px; border-radius: 10px; font-size: 0.72rem; 
-            font-weight: 800; border: 1px solid rgba(0, 102, 255, 0.25);
-            text-transform: uppercase; letter-spacing: 0.05em;
-          }
-          
-          .starBadge { 
-            background: none; border: none; padding: 5px; cursor: pointer;
-            color: #334155; display: inline-flex; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-          }
-          .starBadge:hover { transform: scale(1.25); }
-          .starBadge.is-destacado { color: #f59e0b; filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5)); }
-
-          .tableActions { display: flex; justify-content: flex-end; gap: 10px; }
-          .tableBtn { 
-            background: #070b14; border: 1.5px solid rgba(255,255,255,0.08); 
-            color: #94a3b8; width: 40px; height: 40px; border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: all 0.25s;
-          }
-          .tableBtn:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.25); color: white; background: #0e172a; }
-          .tableBtn.edit:hover { border-color: #0066ff; color: #60a5fa; box-shadow: 0 4px 15px rgba(0, 102, 255, 0.35); }
-          .tableBtn.delete:hover { border-color: #ee1b24; color: #ff6b6b; box-shadow: 0 4px 15px rgba(238, 27, 36, 0.35); }
-          .tableBtn.view:hover { border-color: #10b981; color: #34d399; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); }
-          
-          .emptyState { padding: 5rem 2rem; text-align: center; color: #64748b; font-style: italic; font-weight: 500; }
-          
-          @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-          @media (max-width: 1100px) {
-            .inventoryTable th:nth-child(4), .inventoryTable td:nth-child(4) { display: none; }
-          }
-          @media (max-width: 900px) {
-            .inventoryTable th:nth-child(2), .inventoryTable td:nth-child(2),
-            .inventoryTable th:nth-child(5), .inventoryTable td:nth-child(5) { display: none; }
-            .pName { font-size: 0.85rem; }
-            .pThumb { width: 44px; height: 44px; }
-            .tableBtn { width: 36px; height: 36px; border-radius: 10px; }
-          }
-        `}</style>
+        .recentProductsList { display: flex; flex-direction: column; gap: 10px; }
+        .miniProductCard { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 14px; background: #ffffff; border: 1.5px solid #e2e8f0; transition: all 0.2s; }
+        .miniProductCard:hover { background: #f8fafc; border-color: #ee1b24; transform: translateX(3px); }
+        .miniThumb { width: 44px; height: 44px; border-radius: 10px; overflow: hidden; background: #f8fafc; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .miniThumb img { width: 100%; height: 100%; object-fit: contain; }
+        .miniProductMeta { flex: 1; min-width: 0; }
+        .miniProductMeta h4 { font-size: 0.9rem; font-weight: 800; color: #0f172a; margin: 0 0 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .miniPrice { font-size: 0.84rem; font-weight: 900; color: #ee1b24; }
+        .hiddenBadge { font-size: 0.65rem; background: #fee2e2; color: #ee1b24; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 800; }
+        .miniEditBtn { background: #f8fafc; border: 1.5px solid #e2e8f0; color: #64748b; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .miniEditBtn:hover { background: #ee1b24; color: white; border-color: #ee1b24; }
+        .noActivity { padding: 2rem; text-align: center; color: #64748b; font-size: 0.88rem; font-weight: 600; }
+      `}</style>
       </div>
     );
   }

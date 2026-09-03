@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Loader2, PlusCircle, Save, Info, Image as ImageIcon, List, Layers, XCircle, Palette } from 'lucide-react';
+import { Loader2, PlusCircle, Save, Info, Image as ImageIcon, List, Layers, XCircle } from 'lucide-react';
 import ImageManager from './ImageManager';
 import BasicInfo from './form/BasicInfo';
 import SpecsSection from './form/SpecsSection';
 import VariantsSection from './form/VariantsSection';
-import CustomStyleSection from './form/CustomStyleSection';
 
 interface ProductFormProps {
   editingId: number | null;
@@ -41,7 +40,7 @@ const ProductForm = (props: ProductFormProps) => {
     onSubmit, onCancel 
   } = props;
 
-  const [formTab, setFormTab] = useState<'info' | 'images' | 'specs' | 'variants' | 'style'>('info');
+  const [formTab, setFormTab] = useState<'info' | 'images' | 'specs' | 'variants'>('info');
 
   if (!product) return (
     <div className="formError">
@@ -85,9 +84,7 @@ const ProductForm = (props: ProductFormProps) => {
         <button type="button" className={`formTabBtn ${formTab === 'variants' ? 'active' : ''}`} onClick={() => setFormTab('variants')}>
           <Layers size={18} /> <span>Variantes</span>
         </button>
-        <button type="button" className={`formTabBtn ${formTab === 'style' ? 'active' : ''}`} onClick={() => setFormTab('style')}>
-          <Palette size={18} /> <span>Estilo</span>
-        </button>
+        
       </div>
 
       <div className="formContentArea">
@@ -144,14 +141,7 @@ const ProductForm = (props: ProductFormProps) => {
           </div>
         )}
 
-        {formTab === 'style' && (
-          <div className="tab-pane">
-            <CustomStyleSection 
-              product={product} 
-              onInputChange={onInputChange} 
-            />
-          </div>
-        )}
+        
       </div>
 
       <div className="formActionFooter">

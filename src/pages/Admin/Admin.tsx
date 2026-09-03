@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutList, Package, History, Tags, FileText, Zap, Palette, Eye, TrendingUp, DollarSign, Search, Image as ImageIcon, Mail } from 'lucide-react';
+import { LogOut, LayoutList, Package, History, Tags, Zap, Eye, TrendingUp, DollarSign, Search, Image as ImageIcon } from 'lucide-react';
 import ProductForm from './components/ProductForm';
 import RecentProducts from './components/RecentProducts';
 import CategoryManager from './components/CategoryManager';
-import StyleManager from './components/StyleManager';
-import NewsletterManager from './components/NewsletterManager';
-import QRGenerator from './QRGenerator/QRGenerator';
 import { useAdminProduct } from '../../hooks/useAdminProduct';
 import { useCategories } from '../../hooks/useCategories';
 import './Admin.css';
@@ -50,7 +47,7 @@ const Admin = () => {
     deleteCategory 
   } = useCategories();
 
-  const [activeTab, setActiveTab] = useState<'create' | 'inventory' | 'categories' | 'stats' | 'featured' | 'cards' | 'styles' | 'newsletter'>('inventory');
+  const [activeTab, setActiveTab] = useState<'create' | 'inventory' | 'categories' | 'stats' | 'featured'>('inventory');
   const [inventorySearch, setInventorySearch] = useState('');
 
   // Sincronizar tab si se activa edición desde fuera (ej: useEffect de useAdminProduct)
@@ -135,30 +132,15 @@ const Admin = () => {
           >
             <Package size={20} /> <span>{editingId ? 'Editando' : 'Nuevo'}</span>
           </button>
-          <button 
-            className={`navItem ${activeTab === 'styles' ? 'active' : ''}`}
-            onClick={() => setActiveTab('styles')}
-          >
-            <Palette size={20} /> <span>Estilos</span>
-          </button>
+          
           <button 
             className={`navItem ${activeTab === 'categories' ? 'active' : ''}`}
             onClick={() => setActiveTab('categories')}
           >
             <Tags size={20} /> <span>Categorías</span>
           </button>
-          <button 
-            className={`navItem ${activeTab === 'newsletter' ? 'active' : ''}`}
-            onClick={() => setActiveTab('newsletter')}
-          >
-            <Mail size={20} /> <span>Boletín</span>
-          </button>
-          <button 
-            className={`navItem ${activeTab === 'cards' ? 'active' : ''}`}
-            onClick={() => setActiveTab('cards')}
-          >
-            <FileText size={20} /> <span>Cartas QR</span>
-          </button>
+          
+          
         </nav>
 
         <div className="sidebarFooter">
@@ -176,8 +158,8 @@ const Admin = () => {
               activeTab === 'featured' ? 'Productos Destacados' :
               activeTab === 'inventory' ? 'Inventario Completo' :
               activeTab === 'create' ? (editingId ? 'Modificar Producto' : 'Crear Nuevo Producto') :
-              activeTab === 'cards' ? 'Generador de Cartas' :
-              activeTab === 'newsletter' ? 'Gestión de Boletín' :
+              
+              
               'Gestión de Categorías'
             }</h1>
             <p>Gestiona tu tienda desde un solo lugar.</p>
@@ -403,9 +385,7 @@ const Admin = () => {
             </div>
           )}
 
-          {activeTab === 'styles' && (
-            <StyleManager onEditProduct={(p) => { startEdit(p); setActiveTab('create'); }} />
-          )}
+          
 
           {activeTab === 'categories' && (
             <div className="categoriesView animate-in">
@@ -420,17 +400,9 @@ const Admin = () => {
             </div>
           )}
 
-          {activeTab === 'cards' && (
-            <div className="cardsView animate-in">
-              <QRGenerator isSubComponent={true} />
-            </div>
-          )}
+          
 
-          {activeTab === 'newsletter' && (
-            <div className="newsletterView animate-in">
-              <NewsletterManager />
-            </div>
-          )}
+          
         </div>
       </main>
     </div>
