@@ -868,90 +868,294 @@
   display: none;
 }
 
-@media (max-width: 900px) {
+/* =========================================================================
+   COMPREHENSIVE RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================= */
+@media (max-width: 1024px) {
   .prevesegDetailGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.75rem;
   }
 
   .gallerySection {
     position: static;
   }
+}
 
-  .showcaseCard {
-    height: 340px;
+@media (max-width: 768px) {
+  /* PAGE CONTAINER & PADDING */
+  .productDetailPage {
+    padding: 0.75rem 0.85rem 110px 0.85rem;
   }
 
+  /* TOP COMPACT BAR */
+  .prevesegTopNav {
+    margin-bottom: 0.85rem;
+    gap: 8px;
+  }
+
+  .topBackBtn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .topCategoryPill {
+    max-width: 160px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+  }
+
+  .categoryLabel {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+
+  .topShareBtn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  /* SHOWCASE GALLERY */
+  .showcaseCard {
+    height: 290px;
+    border-radius: 16px;
+    padding: 0.75rem;
+  }
+
+  .showcaseImgContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .showcaseImg {
+    max-width: 100%;
+    max-height: 230px;
+    object-fit: contain;
+  }
+
+  .thumbnailRow {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .thumbnailBtn {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+  }
+
+  /* MAIN CARDS PADDING */
+  .productHeaderCard,
+  .variantsCard,
+  .productDetailTabsWrapper,
+  .recommendedSection {
+    padding: 1.25rem 1rem;
+    border-radius: 16px;
+  }
+
+  .productMainTitle {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .brandQuotationCard {
+    padding: 0.9rem 1rem;
+  }
+
+  .quotationStatusPill {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  .quotationLocationPill {
+    font-size: 0.7rem;
+  }
+
+  .quotationSubtitle {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  /* TRUST BADGES ROW (NO HORIZONTAL OVERFLOW!) */
+  .brandTrustRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 0.75rem;
+  }
+
+  .trustBadgeItem {
+    padding: 8px 4px;
+    border-radius: 10px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .trustBadgeItem .trustIcon {
+    width: 16px;
+    height: 16px;
+    margin: 0 auto;
+  }
+
+  .trustItemText strong {
+    font-size: 0.7rem;
+    display: block;
+    line-height: 1.15;
+  }
+
+  .trustItemText span {
+    font-size: 0.6rem;
+    display: block;
+    line-height: 1.1;
+    color: #64748b;
+  }
+
+  /* VARIANT CHIPS */
+  .variantLabel {
+    font-size: 0.78rem;
+  }
+
+  .variantSelectedText {
+    font-size: 0.78rem;
+  }
+
+  .sizeOptionButton {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    border-radius: 8px;
+  }
+
+  /* TABS BAR (SWIPEABLE, NO CLIPPING) */
+  .tabsHeaderBar {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+    border-bottom: 2px solid #f1f5f9;
+  }
+
+  .tabsHeaderBar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabHeaderBtn {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .tabDescParagraph {
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  /* HIDE DESKTOP ACTIONS ON MOBILE */
   .desktopActionsRow {
     display: none;
   }
 
+  /* MOBILE FIXED BOTTOM ACTION BAR */
   .mobileBottomActionBar {
     display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid #e2e8f0;
-    padding: 10px 16px max(10px, env(safe-area-inset-bottom));
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     z-index: 1000;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
   }
 
   .mobilePriceBlock {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .mobilePriceLabel {
-    font-size: 0.68rem;
-    color: #64748b;
-    font-weight: 700;
-  }
-
-  .mobilePriceAmount {
-    font-size: 0.95rem;
-    font-weight: 900;
-    color: #ee1b24;
+    display: none;
   }
 
   .mobileButtonsGroup {
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
   }
 
   .mobileCartButton {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 46px;
     border-radius: 12px;
     background: #f8fafc;
     border: 1.5px solid #cbd5e1;
-    color: #334155;
+    color: #0f172a;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mobileCartButton:active {
+    background: #fee2e2;
+    border-color: #ee1b24;
+    color: #ee1b24;
   }
 
   .mobileWhatsAppButton {
+    flex: 1;
+    height: 46px;
     background: #ee1b24;
     color: #ffffff;
     border: none;
-    height: 44px;
-    padding: 0 18px;
     border-radius: 12px;
     font-size: 0.88rem;
     font-weight: 900;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(238, 27, 36, 0.35);
+    box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mobileWhatsAppButton:active {
+    background: #dc141d;
+    transform: scale(0.98);
+  }
+
+  /* RECOMMENDED PRODUCTS */
+  .recProductCard {
+    width: 135px;
+    padding: 8px;
+  }
+
+  .recImgBox {
+    height: 90px;
+  }
+
+  .recCardName {
+    font-size: 0.74rem;
+  }
+
+  .quoteTag {
+    font-size: 0.68rem;
   }
 }
 
