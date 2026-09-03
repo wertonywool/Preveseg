@@ -19,10 +19,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
     let message = `*SOLICITUD DE COTIZACIÓN FORMAL - PREVESEG CALI*%0A`;
     message += `Ubicación: Cra 28D 72f-79, Cali%0A`;
     message += `Contacto: 3046296285%0A%0A`;
-    message += `*Equipos a Cotizar:*` + `%0A`;
+    message += `*Equipos a Cotizar:*%0A`;
     
     cart.forEach(item => {
-      message += `• *${item.nombre}* (Cantidad: ${item.cantidad})` + `%0A`;
+      message += `• *${item.nombre}* (Cantidad: ${item.cantidad})%0A`;
     });
 
     message += `%0A*Total de referencias:* ${itemCount} equipos%0A`;
@@ -41,6 +41,9 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
   return (
     <div className="cartOverlay" onClick={onClose}>
       <div className="cartContent" onClick={e => e.stopPropagation()}>
+        {/* MOBILE DRAG HANDLE */}
+        <div className="mobileDragHandle"></div>
+
         {/* HEADER */}
         <div className="cartHeader">
           <div className="cartBrand">
@@ -49,24 +52,28 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
             </div>
             <div className="brandText">
               <div className="brandTitleRow">
-                <h3>PREVESEG</h3>
-                <span className="cartCountBadge">{itemCount}</span>
+                <h3>PREVE<span>SEG</span></h3>
+                <span className="cartCountBadge">{itemCount} {itemCount === 1 ? 'item' : 'items'}</span>
               </div>
               <p>Lista de Cotización • Cali</p>
             </div>
           </div>
-          <button className="closeBtn" onClick={onClose} aria-label="Cerrar Lista"><X size={20} /></button>
+          <button className="closeBtn" onClick={onClose} aria-label="Cerrar Lista">
+            <X size={18} />
+          </button>
         </div>
 
         {/* ITEMS LIST */}
         <div className="cartItems">
           {cart.length === 0 ? (
             <div className="emptyCart">
-              <div className="emptyIcon"><ShoppingBag size={48} /></div>
+              <div className="emptyIcon">
+                <ShoppingBag size={44} />
+              </div>
               <h3>Tu lista de cotización está vacía</h3>
-              <p>Explora nuestro catálogo de extintores, camillas, botiquines, señalización y EPP para cotizar.</p>
+              <p>Agrega extintores, gabinetes, camillas, botiquines, señalización y dotaciones EPP para solicitar tu cotización formal.</p>
               <button className="continueBtn" onClick={handleExplore}>
-                <span>Ver Catálogo de Equipos</span> <ArrowRight size={16} />
+                <span>Explorar Catálogo</span> <ArrowRight size={16} />
               </button>
             </div>
           ) : (
@@ -83,7 +90,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                   <h4 className="itemName">{item.nombre}</h4>
                   <div className="itemPriceRow">
                     <span className="quoteItemTag">
-                      <ShieldCheck size={12} className="inline-icon" /> Para Cotización
+                      <ShieldCheck size={12} className="inline-icon" /> Certificado NTC
                     </span>
                   </div>
                   <div className="itemActions">
@@ -123,22 +130,22 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
           <div className="cartFooter">
             <div className="summaryInfo">
               <div className="summaryRow">
-                <span>Total de Referencias</span>
-                <span className="subtotalVal">{itemCount} {itemCount === 1 ? 'equipo' : 'equipos'}</span>
+                <span>Total de Referencias:</span>
+                <strong className="subtotalVal">{itemCount} {itemCount === 1 ? 'equipo seleccionado' : 'equipos seleccionados'}</strong>
               </div>
               <div className="summaryRow shipping">
-                <span>Punto de Atención</span>
+                <span>Sede Principal:</span>
                 <span className="shippingBadge">Cra 28D 72f-79, Cali</span>
               </div>
               <div className="divider"></div>
               <div className="summaryRow total">
-                <span>Modalidad:</span>
-                <span className="totalValue" style={{ fontSize: '1rem', color: '#34d399' }}>Cotización por WhatsApp</span>
+                <span>Respuesta:</span>
+                <span className="totalValue">Inmediata vía WhatsApp</span>
               </div>
             </div>
             
             <button className="checkoutBtn" onClick={handleCheckout}>
-              <MessageCircle size={20} />
+              <MessageCircle size={19} />
               <span>Enviar Cotización por WhatsApp</span>
             </button>
 
@@ -147,12 +154,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
                 Vaciar Lista
               </button>
               <button className="continueShoppingLink" onClick={onClose}>
-                Seguir Explorando
+                Seguir Explorando →
               </button>
             </div>
 
             <p className="footerHint">
-              <ShieldCheck size={14} className="inline-icon" /> Preveseg Cali: Respuesta inmediata y asesoría en seguridad industrial.
+              <ShieldCheck size={14} className="inline-icon" /> Preveseg: Asesoría técnica en seguridad y cotizaciones oficiales sin compromiso.
             </p>
           </div>
         )}
