@@ -273,75 +273,100 @@
 /* =========================================================================
    QUICK SELECT MODAL
    ========================================================================= */
+/* =========================================================================
+   QUICK SELECT MODAL (AÑADIR A COTIZACIÓN / COTIZAR)
+   ========================================================================= */
 .quickSelectOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 9999;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  animation: fadeInOverlay 0.2s ease-out;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .quickSelectModal {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 2rem;
   max-width: 480px;
   width: 100%;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  animation: modalPop 0.25s ease-out;
+  animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow: hidden;
 }
 
 @keyframes modalPop {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modalHandle {
+  display: none;
 }
 
 .closeQuickSelect {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 18px;
+  right: 18px;
   background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  border: 1.5px solid #e2e8f0;
   color: #64748b;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
 }
 
 .closeQuickSelect:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
   color: #ee1b24;
+  transform: rotate(90deg);
 }
 
 .quickSelectHeader {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .quickPreviewWrapper {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
   background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  border: 1.5px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
+  padding: 4px;
 }
 
 .quickPreviewImg {
@@ -353,84 +378,224 @@
 .quickSelectInfo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .quickQuoteStatus {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #059669;
+  color: #16a34a;
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
+}
+
+.quickQuoteIcon {
+  color: #16a34a;
+  flex-shrink: 0;
 }
 
 .qStockInfo {
   font-size: 0.78rem;
   color: #64748b;
   margin: 0;
+  font-weight: 600;
 }
 
-.variantGroup {
+.qSelectedLabel {
+  font-size: 0.76rem;
+  color: #ee1b24;
+  margin: 2px 0 0 0;
+  font-weight: 700;
+}
+
+.quickScrollContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.qProductTitle {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+.quickVariants {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.qVariantRow {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.variantTitle {
-  font-size: 0.82rem;
+.qVariantLabel {
+  font-size: 0.8rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #334155;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.variantOptions {
+.qVariantOptions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.variantBtn {
+.qOptionPill {
   background: #f8fafc;
   border: 1.5px solid #cbd5e1;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.84rem;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.86rem;
   font-weight: 700;
   color: #1e293b;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.variantBtn:hover {
+.qOptionPill:hover {
   border-color: #ee1b24;
+  color: #ee1b24;
+  background: #ffffff;
 }
 
-.variantBtn.active {
+.qOptionPill.active {
   border-color: #ee1b24;
   background: rgba(238, 27, 36, 0.08);
   color: #ee1b24;
+  font-weight: 800;
+  box-shadow: 0 0 0 1px #ee1b24;
 }
 
-.confirmActionBtn {
-  background: #ee1b24;
-  color: white;
+.qQuantitySection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0.25rem;
+}
+
+.qQuantityControls {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.qQtyBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f8fafc;
   border: none;
-  padding: 13px;
-  border-radius: 10px;
-  font-size: 0.92rem;
-  font-weight: 900;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(238, 27, 36, 0.35);
+  color: #0f172a;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.confirmActionBtn:hover {
+.qQtyBtn:hover:not(:disabled) {
+  background: #fee2e2;
+  color: #ee1b24;
+}
+
+.qQtyBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qQtyValue {
+  padding: 0 16px;
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.quickModalFooter {
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.confirmQuickAction {
+  width: 100%;
+  background: #ee1b24;
+  color: #ffffff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 0.94rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(238, 27, 36, 0.35);
+  font-family: inherit;
+}
+
+.confirmQuickAction:hover {
   background: #dc141d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(238, 27, 36, 0.45);
+}
+
+.confirmQuickAction.is-buy {
+  background: #25D366;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+}
+
+.confirmQuickAction.is-buy:hover {
+  background: #1eb855;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 640px) {
+  .quickSelectOverlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .quickSelectModal {
+    border-radius: 24px 24px 0 0;
+    max-width: 100%;
+    max-height: 85vh;
+    padding: 1.5rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+    animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideUpModal {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .modalHandle {
+    display: block;
+    width: 42px;
+    height: 4px;
+    border-radius: 9999px;
+    background: #cbd5e1;
+    margin: -8px auto 8px;
+  }
 }
