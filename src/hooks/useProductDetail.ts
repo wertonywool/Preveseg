@@ -34,7 +34,7 @@ export interface Product {
 export const useProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart, itemCount } = useCart();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
@@ -269,6 +269,7 @@ export const useProductDetail = () => {
     currentOfferPrice,
     currentNormalPrice,
     recommendedProducts,
+    itemCount,
     navigate
   };
 };

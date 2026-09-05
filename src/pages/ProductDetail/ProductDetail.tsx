@@ -20,6 +20,7 @@ const ProductDetail = () => {
     getYoutubeEmbedUrl,
     groupedVariants,
     recommendedProducts,
+    itemCount,
     navigate
   } = useProductDetail();
 
@@ -624,6 +625,7 @@ const ProductDetail = () => {
               aria-label="Añadir a mi Cotización"
             >
               <ShoppingCart size={20} />
+              {itemCount > 0 && <span className="mobileCartBadge">{itemCount}</span>}
             </button>
             
             <button 

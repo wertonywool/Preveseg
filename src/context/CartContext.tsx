@@ -168,9 +168,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             
             @media (max-width: 600px) {
               .cartNotification {
-                bottom: 20px;
-                right: 20px;
-                left: 20px;
+                bottom: calc(85px + env(safe-area-inset-bottom, 12px));
+                right: 16px;
+                left: 16px;
                 min-width: auto;
               }
             }

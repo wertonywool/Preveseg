@@ -618,4 +618,11 @@
   .bannerActions {
     flex-direction: column;
   }
+
+  .whatsapp-float {
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: 20px;
+    width: 52px;
+    height: 52px;
+  }
 }
