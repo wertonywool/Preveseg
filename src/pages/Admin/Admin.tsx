@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, LayoutList, Package, History, Tags, Zap, Eye, TrendingUp, DollarSign, Search, Image as ImageIcon } from 'lucide-react';
+import { 
+  LogOut, LayoutList, Package, History, Tags, Zap, Eye, EyeOff,
+  TrendingUp, DollarSign, Search, X, RotateCcw,
+  ShieldCheck, Layers, ArrowRight, ExternalLink, Plus, BarChart3, CheckCircle2 
+} from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 import ProductForm from './components/ProductForm';
 import RecentProducts from './components/RecentProducts';
 import CategoryManager from './components/CategoryManager';
@@ -48,7 +53,12 @@ const Admin = () => {
   } = useCategories();
 
   const [activeTab, setActiveTab] = useState<'create' | 'inventory' | 'categories' | 'stats' | 'featured'>('inventory');
+  
+  // INVENTORY FILTERS & SEARCH
   const [inventorySearch, setInventorySearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'visible' | 'hidden' | 'featured'>('all');
+  const [sortOrder, setSortOrder] = useState<'newest' | 'price-asc' | 'price-desc' | 'name'>('newest');
 
   // Sincronizar tab si se activa edición desde fuera (ej: useEffect de useAdminProduct)
   useEffect(() => {
@@ -56,6 +66,143 @@ const Admin = () => {
       setActiveTab('create');
     }
   }, [editingId, activeTab]);
+
+  // Lista única de categorías encontradas en base de datos y en la gestión de categorías
+  const allCategoryNames = useMemo(() => {
+    const set = new Set<string>();
+    categories.forEach(c => {
+      if (c && c.nombre) set.add(c.nombre);
+    });
+    dbProducts.forEach(p => {
+      if (Array.isArray(p.categoria)) {
+        p.categoria.forEach((cat: string) => { if (cat) set.add(cat); });
+      } else if (p.categoria) {
+        set.add(p.categoria);
+      }
+    });
+    return Array.from(set).sort();
+  }, [categories, dbProducts]);
+
+  // Filtrado y ordenamiento de inventario
+  const filteredProducts = useMemo(() => {
+    return dbProducts.filter(p => {
+      const search = inventorySearch.toLowerCase().trim();
+      const pCats = Array.isArray(p.categoria) ? p.categoria : (p.categoria ? [p.categoria] : []);
+      
+      const matchesSearch = !search ||
+        (p.nombre && p.nombre.toLowerCase().includes(search)) ||
+        (p.id && p.id.toString().includes(search)) ||
+        pCats.some((c: string) => c.toLowerCase().includes(search));
+
+      const matchesCategory = categoryFilter === 'all' ||
+        pCats.some((c: string) => c.toLowerCase() === categoryFilter.toLowerCase());
+
+      const matchesStatus = 
+        statusFilter === 'all' ? true :
+        statusFilter === 'visible' ? p.visible :
+        statusFilter === 'hidden' ? !p.visible :
+        statusFilter === 'featured' ? p.destacado : true;
+
+      return matchesSearch && matchesCategory && matchesStatus;
+    }).sort((a, b) => {
+      if (sortOrder === 'price-asc') {
+        const pA = Number(a.precio_oferta || a.precio_normal || 0);
+        const pB = Number(b.precio_oferta || b.precio_normal || 0);
+        return pA - pB;
+      }
+      if (sortOrder === 'price-desc') {
+        const pA = Number(a.precio_oferta || a.precio_normal || 0);
+        const pB = Number(b.precio_oferta || b.precio_normal || 0);
+        return pB - pA;
+      }
+      if (sortOrder === 'name') {
+        return (a.nombre || '').localeCompare(b.nombre || '');
+      }
+      return Number(b.id) - Number(a.id);
+    });
+  }, [dbProducts, inventorySearch, categoryFilter, statusFilter, sortOrder]);
+
+  const hasActiveFilters = inventorySearch !== '' || categoryFilter !== 'all' || statusFilter !== 'all' || sortOrder !== 'newest';
+
+  const clearAllFilters = () => {
+    setInventorySearch('');
+    setCategoryFilter('all');
+    setStatusFilter('all');
+    setSortOrder('newest');
+  };
+
+  // Métricas avanzadas para la página de estadísticas
+  const statsMetrics = useMemo(() => {
+    const total = dbProducts.length;
+    const visibleCount = dbProducts.filter(p => p.visible).length;
+    const hiddenCount = dbProducts.filter(p => !p.visible).length;
+    const visiblePercent = total > 0 ? Math.round((visibleCount / total) * 100) : 0;
+    const featuredCount = dbProducts.filter(p => p.destacado).length;
+    const offerCount = dbProducts.filter(p => p.en_oferta || (Number(p.precio_normal) > Number(p.precio_oferta) && Number(p.precio_oferta) > 0)).length;
+    const regularCount = total - offerCount;
+    const kitsCount = dbProducts.filter(p => p.es_kit).length;
+    const withVideoCount = dbProducts.filter(p => p.youtube_url || p.youtubeUrl).length;
+    const withImagesCount = dbProducts.filter(p => Array.isArray(p.imagenes) && p.imagenes.length > 0).length;
+    const withMultiImagesCount = dbProducts.filter(p => Array.isArray(p.imagenes) && p.imagenes.length > 1).length;
+    const withSpecsCount = dbProducts.filter(p => Array.isArray(p.detalles) && p.detalles.length > 0).length;
+    const withVariantsCount = dbProducts.filter(p => Array.isArray(p.variantes) && p.variantes.length > 0).length;
+
+    // Precios y valoración económica
+    const prices = dbProducts.map(p => Number(p.precio_oferta) || Number(p.precio_normal) || 0);
+    const positivePrices = prices.filter(pr => pr > 0);
+    const totalCatalogValue = prices.reduce((acc, curr) => acc + curr, 0);
+    const avgPrice = total > 0 ? Math.round(totalCatalogValue / total) : 0;
+    const minPrice = positivePrices.length > 0 ? Math.min(...positivePrices) : 0;
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+    
+    // Ahorro total acumulado en descuentos
+    const totalSavings = dbProducts
+      .filter(p => Number(p.precio_normal) > Number(p.precio_oferta) && Number(p.precio_oferta) > 0)
+      .reduce((acc, p) => acc + (Number(p.precio_normal) - Number(p.precio_oferta)), 0);
+
+    // Distribución por categorías
+    const categoryCounts: { [cat: string]: number } = {};
+    dbProducts.forEach(p => {
+      const pCats = Array.isArray(p.categoria) ? p.categoria : (p.categoria ? [p.categoria] : ['Sin categoría']);
+      if (pCats.length === 0) {
+        categoryCounts['Sin categoría'] = (categoryCounts['Sin categoría'] || 0) + 1;
+      } else {
+        pCats.forEach((c: string) => {
+          if (c) categoryCounts[c] = (categoryCounts[c] || 0) + 1;
+        });
+      }
+    });
+
+    const categoryDistribution = Object.entries(categoryCounts)
+      .map(([name, count]) => ({
+        name,
+        count,
+        percent: total > 0 ? Math.round((count / total) * 100) : 0
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    return {
+      total,
+      visibleCount,
+      hiddenCount,
+      visiblePercent,
+      featuredCount,
+      offerCount,
+      regularCount,
+      kitsCount,
+      withVideoCount,
+      withImagesCount,
+      withMultiImagesCount,
+      withSpecsCount,
+      withVariantsCount,
+      totalCatalogValue,
+      avgPrice,
+      minPrice,
+      maxPrice,
+      totalSavings,
+      categoryDistribution
+    };
+  }, [dbProducts]);
 
   const startNewProduct = () => {
     // Si ya estamos en la pestaña de crear y no estamos editando, no resetear (evita borrar por accidente)
@@ -88,8 +235,10 @@ const Admin = () => {
     <div className="adminPage">
       <aside className="adminSidebar no-print">
         <div className="adminLogo">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className="logoIcon"><Package size={22} /></div>
+          <div className="adminBrand">
+            <div className="adminLogoBadge">
+              <img src={logoImg} alt="Preveseg Logo" className="adminLogoImg" />
+            </div>
             <div className="logoText">
               <h2>Preveseg <span>Admin</span></h2>
               <p>Seguridad Industrial</p>
@@ -176,105 +325,348 @@ const Admin = () => {
         <div className="viewContainer">
           {activeTab === 'stats' && (
             <div className="statsDashboard animate-in">
+              {/* OPERATIONAL BANNER */}
+              <div className="statsBanner">
+                <div className="statsBannerContent">
+                  <h2>
+                    <BarChart3 size={24} color="#ee1b24" />
+                    Panel de Control y Métricas Preveseg
+                  </h2>
+                  <p>
+                    Analítica integral de catálogo, valoración comercial y estado del inventario en tiempo real.
+                  </p>
+                </div>
+                <div className="statsBannerActions">
+                  <button 
+                    type="button" 
+                    className="statsBannerBtn primary" 
+                    onClick={startNewProduct}
+                  >
+                    <Plus size={16} /> <span>Nuevo Producto</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className="statsBannerBtn" 
+                    onClick={() => setActiveTab('inventory')}
+                  >
+                    <LayoutList size={16} /> <span>Ver Catálogo</span>
+                  </button>
+                  <a 
+                    href="/" 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="statsBannerBtn"
+                  >
+                    <ExternalLink size={16} /> <span>Ver Tienda</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* TOP 4 INTERACTIVE KPI CARDS */}
               <div className="statsGrid">
-                <div className="statCard primary">
+                {/* 1. TOTAL INVENTORY */}
+                <div 
+                  className="statCard primary" 
+                  onClick={() => setActiveTab('inventory')}
+                  title="Click para ver inventario completo"
+                >
                   <div className="statIcon"><Package size={24} /></div>
                   <div className="statInfo">
-                    <span className="statLabel">Inventario Total</span>
-                    <span className="statValue">{dbProducts.length}</span>
-                    <span className="statSub">Productos registrados</span>
+                    <div className="statHeaderRow">
+                      <span className="statLabel">Inventario Total</span>
+                      <span className="statBadgePill red">{statsMetrics.visiblePercent}% Activo</span>
+                    </div>
+                    <span className="statValue">{statsMetrics.total}</span>
+                    <span className="statSub">
+                      Productos en catálogo <ArrowRight size={12} />
+                    </span>
                   </div>
                 </div>
-                <div className="statCard success">
+
+                {/* 2. VISIBLE PRODUCTS */}
+                <div 
+                  className="statCard success"
+                  onClick={() => {
+                    setStatusFilter('visible');
+                    setActiveTab('inventory');
+                  }}
+                  title="Click para ver productos públicos"
+                >
                   <div className="statIcon"><Eye size={24} /></div>
                   <div className="statInfo">
-                    <span className="statLabel">Visibles al Público</span>
-                    <span className="statValue">{dbProducts.filter(p => p.visible).length}</span>
-                    <span className="statSub">Listos para comprar</span>
+                    <div className="statHeaderRow">
+                      <span className="statLabel">Públicos en Tienda</span>
+                      <span className="statBadgePill green">{statsMetrics.visibleCount} Visibles</span>
+                    </div>
+                    <span className="statValue">{statsMetrics.visibleCount}</span>
+                    <span className="statSub">
+                      Listos para venta <ArrowRight size={12} />
+                    </span>
                   </div>
                 </div>
-                <div className="statCard warning">
+
+                {/* 3. FEATURED PRODUCTS */}
+                <div 
+                  className="statCard warning"
+                  onClick={() => setActiveTab('featured')}
+                  title="Click para ver productos destacados"
+                >
                   <div className="statIcon"><Zap size={24} /></div>
                   <div className="statInfo">
-                    <span className="statLabel">Productos Destacados</span>
-                    <span className="statValue">{dbProducts.filter(p => p.destacado).length}</span>
-                    <span className="statSub">En vitrina principal</span>
+                    <div className="statHeaderRow">
+                      <span className="statLabel">Vitrina Destacada</span>
+                      <span className="statBadgePill amber">{statsMetrics.featuredCount} En Portada</span>
+                    </div>
+                    <span className="statValue">{statsMetrics.featuredCount}</span>
+                    <span className="statSub">
+                      En sección principal <ArrowRight size={12} />
+                    </span>
                   </div>
                 </div>
-                <div className="statCard info">
+
+                {/* 4. ACTIVE CATEGORIES */}
+                <div 
+                  className="statCard info"
+                  onClick={() => setActiveTab('categories')}
+                  title="Click para gestionar categorías"
+                >
                   <div className="statIcon"><Tags size={24} /></div>
                   <div className="statInfo">
-                    <span className="statLabel">Categorías Activas</span>
+                    <div className="statHeaderRow">
+                      <span className="statLabel">Categorías Activas</span>
+                      <span className="statBadgePill blue">{categories.length} Sectores</span>
+                    </div>
                     <span className="statValue">{categories.length}</span>
-                    <span className="statSub">Segmentos de mercado</span>
+                    <span className="statSub">
+                      Líneas de seguridad <ArrowRight size={12} />
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="statsSecondaryGrid">
-                <div className="dataCard">
-                  <h3><TrendingUp size={18} /> Resumen de Ofertas</h3>
-                  <div className="dataContent">
-                    <div className="dataRow">
-                      <span>Productos en Oferta</span>
-                      <span className="count">{dbProducts.filter(p => p.en_oferta).length}</span>
+              {/* DETAILED INSIGHTS 2x2 GRID */}
+              <div className="statsDetailedGrid">
+                {/* 1. FINANCIAL ESTIMATE */}
+                <div className="statsCardClean">
+                  <div className="statsCardHeader">
+                    <div className="statsCardHeaderTitle">
+                      <div className="statsCardHeaderIcon blue">
+                        <DollarSign size={20} />
+                      </div>
+                      <div>
+                        <h3>Valoración Económica</h3>
+                        <p>Estimación del inventario según precios actuales</p>
+                      </div>
                     </div>
-                    <div className="dataRow">
-                      <span>Sin Oferta</span>
-                      <span className="count">{dbProducts.filter(p => !p.en_oferta).length}</span>
+                  </div>
+
+                  <div className="financeMainMetric">
+                    <div>
+                      <div className="financeMainMetricLabel">Valor Total del Catálogo</div>
+                      <div className="financeMainMetricValue">
+                        ${statsMetrics.totalCatalogValue.toLocaleString('es-CO')}
+                      </div>
                     </div>
-                    <div className="progressContainer">
-                      <div 
-                        className="progressBar" 
-                        style={{ width: `${(dbProducts.filter(p => p.en_oferta).length / dbProducts.length) * 100}%` }}
-                      ></div>
+                    <div className="statBadgePill red" style={{ fontSize: '0.75rem', padding: '5px 12px' }}>
+                      COP Vigente
+                    </div>
+                  </div>
+
+                  <div className="financeSubMetricsGrid">
+                    <div className="financeSubCard">
+                      <span className="label">Precio Promedio</span>
+                      <span className="val">${statsMetrics.avgPrice.toLocaleString('es-CO')}</span>
+                    </div>
+                    <div className="financeSubCard">
+                      <span className="label">Más Económico</span>
+                      <span className="val">${statsMetrics.minPrice.toLocaleString('es-CO')}</span>
+                    </div>
+                    <div className="financeSubCard">
+                      <span className="label">Más Costoso</span>
+                      <span className="val">${statsMetrics.maxPrice.toLocaleString('es-CO')}</span>
+                    </div>
+                  </div>
+
+                  {statsMetrics.totalSavings > 0 && (
+                    <div className="savingsAlertRow">
+                      <span>🏷️ Descuento acumulado en ofertas activas:</span>
+                      <strong>${statsMetrics.totalSavings.toLocaleString('es-CO')}</strong>
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. COMMERCIAL PERFORMANCE & OFFERS */}
+                <div className="statsCardClean">
+                  <div className="statsCardHeader">
+                    <div className="statsCardHeaderTitle">
+                      <div className="statsCardHeaderIcon red">
+                        <TrendingUp size={20} />
+                      </div>
+                      <div>
+                        <h3>Rendimiento Comercial & Ofertas</h3>
+                        <p>Segmentación de precios, promociones y kits</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="commercialBreakdown">
+                    <div className="progressSegmentedWrap">
+                      <div className="progressSegmentedHeader">
+                        <span>
+                          En Oferta: <strong>{statsMetrics.offerCount}</strong> ({statsMetrics.total > 0 ? Math.round((statsMetrics.offerCount / statsMetrics.total) * 100) : 0}%)
+                        </span>
+                        <span>
+                          Precio Regular: <strong>{statsMetrics.regularCount}</strong>
+                        </span>
+                      </div>
+                      <div className="progressSegmentedBar">
+                        <div 
+                          className="progressSegmentedFill offer" 
+                          style={{ width: `${statsMetrics.total > 0 ? (statsMetrics.offerCount / statsMetrics.total) * 100 : 0}%` }}
+                          title={`Ofertas: ${statsMetrics.offerCount}`}
+                        />
+                        <div 
+                          className="progressSegmentedFill regular" 
+                          style={{ width: `${statsMetrics.total > 0 ? (statsMetrics.regularCount / statsMetrics.total) * 100 : 0}%` }}
+                          title={`Precio regular: ${statsMetrics.regularCount}`}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="commercialMetricsRows">
+                      <div className="commercialMetricItem">
+                        <span className="name">Productos en Oferta</span>
+                        <span className="num" style={{ color: '#ee1b24' }}>{statsMetrics.offerCount}</span>
+                      </div>
+                      <div className="commercialMetricItem">
+                        <span className="name">Sin Promoción</span>
+                        <span className="num">{statsMetrics.regularCount}</span>
+                      </div>
+                      <div className="commercialMetricItem">
+                        <span className="name">Kits de Seguridad</span>
+                        <span className="num" style={{ color: '#2563eb' }}>{statsMetrics.kitsCount}</span>
+                      </div>
+                      <div className="commercialMetricItem">
+                        <span className="name">Con Video Explicativo</span>
+                        <span className="num" style={{ color: '#059669' }}>{statsMetrics.withVideoCount}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="dataCard">
-                  <h3><DollarSign size={18} /> Valor del Inventario</h3>
-                  <div className="dataContent">
-                    <div className="dataRow">
-                      <span>Precio Promedio</span>
-                      <span className="count">
-                        ${(dbProducts.reduce((acc, p) => acc + (p.precio_oferta || 0), 0) / (dbProducts.length || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                {/* 3. CATEGORY DISTRIBUTION */}
+                <div className="statsCardClean">
+                  <div className="statsCardHeader">
+                    <div className="statsCardHeaderTitle">
+                      <div className="statsCardHeaderIcon purple">
+                        <Layers size={20} />
+                      </div>
+                      <div>
+                        <h3>Distribución por Categoría</h3>
+                        <p>Concentración de productos por línea de protección</p>
+                      </div>
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={() => setActiveTab('categories')}
+                      className="statsBannerBtn"
+                      style={{ padding: '6px 12px', fontSize: '0.75rem', background: '#f8fafc', color: '#334155', borderColor: '#e2e8f0' }}
+                    >
+                      Ver Categorías
+                    </button>
+                  </div>
+
+                  <div className="categoryDistList">
+                    {statsMetrics.categoryDistribution.length > 0 ? (
+                      statsMetrics.categoryDistribution.map((cat, idx) => (
+                        <div key={idx} className="categoryDistItem">
+                          <div className="categoryDistTop">
+                            <span>{cat.name}</span>
+                            <span style={{ color: '#64748b', fontSize: '0.78rem' }}>
+                              <strong>{cat.count}</strong> {cat.count === 1 ? 'producto' : 'productos'} ({cat.percent}%)
+                            </span>
+                          </div>
+                          <div className="categoryDistBarBg">
+                            <div 
+                              className="categoryDistBarFill" 
+                              style={{ width: `${cat.percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ color: '#94a3b8', textAlign: 'center', padding: '2rem 0', margin: 0 }}>
+                        No hay productos categorizados actualmente.
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* 4. CATALOG QUALITY & COMPLETENESS */}
+                <div className="statsCardClean">
+                  <div className="statsCardHeader">
+                    <div className="statsCardHeaderTitle">
+                      <div className="statsCardHeaderIcon green">
+                        <ShieldCheck size={20} />
+                      </div>
+                      <div>
+                        <h3>Salud del Catálogo</h3>
+                        <p>Completitud técnica para maximizar la conversión</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="qualityList">
+                    <div className="qualityItem">
+                      <div className="qualityItemLeft">
+                        <div className="qualityItemIcon">
+                          <CheckCircle2 size={18} />
+                        </div>
+                        <span>Con imágenes principales</span>
+                      </div>
+                      <span className="qualityBadge">
+                        {statsMetrics.withImagesCount} / {statsMetrics.total} ({statsMetrics.total > 0 ? Math.round((statsMetrics.withImagesCount / statsMetrics.total) * 100) : 0}%)
                       </span>
                     </div>
-                    <div className="dataRow">
-                      <span>Producto más costoso</span>
-                      <span className="count">
-                        ${Math.max(...dbProducts.map(p => p.precio_oferta || 0)).toLocaleString()}
+
+                    <div className="qualityItem">
+                      <div className="qualityItemLeft">
+                        <div className="qualityItemIcon">
+                          <CheckCircle2 size={18} />
+                        </div>
+                        <span>Con galería de fotos múltiples</span>
+                      </div>
+                      <span className="qualityBadge">
+                        {statsMetrics.withMultiImagesCount} / {statsMetrics.total} ({statsMetrics.total > 0 ? Math.round((statsMetrics.withMultiImagesCount / statsMetrics.total) * 100) : 0}%)
+                      </span>
+                    </div>
+
+                    <div className="qualityItem">
+                      <div className="qualityItemLeft">
+                        <div className="qualityItemIcon">
+                          <CheckCircle2 size={18} />
+                        </div>
+                        <span>Con especificaciones y detalles</span>
+                      </div>
+                      <span className="qualityBadge">
+                        {statsMetrics.withSpecsCount} / {statsMetrics.total} ({statsMetrics.total > 0 ? Math.round((statsMetrics.withSpecsCount / statsMetrics.total) * 100) : 0}%)
+                      </span>
+                    </div>
+
+                    <div className="qualityItem">
+                      <div className="qualityItemLeft">
+                        <div className="qualityItemIcon">
+                          <CheckCircle2 size={18} />
+                        </div>
+                        <span>Con variantes (tallas, calibres o colores)</span>
+                      </div>
+                      <span className="qualityBadge">
+                        {statsMetrics.withVariantsCount} / {statsMetrics.total} ({statsMetrics.total > 0 ? Math.round((statsMetrics.withVariantsCount / statsMetrics.total) * 100) : 0}%)
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <style>{`
-                .statsDashboard { display: flex; flex-direction: column; gap: 2rem; }
-                .statsSecondaryGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-                
-                .statCard { display: flex; align-items: center; gap: 20px; padding: 2rem; }
-                .statIcon { width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); color: white; }
-                
-                .statCard.primary .statIcon { background: rgba(0, 174, 239, 0.1); color: var(--tech-blue); }
-                .statCard.success .statIcon { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-                .statCard.warning .statIcon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-                .statCard.info .statIcon { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
-                
-                .statInfo { display: flex; flex-direction: column; }
-                .statSub { font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 4px; }
-                
-                .dataCard { background: rgba(15, 23, 42, 0.6); border-radius: 32px; padding: 2rem; border: 1px solid rgba(255,255,255,0.03); }
-                .dataCard h3 { font-size: 1rem; color: white; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; font-weight: 800; }
-                .dataContent { display: flex; flex-direction: column; gap: 15px; }
-                .dataRow { display: flex; justify-content: space-between; font-size: 0.9rem; color: #94a3b8; font-weight: 600; }
-                .dataRow .count { color: white; font-weight: 800; }
-                
-                .progressContainer { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; margin-top: 5px; }
-                .progressBar { height: 100%; background: var(--tech-blue); border-radius: 10px; box-shadow: 0 0 15px rgba(0, 174, 239, 0.4); }
-              `}</style>
             </div>
           )}
 
@@ -293,29 +685,140 @@ const Admin = () => {
 
           {activeTab === 'inventory' && (
             <div className="inventoryView animate-in">
-              <div className="inventoryHeader">
-                <div className="inventorySearch">
-                  <Search size={20} />
+              {/* QUICK STATS CHIPS BAR */}
+              <div className="inventoryQuickStats">
+                <div 
+                  className={`quickStatChip all ${statusFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter('all')}
+                  title="Mostrar todos los productos"
+                >
+                  <div className="quickStatInfo">
+                    <span className="quickStatLabel">Todos</span>
+                    <span className="quickStatValue">{dbProducts.length}</span>
+                  </div>
+                  <div className="quickStatIcon">
+                    <Package size={20} />
+                  </div>
+                </div>
+
+                <div 
+                  className={`quickStatChip visible ${statusFilter === 'visible' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter(statusFilter === 'visible' ? 'all' : 'visible')}
+                  title="Filtrar por productos públicos"
+                >
+                  <div className="quickStatInfo">
+                    <span className="quickStatLabel">Públicos</span>
+                    <span className="quickStatValue">{dbProducts.filter(p => p.visible).length}</span>
+                  </div>
+                  <div className="quickStatIcon">
+                    <Eye size={20} />
+                  </div>
+                </div>
+
+                <div 
+                  className={`quickStatChip hidden ${statusFilter === 'hidden' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter(statusFilter === 'hidden' ? 'all' : 'hidden')}
+                  title="Filtrar por productos ocultos"
+                >
+                  <div className="quickStatInfo">
+                    <span className="quickStatLabel">Ocultos</span>
+                    <span className="quickStatValue">{dbProducts.filter(p => !p.visible).length}</span>
+                  </div>
+                  <div className="quickStatIcon">
+                    <EyeOff size={20} />
+                  </div>
+                </div>
+
+                <div 
+                  className={`quickStatChip featured ${statusFilter === 'featured' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter(statusFilter === 'featured' ? 'all' : 'featured')}
+                  title="Filtrar por productos destacados"
+                >
+                  <div className="quickStatInfo">
+                    <span className="quickStatLabel">Destacados</span>
+                    <span className="quickStatValue">{dbProducts.filter(p => p.destacado).length}</span>
+                  </div>
+                  <div className="quickStatIcon">
+                    <Zap size={20} />
+                  </div>
+                </div>
+              </div>
+
+              {/* SEARCH & FILTERS CONTROLS CARD */}
+              <div className="inventoryControlsCard">
+                <div className="inventorySearchWrapper">
+                  <Search size={18} className="searchIconLeft" />
                   <input 
                     type="text" 
-                    placeholder="Buscar por nombre o categoría..." 
+                    className="inventorySearchInput"
+                    placeholder="Buscar por nombre, SKU o categoría..." 
                     value={inventorySearch}
                     onChange={(e) => setInventorySearch(e.target.value)}
                   />
                   {inventorySearch && (
-                    <button className="clearSearch" onClick={() => setInventorySearch('')}>
-                      <ImageIcon size={16} />
+                    <button 
+                      type="button"
+                      className="clearSearchBtn" 
+                      onClick={() => setInventorySearch('')}
+                      title="Limpiar búsqueda"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+
+                <div className="inventoryFiltersGroup">
+                  <select 
+                    className="filterSelect"
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    title="Filtrar por categoría"
+                  >
+                    <option value="all">Todas las Categorías</option>
+                    {allCategoryNames.map((cat, idx) => (
+                      <option key={idx} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+
+                  <select 
+                    className="filterSelect"
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value as any)}
+                    title="Ordenar por"
+                  >
+                    <option value="newest">Más recientes</option>
+                    <option value="price-asc">Precio: Menor a Mayor</option>
+                    <option value="price-desc">Precio: Mayor a Menor</option>
+                    <option value="name">Nombre: A - Z</option>
+                  </select>
+
+                  {hasActiveFilters && (
+                    <button 
+                      type="button"
+                      className="clearAllFiltersBtn"
+                      onClick={clearAllFilters}
+                      title="Restablecer todos los filtros"
+                    >
+                      <RotateCcw size={14} /> <span>Limpiar filtros</span>
                     </button>
                   )}
                 </div>
               </div>
+
+              {/* RESULTS META INFO */}
+              <div className="inventoryResultsMeta">
+                <span>
+                  Mostrando <strong>{filteredProducts.length}</strong> de <strong>{dbProducts.length}</strong> productos
+                  {statusFilter !== 'all' && ` (Filtro: ${statusFilter === 'visible' ? 'Públicos' : statusFilter === 'hidden' ? 'Ocultos' : 'Destacados'})`}
+                </span>
+                {categoryFilter !== 'all' && (
+                  <span className="categoryBadge">Categoría: {categoryFilter}</span>
+                )}
+              </div>
+
+              {/* PRODUCTS TABLE */}
               <RecentProducts 
-                products={dbProducts.filter(p => {
-                  const search = inventorySearch.toLowerCase();
-                  const categories = Array.isArray(p.categoria) ? p.categoria : [];
-                  return p.nombre.toLowerCase().includes(search) ||
-                         categories.some((c: string) => c.toLowerCase().includes(search));
-                })} 
+                products={filteredProducts} 
                 onToggleVisibility={toggleVisibility}
                 onToggleFeatured={toggleFeatured}
                 onEdit={(p) => { startEdit(p); setActiveTab('create'); }}
@@ -324,23 +827,6 @@ const Admin = () => {
               />
             </div>
           )}
-
-          <style>{`
-            .inventoryHeader { margin-bottom: 2rem; display: flex; justify-content: flex-start; }
-            .inventorySearch { 
-              display: flex; align-items: center; gap: 12px; 
-              background: rgba(15, 23, 42, 0.6); 
-              padding: 12px 20px; border-radius: 20px; 
-              border: 1.5px solid rgba(255,255,255,0.05);
-              width: 100%; max-width: 500px;
-              transition: all 0.3s;
-            }
-            .inventorySearch:focus-within { border-color: var(--tech-blue); box-shadow: 0 0 20px rgba(0, 174, 239, 0.15); }
-            .inventorySearch input { background: none; border: none; color: white; outline: none; width: 100%; font-size: 0.95rem; }
-            .inventorySearch svg { color: #64748b; }
-            .clearSearch { background: none; border: none; color: #64748b; cursor: pointer; padding: 5px; display: flex; align-items: center; justify-content: center; }
-            .clearSearch:hover { color: white; }
-          `}</style>
 
           {activeTab === 'create' && product && (
             <div className="formView animate-in">

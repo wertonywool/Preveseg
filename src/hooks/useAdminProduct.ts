@@ -62,15 +62,23 @@ export const useAdminProduct = () => {
       const { data, error } = await supabase.from('productos').select('*').order('id', { ascending: false }).limit(100);
       if (error) throw error;
       if (data) {
-        const normalized = data.map(p => ({
-          ...p,
-          imagenes: normalizeArray(p.imagenes),
-          detalles: normalizeArray(p.detalles),
-          variantes: normalizeArray(p.variantes),
-          categoria: normalizeArray(p.categoria),
-          loQueIncluye: normalizeArray(p.lo_que_incluye),
-          caracteristicas: normalizeArray(p.caracteristicas)
-        }));
+        const normalized = data.map(p => {
+          const rawDetalles = normalizeArray(p.detalles);
+          const isKit = Boolean(p.es_kit) || 
+            rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+            (Array.isArray(p.categoria) && p.categoria.some((c: any) => String(c).toLowerCase().includes('kit')));
+
+          return {
+            ...p,
+            es_kit: isKit,
+            imagenes: normalizeArray(p.imagenes),
+            detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit'),
+            variantes: normalizeArray(p.variantes),
+            categoria: normalizeArray(p.categoria),
+            loQueIncluye: normalizeArray(p.lo_que_incluye),
+            caracteristicas: normalizeArray(p.caracteristicas)
+          };
+        });
         setDbProducts(normalized);
         const types = new Set(['color', 'capacidad', 'otro']);
         normalized.forEach(p => {
@@ -172,6 +180,11 @@ export const useAdminProduct = () => {
     setAvailableVariantTypes(updatedTypes);
     localStorage.setItem('customVariantTypes', JSON.stringify(updatedTypes));
 
+    const rawDetalles = normalizeArray(p.detalles);
+    const isKit = Boolean(p.es_kit) || 
+      rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+      (Array.isArray(p.categoria) && p.categoria.some((c: any) => String(c).toLowerCase().includes('kit')));
+
     setProduct({
       nombre: p.nombre || '', 
       descripcion: p.descripcion || '', 
@@ -181,10 +194,10 @@ export const useAdminProduct = () => {
       youtubeUrl: p.youtube_url || '', 
       destacado: p.destacado || false,
       enOferta: p.en_oferta || false,
-      es_kit: p.es_kit || false,
+      es_kit: isKit,
       imagenes: [], 
       existingImages: normalizeArray(p.imagenes),
-      detalles: normalizeArray(p.detalles),
+      detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit'),
       variantes: normalizedVars,
       loQueIncluye: normalizeArray(p.lo_que_incluye),
       caracteristicas: normalizeArray(p.caracteristicas),
@@ -254,6 +267,13 @@ export const useAdminProduct = () => {
         processedVariantes.push({ ...variantToSave, imagenUrl: variantImgUrl });
       }
       
+      // Guardamos la propiedad _es_kit de forma segura dentro de detalles
+      // para evitar el error de columna faltante en el esquema de Supabase
+      const cleanDetails = normalizeArray(product.detalles).filter((d: any) => d.clave !== '_es_kit');
+      if (product.es_kit) {
+        cleanDetails.push({ clave: '_es_kit', valor: 'true' });
+      }
+
       const productData: any = { 
         nombre: product.nombre, 
         descripcion: product.descripcion, 
@@ -262,13 +282,12 @@ export const useAdminProduct = () => {
         precio_oferta: parseFloat(product.precioOferta) || 0, 
         imagenes: finalUrls, 
         youtube_url: product.youtubeUrl,
-        detalles: normalizeArray(product.detalles),
+        detalles: cleanDetails,
         variantes: processedVariantes,
         lo_que_incluye: JSON.stringify(product.loQueIncluye),
         caracteristicas: JSON.stringify(product.caracteristicas),
         destacado: Boolean(product.destacado),
         en_oferta: Boolean(product.enOferta),
-        es_kit: Boolean(product.es_kit),
         visible: true,
         custom_html: product.customHtml,
         custom_css: product.customCss

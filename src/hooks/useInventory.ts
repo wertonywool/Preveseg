@@ -32,10 +32,20 @@ export const useInventory = () => {
     try {
       const { data } = await supabase.from('productos').select('*').order('id', { ascending: false });
       if (data) {
-        const processed = data.map(p => ({
-          ...p,
-          categoria: normalizeArray(p.categoria)
-        }));
+        const processed = data.map(p => {
+          const rawDetalles = normalizeArray(p.detalles);
+          const rawCategoria = normalizeArray(p.categoria);
+          const isKit = Boolean(p.es_kit) || 
+            rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+            rawCategoria.some((c: any) => String(c).toLowerCase().includes('kit'));
+
+          return {
+            ...p,
+            es_kit: isKit,
+            categoria: rawCategoria,
+            detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit')
+          };
+        });
         setProducts(processed);
         setFiltered(processed);
       }

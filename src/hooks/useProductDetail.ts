@@ -75,12 +75,19 @@ export const useProductDetail = () => {
       let foundProduct = null;
 
       if (data) {
+        const rawDetalles = normalizeArray(data.detalles);
+        const rawCategoria = normalizeArray(data.categoria);
+        const isKit = Boolean(data.es_kit) || 
+          rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+          rawCategoria.some((c: any) => String(c).toLowerCase().includes('kit'));
+
         foundProduct = {
           ...data,
+          es_kit: isKit,
           imagenes: normalizeArray(data.imagenes),
-          detalles: normalizeArray(data.detalles),
+          detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit'),
           variantes: normalizeArray(data.variantes),
-          categoria: normalizeArray(data.categoria),
+          categoria: rawCategoria,
           lo_que_incluye: normalizeArray(data.lo_que_incluye),
           caracteristicas: normalizeArray(data.caracteristicas),
           precio_normal: parseFloat(data.precio_normal) || 0,

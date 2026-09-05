@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
-import { INITIAL_PRODUCTS } from '../data/defaultCatalog';
 
 export interface Product {
   id: string;
@@ -22,8 +21,8 @@ export interface Product {
 }
 
 export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading] = useState(false);
   const [activeCategory, setActiveCategory] = useState('todos');
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,33 +44,34 @@ export const useProducts = () => {
     return [];
   };
 
-  const processProducts = (items: any[]): Product[] => items.map(item => ({
-    ...item,
-    imagenes: normalizeArray(item.imagenes),
-    variantes: normalizeArray(item.variantes),
-    categoria: normalizeArray(item.categoria),
-    lo_que_incluye: normalizeArray(item.lo_que_incluye),
-    caracteristicas: normalizeArray(item.caracteristicas),
-    precio_normal: parseFloat(item.precio_normal) || 0,
-    precio_oferta: parseFloat(item.precio_oferta) || 0
-  }));
+  const processProducts = (items: any[]): Product[] => items.map(item => {
+    const rawDetalles = normalizeArray(item.detalles);
+    const rawCategoria = normalizeArray(item.categoria);
+    const isKit = Boolean(item.es_kit) || 
+      rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+      rawCategoria.some((c: any) => String(c).toLowerCase().includes('kit'));
+
+    return {
+      ...item,
+      es_kit: isKit,
+      imagenes: normalizeArray(item.imagenes),
+      variantes: normalizeArray(item.variantes),
+      categoria: rawCategoria,
+      detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit'),
+      lo_que_incluye: normalizeArray(item.lo_que_incluye),
+      caracteristicas: normalizeArray(item.caracteristicas),
+      precio_normal: parseFloat(item.precio_normal) || 0,
+      precio_oferta: parseFloat(item.precio_oferta) || 0
+    };
+  });
 
   useEffect(() => {
     const fetchAndFilter = async () => {
-      let allProducts = INITIAL_PRODUCTS;
-      const cachedProducts = sessionStorage.getItem('products_cache');
-      
-      if (cachedProducts) {
-        try {
-          const parsed = JSON.parse(cachedProducts);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            allProducts = processProducts(parsed);
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
+      try {
+        sessionStorage.removeItem('products_cache');
+      } catch (e) {}
 
+      let allProducts: Product[] = [];
       setProducts(allProducts);
 
       // Check for category in URL
@@ -102,14 +102,17 @@ export const useProducts = () => {
         .select('*')
         .eq('visible', true);
 
-      if (!error && data && data.length > 0) {
+      if (!error && data && Array.isArray(data)) {
         const processed = processProducts(data);
         setProducts(processed);
-        sessionStorage.setItem('products_cache', JSON.stringify(processed));
         applyFilters(searchTerm, activeCategory, sortBy, processed);
+      } else {
+        setProducts([]);
+        applyFilters(searchTerm, activeCategory, sortBy, []);
       }
     } catch (error: any) {
-      // Graceful fallback to initial products
+      setProducts([]);
+      applyFilters(searchTerm, activeCategory, sortBy, []);
     }
   };
 

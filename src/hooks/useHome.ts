@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseClient';
-import { INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '../data/defaultCatalog';
+import { INITIAL_CATEGORIES } from '../data/defaultCatalog';
 
 interface Category {
   id: number;
@@ -10,85 +10,73 @@ interface Category {
 }
 
 export const useHome = () => {
-  const [featuredProducts, setFeaturedProducts] = useState<any[]>(
-    INITIAL_PRODUCTS.filter(p => p.destacado || p.en_oferta).slice(0, 4)
-  );
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const normalizeArray = (val: any) => {
-      if (Array.isArray(val)) return val;
-      if (typeof val === 'string') {
-        try { return JSON.parse(val); } catch(e) { return []; }
-      }
-      return [];
-    };
+    // Purge any legacy mock cache
+    try {
+      sessionStorage.removeItem('home_products_cache');
+    } catch (e) {}
 
-    const processProducts = (items: any[]) => items.map(item => ({
-      ...item,
-      imagenes: normalizeArray(item.imagenes),
-      variantes: normalizeArray(item.variantes),
-      precio_normal: parseFloat(item.precio_normal) || 0,
-      precio_oferta: parseFloat(item.precio_oferta) || 0
-    }));
-
-    const cached = sessionStorage.getItem('home_products_cache');
-    if (cached) {
-      try {
-        const { featured, cats } = JSON.parse(cached);
-        if (featured && featured.length > 0) setFeaturedProducts(processProducts(featured));
-        if (cats && cats.length > 0) setCategories(cats);
-        fetchData(true); // Refrescar en background
-      } catch (e) {
-        fetchData();
-      }
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, []);
 
-  const fetchData = async (isBackground = false) => {
+  const normalizeArray = (val: any) => {
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string') {
+      try { return JSON.parse(val); } catch(e) { return []; }
+    }
+    return [];
+  };
+
+  const processProducts = (items: any[]) => (items || []).map(item => {
+    const rawDetalles = normalizeArray(item.detalles);
+    const rawCategoria = normalizeArray(item.categoria);
+    const isKit = Boolean(item.es_kit) || 
+      rawDetalles.some((d: any) => d.clave === '_es_kit' && (d.valor === 'true' || d.valor === true)) ||
+      rawCategoria.some((c: any) => String(c).toLowerCase().includes('kit'));
+
+    return {
+      ...item,
+      es_kit: isKit,
+      imagenes: normalizeArray(item.imagenes),
+      variantes: normalizeArray(item.variantes),
+      categoria: rawCategoria,
+      detalles: rawDetalles.filter((d: any) => d.clave !== '_es_kit'),
+      precio_normal: parseFloat(item.precio_normal) || 0,
+      precio_oferta: parseFloat(item.precio_oferta) || 0
+    };
+  });
+
+  const fetchData = async () => {
     try {
-      if (!isBackground) setLoading(true);
+      setLoading(true);
       
       const [featuredRes, categoriesRes] = await Promise.all([
-        supabase.from('productos').select('*').eq('visible', true).eq('destacado', true).order('created_at', { ascending: false }).limit(4),
+        supabase.from('productos').select('*').eq('visible', true).eq('destacado', true).order('id', { ascending: false }).limit(4),
         supabase.from('categorias').select('*').eq('visible', true).order('nombre', { ascending: true })
       ]);
 
-      const normalizeArray = (val: any) => {
-        if (Array.isArray(val)) return val;
-        if (typeof val === 'string') {
-          try { return JSON.parse(val); } catch(e) { return []; }
-        }
-        return [];
-      };
-
-      const processProducts = (items: any[]) => items.map(item => ({
-        ...item,
-        imagenes: normalizeArray(item.imagenes),
-        variantes: normalizeArray(item.variantes),
-        precio_normal: parseFloat(item.precio_normal) || 0,
-        precio_oferta: parseFloat(item.precio_oferta) || 0
-      }));
-
-      if (featuredRes.data && featuredRes.data.length > 0) {
+      if (featuredRes.data && Array.isArray(featuredRes.data)) {
         setFeaturedProducts(processProducts(featuredRes.data));
-      }
-      if (categoriesRes.data && categoriesRes.data.length > 0) {
-        setCategories(categoriesRes.data);
+      } else {
+        setFeaturedProducts([]);
       }
 
-      if (featuredRes.data && categoriesRes.data) {
-        sessionStorage.setItem('home_products_cache', JSON.stringify({
-          featured: processProducts(featuredRes.data),
-          cats: categoriesRes.data
-        }));
+      if (categoriesRes.data && categoriesRes.data.length > 0) {
+        setCategories(categoriesRes.data.map((d: any) => ({
+          id: d.id,
+          nombre: d.nombre,
+          slug: d.slug || d.nombre.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
+          imagen_url: d.imagen_url || d.foto || ''
+        })));
       }
 
     } catch (error: any) {
       console.error('Error fetching home data:', error.message);
+      setFeaturedProducts([]);
     } finally {
       setLoading(false);
     }

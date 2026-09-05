@@ -31,7 +31,14 @@ export const useCategories = () => {
       if (error) {
         // Fallback to initial categories
       } else if (data && data.length > 0) {
-        setCategories(data);
+        setCategories(data.map((d: any) => ({
+          id: d.id,
+          nombre: d.nombre,
+          slug: d.slug || d.nombre.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
+          visible: d.visible,
+          imagen_url: d.imagen_url || d.foto || '',
+          descripcion: d.descripcion || ''
+        })));
       }
     } catch (err) {
       // Fallback
@@ -65,20 +72,27 @@ export const useCategories = () => {
     setLoading(true);
     const slug = nombre.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
     try {
-      let imagen_url;
+      let imagen_url = '';
       if (imageFile) {
         imagen_url = await uploadCategoryImage(imageFile);
       }
 
       const { data, error } = await supabase
         .from('categorias')
-        .insert([{ nombre, slug, visible: true, imagen_url }])
+        .insert([{ nombre, visible: true, foto: imagen_url, descripcion: '' }])
         .select();
 
       if (error) throw error;
-      if (data) {
-        setCategories(prev => [...prev, data[0]].sort((a, b) => a.nombre.localeCompare(b.nombre)));
-        return data[0];
+      if (data && data[0]) {
+        const newCat: Category = {
+          id: data[0].id,
+          nombre: data[0].nombre,
+          slug,
+          visible: data[0].visible,
+          imagen_url: data[0].foto || imagen_url
+        };
+        setCategories(prev => [...prev, newCat].sort((a, b) => a.nombre.localeCompare(b.nombre)));
+        return newCat;
       }
     } catch (err: any) {
       alert('Error al crear categoría: ' + err.message);
@@ -90,28 +104,54 @@ export const useCategories = () => {
   const updateCategory = async (id: number, oldName: string, updates: Partial<Category>, newImageFile?: File) => {
     setLoading(true);
     try {
-      if (updates.nombre) {
-        updates.slug = updates.nombre.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-      }
+      const payload: any = {};
+      if (updates.nombre !== undefined) payload.nombre = updates.nombre;
+      if (updates.visible !== undefined) payload.visible = updates.visible;
+      if (updates.imagen_url !== undefined) payload.foto = updates.imagen_url;
 
       if (newImageFile) {
-        updates.imagen_url = await uploadCategoryImage(newImageFile);
+        const uploadedUrl = await uploadCategoryImage(newImageFile);
+        payload.foto = uploadedUrl;
+        updates.imagen_url = uploadedUrl;
       }
 
       const { error: catError } = await supabase
         .from('categorias')
-        .update(updates)
+        .update(payload)
         .eq('id', id);
 
       if (catError) throw catError;
 
       // Actualizar productos si el nombre cambió
       if (updates.nombre && updates.nombre !== oldName) {
-        const { error: prodError } = await supabase
-          .from('productos')
-          .update({ categoria: updates.nombre })
-          .eq('categoria', oldName);
-        if (prodError) throw prodError;
+        try {
+          const { data: prods } = await supabase.from('productos').select('id, categoria');
+          if (prods && prods.length > 0) {
+            for (const p of prods) {
+              let cats: string[] = [];
+              if (Array.isArray(p.categoria)) {
+                cats = p.categoria;
+              } else if (typeof p.categoria === 'string') {
+                try {
+                  const parsed = JSON.parse(p.categoria);
+                  cats = Array.isArray(parsed) ? parsed : [parsed];
+                } catch (e) {
+                  cats = [p.categoria];
+                }
+              }
+
+              if (cats.includes(oldName)) {
+                const updatedCats = cats.map(c => c === oldName ? updates.nombre! : c);
+                await supabase
+                  .from('productos')
+                  .update({ categoria: JSON.stringify(updatedCats) })
+                  .eq('id', p.id);
+              }
+            }
+          }
+        } catch (syncErr) {
+          console.error('Error synchronizing category in products:', syncErr);
+        }
       }
 
       setCategories(prev => prev.map(c => c.id === id ? { ...c, ...updates } : c));
@@ -139,12 +179,33 @@ export const useCategories = () => {
       if (catError) throw catError;
 
       // 2. Actualizar todos los productos de esa categoría
-      const { error: prodError } = await supabase
-        .from('productos')
-        .update({ visible: nextVisible })
-        .eq('categoria', currentName);
+      try {
+        const { data: prods } = await supabase.from('productos').select('id, categoria');
+        if (prods && prods.length > 0) {
+          for (const p of prods) {
+            let cats: string[] = [];
+            if (Array.isArray(p.categoria)) {
+              cats = p.categoria;
+            } else if (typeof p.categoria === 'string') {
+              try {
+                const parsed = JSON.parse(p.categoria);
+                cats = Array.isArray(parsed) ? parsed : [parsed];
+              } catch (e) {
+                cats = [p.categoria];
+              }
+            }
 
-      if (prodError) throw prodError;
+            if (cats.includes(currentName)) {
+              await supabase
+                .from('productos')
+                .update({ visible: nextVisible })
+                .eq('id', p.id);
+            }
+          }
+        }
+      } catch (syncErr) {
+        console.error('Error synchronizing category visibility in products:', syncErr);
+      }
 
       setCategories(prev => prev.map(c => c.id === id ? { ...c, visible: nextVisible } : c));
     } catch (err: any) {

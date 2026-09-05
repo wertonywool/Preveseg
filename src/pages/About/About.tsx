@@ -22,7 +22,7 @@ import {
   Shield
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import heroProductsImg from '../../assets/hero-products.jpg';
+import aboutHeroImg from '../../assets/about-hero.jpg';
 import './About.css';
 
 interface FaqItem {
@@ -106,7 +106,7 @@ const About = () => {
 
             <div className="aboutHeroVisual">
               <div className="aboutImageCard">
-                <img src={heroProductsImg} alt="Equipos de seguridad Preveseg" className="aboutHeroImg" />
+                <img src={aboutHeroImg} alt="Inspección y taller técnico Preveseg Cali" className="aboutHeroImg" />
                 <div className="aboutImgOverlayCard">
                   <div className="overlayBadge">
                     <CheckCircle2 size={18} className="textRed" />

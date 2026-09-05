@@ -40,7 +40,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const savedCart = localStorage.getItem('preveseg-cart');
     if (savedCart) {
       try {
-        setCart(JSON.parse(savedCart));
+        const parsed = JSON.parse(savedCart);
+        if (Array.isArray(parsed)) {
+          // Filtrar items de prueba antiguos (cuyo id sea un slug de prueba en vez de un id numérico de BD)
+          const validItems = parsed.filter(item => typeof item.id === 'number' || (!isNaN(Number(item.id)) && Number(item.id) > 0));
+          setCart(validItems);
+          if (validItems.length === 0) {
+            localStorage.removeItem('preveseg-cart');
+          }
+        }
       } catch (e) {
         console.error("Error cargando el carrito", e);
       }
