@@ -1,15 +1,18 @@
 import { Phone, Mail, MapPin, ShieldCheck, ArrowUpRight, MessageCircle, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Footer.css';
 import logoImgFile from '../../assets/logo.png';
 
 const Footer = () => {
+  const location = useLocation();
+  const isProductSection = location.pathname.toLowerCase().startsWith('/producto');
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${isProductSection ? 'hideOnMobileProduct' : ''}`}>
       <div className="footerContainer">
         <div className="footerTopGrid">
           {/* COL 1: BRAND INFO */}
