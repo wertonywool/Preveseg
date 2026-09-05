@@ -206,8 +206,8 @@ const Contact = () => {
                 title="Ubicación Preveseg Cali"
                 src="https://maps.google.com/maps?q=Cra%2028D%2072f-79%20Cali&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
-                height="380"
-                style={{ border: 0, display: 'block' }}
+                height="100%"
+                style={{ border: 0, display: 'block', width: '100%', height: '100%' }}
                 allowFullScreen={false}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
